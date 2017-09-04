@@ -21,6 +21,8 @@ import javax.persistence.TemporalType;
 public class ProjectTeam implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final String[] fieldNames = new String[] {"PROJECT_ID","TEAM_ID",	"CAPTION","BED_DATE","END_DATE"};
+
 	private ProjectTeamId id;
 	private Project project;
 	private String caption;
