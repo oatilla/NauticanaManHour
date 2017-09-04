@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="hibernate.connection.password">adsaat1234</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@10.1.5.10:1522:GAMAT</property>
+        <property name="hibernate.connection.username">adsaat</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+        <property name="hibernate.search.autoregister_listeners">true</property>
+        <property name="hibernate.validator.apply_to_ddl">false</property>
+        <mapping class="com.gama.manhour.model.Subcontractor" />
+        <mapping class="com.gama.manhour.model.UserAccount" />
+        <mapping class="com.gama.manhour.model.Worker" />
+        <mapping class="com.gama.manhour.model.Category" />
+        <mapping class="com.gama.manhour.model.DomainName" />
+        <mapping class="com.gama.manhour.model.PageAuthorization" />
+        <mapping class="com.gama.manhour.model.ProjectTeamPerson" />
+        <mapping class="com.gama.manhour.model.ProjectWbsQuantity" />
+        <mapping class="com.gama.manhour.model.ProjectTeam" />
+        <mapping class="com.gama.manhour.model.ProjectWbs" />
+        <mapping class="com.gama.manhour.model.ProjectWbsManhour" />
+        <mapping class="com.gama.manhour.model.UserAuthorization" />
+        <mapping class="com.gama.manhour.model.Project" />
+        <mapping class="com.gama.manhour.model.DomainValue" />
+        <mapping class="com.gama.manhour.model.TableAuthorization" />
+        <mapping class="com.gama.manhour.model.DomainLookup" />
+        <mapping class="com.gama.manhour.model.AuthorityGroup" />
+        <mapping class="com.gama.manhour.model.CaptionTranslation" />
+        <mapping class="com.gama.manhour.model.Language" />
+    </session-factory>
+</hibernate-configuration>
