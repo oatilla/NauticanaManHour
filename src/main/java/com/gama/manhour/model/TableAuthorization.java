@@ -16,6 +16,12 @@ import javax.persistence.Table;
 public class TableAuthorization implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final String[] fieldNames = new String[] {"AUTHORITY_GROUP",
+			"TABLENAME",
+			"ALLOW_SELECT",
+			"ALLOW_UPDATE",
+			"ALLOW_INSERT",
+			"ALLOW_DELETE"};
 	private TableAuthorizationId id;
 	private AuthorityGroup authorityGroup;
 	private char allowSelect;

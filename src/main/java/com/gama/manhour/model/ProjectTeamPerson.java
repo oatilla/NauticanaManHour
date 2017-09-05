@@ -19,6 +19,8 @@ import javax.persistence.Table;
 public class ProjectTeamPerson implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final String[] fieldNames = new String[] {"PROJECT_ID","TEAM_ID",	"WORKER_ID","TEAM_LEAD"};
+
 	private ProjectTeamPersonId id;
 	private Worker worker;
 	private ProjectTeam projectTeam;

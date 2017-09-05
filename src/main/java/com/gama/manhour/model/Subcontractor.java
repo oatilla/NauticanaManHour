@@ -15,6 +15,7 @@ import javax.persistence.Table;
 public class Subcontractor implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final String[] fieldNames = new String[] {"SUBCONTRACTOR_ID","CAPTION"};
 	private int subcontractorId;
 	private String caption;
 	private Set<Worker> workers = new HashSet<Worker>(0);

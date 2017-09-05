@@ -19,6 +19,7 @@ import javax.persistence.Table;
 public class Worker implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final String[] fieldNames = new String[] {"WORKER_ID","CAPTION","PERSON_ID","SUBCONTRACTOR_ID"};
 	private int workerId;
 	private Subcontractor subcontractor;
 	private String caption;

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 public class ProjectWbsManhour implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final String[] fieldNames = new String[] {"PROJECT_ID","CATEGORY_ID","TEAM_ID","WORKER_ID","ACTIVITY_DATE","MANHOUR","OVERTIME","LOCAL_MH","FOREIGN_MH","TR_MH"};
 	private ProjectWbsManhourId id;
 	private ProjectTeamPerson projectTeamPerson;
 	private ProjectWbs projectWbs;

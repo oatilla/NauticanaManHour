@@ -20,6 +20,7 @@ import javax.persistence.Table;
 public class ProjectWbs implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final String[] fieldNames = new String[] {"PROJECT_ID","CATEGORY_ID","UNIT","METRIC","WORKFORCE","PUP_METRIC","PUP_WORKFORCE"};
 	private ProjectWbsId id;
 	private Project project;
 	private Category category;

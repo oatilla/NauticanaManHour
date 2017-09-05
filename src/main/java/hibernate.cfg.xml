@@ -27,7 +27,7 @@
         <mapping class="com.gama.manhour.model.Project" />
         <mapping class="com.gama.manhour.model.DomainValue" />
         <mapping class="com.gama.manhour.model.TableAuthorization" />
-        <mapping class="com.gama.manhour.model.DomainLookup" />
+        <!--  mapping class="com.gama.manhour.model.DomainLookup" /-->
         <mapping class="com.gama.manhour.model.AuthorityGroup" />
         <mapping class="com.gama.manhour.model.CaptionTranslation" />
         <mapping class="com.gama.manhour.model.Language" />

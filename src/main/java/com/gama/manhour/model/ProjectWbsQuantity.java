@@ -18,6 +18,13 @@ import javax.persistence.Table;
 public class ProjectWbsQuantity implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final String[] fieldNames = new String[] {"PROJECT_ID",
+			"CATEGORY_ID",
+			"YEAR",
+			"TERM_TYPE",
+			"TERM_ID",
+			"QUANTITY",
+			"IS_SUBCONTRACTOR"};
 	private ProjectWbsQuantityId id;
 	private ProjectWbs projectWbs;
 	private BigDecimal quantity;

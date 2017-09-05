@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class PageAuthorization implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	public static final String[] fieldNames = new String[] {"AUTHORITY_GROUP","PAGENAME"};
 	private PageAuthorizationId id;private AuthorityGroup authorityGroup;
 
 	public PageAuthorization() {

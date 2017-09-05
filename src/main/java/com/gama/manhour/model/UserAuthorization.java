@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class UserAuthorization implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	public static final String[] fieldNames = new String[] {"USERNAME","AUTHORITY_GROUP"};
 	private UserAuthorizationId id;private AuthorityGroup authorityGroup;
 
 	public UserAuthorization() {
