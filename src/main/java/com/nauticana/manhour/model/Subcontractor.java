@@ -2,20 +2,24 @@ package com.nauticana.manhour.model;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name = "SUBCONTRACTOR", schema = "ADSAAT")
+@Table(name = "SUBCONTRACTOR")
 public class Subcontractor implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	public static final String[] fieldNames = new String[] {"SUBCONTRACTOR_ID","CAPTION"};
+	public static final String tableName = "SUBCONTRACTOR";
+	public static final String[] fieldNames = new String[] { "SUBCONTRACTOR_ID", "CAPTION" };
 	private int subcontractorId;
 	private String caption;
 	private Set<Worker> workers = new HashSet<Worker>(0);
@@ -24,18 +28,19 @@ public class Subcontractor implements java.io.Serializable {
 	}
 
 	public Subcontractor(int subcontractorId, String caption) {
-        this.subcontractorId = subcontractorId;
-        this.caption = caption;
-    }
+		this.subcontractorId = subcontractorId;
+		this.caption = caption;
+	}
 
 	public Subcontractor(int subcontractorId, String caption, Set<Worker> workers) {
-       this.subcontractorId = subcontractorId;
-       this.caption = caption;
-       this.workers = workers;
-    }
+		this.subcontractorId = subcontractorId;
+		this.caption = caption;
+		this.workers = workers;
+	}
 
 	@Id
-
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SUBCONTRACTOR_ID_SEQ")
+	@SequenceGenerator(name="SUBCONTRACTOR_ID_SEQ", sequenceName="SUBCONTRACTOR_ID_SEQ")
 	@Column(name = "SUBCONTRACTOR_ID", unique = true, nullable = false, precision = 8, scale = 0)
 	public int getSubcontractorId() {
 		return this.subcontractorId;
@@ -45,14 +50,14 @@ public class Subcontractor implements java.io.Serializable {
 		this.subcontractorId = subcontractorId;
 	}
 
-	@Column(name="CAPTION", nullable=false, length=50)
-    public String getCaption() {
-        return this.caption;
-    }
+	@Column(name = "CAPTION", nullable = false, length = 50)
+	public String getCaption() {
+		return this.caption;
+	}
 
 	public void setCaption(String caption) {
-        this.caption = caption;
-    }
+		this.caption = caption;
+	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "subcontractor")
 	public Set<Worker> getWorkers() {

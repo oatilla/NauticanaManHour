@@ -14,7 +14,7 @@
     <table>
       <tr>
         <th><c:out value="${USERNAME}" /></th>
-        <td><form:input path="username" /></td>
+        <td><form:input path="id" /></td>
       </tr>
       <tr>
         <th><c:out value="${CAPTION}" /></th>

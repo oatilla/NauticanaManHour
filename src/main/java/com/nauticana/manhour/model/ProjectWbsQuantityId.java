@@ -14,15 +14,15 @@ public class ProjectWbsQuantityId implements java.io.Serializable {
 	private short termId;
 
 	public ProjectWbsQuantityId() {
-    }
+	}
 
 	public ProjectWbsQuantityId(int projectId, int categoryId, short year, char termType, short termId) {
-       this.projectId = projectId;
-       this.categoryId = categoryId;
-       this.year = year;
-       this.termType = termType;
-       this.termId = termId;
-    }
+		this.projectId = projectId;
+		this.categoryId = categoryId;
+		this.year = year;
+		this.termType = termType;
+		this.termId = termId;
+	}
 
 	@Column(name = "PROJECT_ID", nullable = false, precision = 8, scale = 0)
 	public int getProjectId() {
@@ -69,19 +69,19 @@ public class ProjectWbsQuantityId implements java.io.Serializable {
 		this.termId = termId;
 	}
 
+	@Override
 	public boolean equals(Object other) {
-         if ( (this == other ) ) return true;
-		 if ( (other == null ) ) return false;
-		 if ( !(other instanceof ProjectWbsQuantityId) ) return false;
-		 ProjectWbsQuantityId castOther = ( ProjectWbsQuantityId ) other; 
-         
-		 return (this.getProjectId()==castOther.getProjectId())
- && (this.getCategoryId()==castOther.getCategoryId())
- && (this.getYear()==castOther.getYear())
- && (this.getTermType()==castOther.getTermType())
- && (this.getTermId()==castOther.getTermId());
-   }
+		if ((this == other)) return true;
+		if ((other == null)) return false;
+		if (!(other instanceof ProjectWbsQuantityId)) return false;
+		ProjectWbsQuantityId castOther = (ProjectWbsQuantityId) other;
 
+		return (this.getProjectId() == castOther.getProjectId()) && (this.getCategoryId() == castOther.getCategoryId())
+				&& (this.getYear() == castOther.getYear()) && (this.getTermType() == castOther.getTermType())
+				&& (this.getTermId() == castOther.getTermId());
+	}
+
+	@Override
 	public int hashCode() {
 		int result = 17;
 

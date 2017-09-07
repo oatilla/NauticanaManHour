@@ -1,40 +1,44 @@
 package com.nauticana.manhour.model;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CATEGORY", schema = "ADSAAT")
+@Table(name = "CATEGORY")
 public class Category implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final String tableName = "CATEGORY";
 	public static final String[] fieldNames = new String[] {"CATEGORY_ID","PARENT_ID","CAPTION","CAT_INDEX","DETAILS","UNIT","CAT_LEVEL","TREE_CODE","MAIN_FLAG"};
-	private BigDecimal categoryId;
-	private BigDecimal parentId;
+	private int categoryId;
+	private Integer parentId;
 	private String caption;
 	private String catIndex;
 	private String details;
 	private String unit;
-	private BigDecimal catLevel;
+	private byte catLevel;
 	private String treeCode;
-	private Character mainFlag;
+	private char mainFlag;
 	private Set<ProjectWbs> projectWbses = new HashSet<ProjectWbs>(0);
 
 	public Category() {
 	}
 
-	public Category(BigDecimal categoryId) {
+	public Category(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
-	public Category(BigDecimal categoryId, BigDecimal parentId, String caption, String catIndex, String details, String unit, BigDecimal catLevel, String treeCode, Character mainFlag, Set<ProjectWbs> projectWbses) {
+	public Category(int categoryId, Integer parentId, String caption, String catIndex, String details, String unit, byte catLevel, String treeCode, char mainFlag, Set<ProjectWbs> projectWbses) {
        this.categoryId = categoryId;
        this.parentId = parentId;
        this.caption = caption;
@@ -48,22 +52,23 @@ public class Category implements java.io.Serializable {
     }
 
 	@Id
-
-	@Column(name = "CATEGORY_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getCategoryId() {
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CATEGORY_ID_SEQ")
+	@SequenceGenerator(name="CATEGORY_ID_SEQ", sequenceName="CATEGORY_ID_SEQ")
+	@Column(name = "CATEGORY_ID", unique = true, nullable = false)
+	public int getId() {
 		return this.categoryId;
 	}
 
-	public void setCategoryId(BigDecimal categoryId) {
+	public void setId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
-	@Column(name = "PARENT_ID", precision = 22, scale = 0)
-	public BigDecimal getParentId() {
+	@Column(name = "PARENT_ID")
+	public Integer getParentId() {
 		return this.parentId;
 	}
 
-	public void setParentId(BigDecimal parentId) {
+	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
 	}
 
@@ -76,7 +81,7 @@ public class Category implements java.io.Serializable {
         this.caption = caption;
     }
 
-	@Column(name = "CAT_INDEX", length = 250)
+	@Column(name = "CAT_INDEX", length = 20)
 	public String getCatIndex() {
 		return this.catIndex;
 	}
@@ -85,7 +90,7 @@ public class Category implements java.io.Serializable {
 		this.catIndex = catIndex;
 	}
 
-	@Column(name="DETAILS", length=250)
+	@Column(name="DETAILS", length=100)
     public String getDetails() {
         return this.details;
     }
@@ -94,7 +99,7 @@ public class Category implements java.io.Serializable {
         this.details = details;
     }
 
-	@Column(name="UNIT", length=50)
+	@Column(name="UNIT", length=10)
     public String getUnit() {
         return this.unit;
     }
@@ -103,16 +108,16 @@ public class Category implements java.io.Serializable {
         this.unit = unit;
     }
 
-	@Column(name = "CAT_LEVEL", precision = 22, scale = 0)
-	public BigDecimal getCatLevel() {
+	@Column(name = "CAT_LEVEL")
+	public byte getCatLevel() {
 		return this.catLevel;
 	}
 
-	public void setCatLevel(BigDecimal catLevel) {
+	public void setCatLevel(byte catLevel) {
 		this.catLevel = catLevel;
 	}
 
-	@Column(name = "TREE_CODE", length = 4000)
+	@Column(name = "TREE_CODE", length = 20)
 	public String getTreeCode() {
 		return this.treeCode;
 	}
@@ -122,11 +127,11 @@ public class Category implements java.io.Serializable {
 	}
 
 	@Column(name="MAIN_FLAG", length=1)
-    public Character getMainFlag() {
+    public char getMainFlag() {
         return this.mainFlag;
     }
 
-	public void setMainFlag(Character mainFlag) {
+	public void setMainFlag(char mainFlag) {
         this.mainFlag = mainFlag;
     }
 

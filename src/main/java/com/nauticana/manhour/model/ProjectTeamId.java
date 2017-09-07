@@ -2,6 +2,9 @@ package com.nauticana.manhour.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
 
 @Embeddable
 public class ProjectTeamId implements java.io.Serializable {
@@ -27,6 +30,8 @@ public class ProjectTeamId implements java.io.Serializable {
 		this.projectId = projectId;
 	}
 
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PROJECT_TEAM_ID_SEQ")
+	@SequenceGenerator(name="PROJECT_TEAM_ID_SEQ", sequenceName="PROJECT_TEAM_ID_SEQ")
 	@Column(name = "TEAM_ID", nullable = false, precision = 8, scale = 0)
 	public int getTeamId() {
 		return this.teamId;
@@ -36,6 +41,7 @@ public class ProjectTeamId implements java.io.Serializable {
 		this.teamId = teamId;
 	}
 
+	@Override
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -48,6 +54,7 @@ public class ProjectTeamId implements java.io.Serializable {
 		return (this.getProjectId() == castOther.getProjectId()) && (this.getTeamId() == castOther.getTeamId());
 	}
 
+	@Override
 	public int hashCode() {
 		int result = 17;
 

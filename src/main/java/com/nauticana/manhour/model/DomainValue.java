@@ -11,56 +11,54 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DOMAIN_VALUE", schema = "ADSAAT")
+@Table(name = "DOMAIN_VALUE")
 public class DomainValue implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	public static final String[] fieldNames = new String[] {"DOMAIN","REFVALUE","CAPTION"};
+	public static final String tableName = "DOMAIN_VALUE";
+	public static final String[] fieldNames = new String[] { "DOMAIN", "REFVALUE", "CAPTION" };
 	private DomainValueId id;
 	private DomainName domainName;
 	private String caption;
 
 	public DomainValue() {
-    }
+	}
 
 	public DomainValue(DomainValueId id, DomainName domainName, String caption) {
-       this.id = id;
-       this.domainName = domainName;
-       this.caption = caption;
-    }
-   
-     @EmbeddedId
-    @AttributeOverrides( {
-        @AttributeOverride(name="domain", column=@Column(name="DOMAIN", nullable=false, length=30) ), 
-        @AttributeOverride(name="refvalue", column=@Column(name="REFVALUE", nullable=false, length=30) ) } )
-    public DomainValueId getId() {
+		this.id = id;
+		this.domainName = domainName;
+		this.caption = caption;
+	}
+
+	@EmbeddedId
+	@AttributeOverrides({
+			@AttributeOverride(name = "domain", column = @Column(name = "DOMAIN", nullable = false, length = 30)),
+			@AttributeOverride(name = "refvalue", column = @Column(name = "REFVALUE", nullable = false, length = 30)) })
+	public DomainValueId getId() {
 		return this.id;
 	}
 
 	public void setId(DomainValueId id) {
-        this.id = id;
-    }
+		this.id = id;
+	}
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="DOMAIN", nullable=false, insertable=false, updatable=false)
-    public DomainName getDomainName() {
-        return this.domainName;
-    }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "DOMAIN", nullable = false, insertable = false, updatable = false)
+	public DomainName getDomainName() {
+		return this.domainName;
+	}
 
 	public void setDomainName(DomainName domainName) {
-        this.domainName = domainName;
-    }
+		this.domainName = domainName;
+	}
 
-	@Column(name="CAPTION", nullable=false, length=30)
-    public String getCaption() {
-        return this.caption;
-    }
+	@Column(name = "CAPTION", nullable = false, length = 30)
+	public String getCaption() {
+		return this.caption;
+	}
 
 	public void setCaption(String caption) {
-        this.caption = caption;
-    }
-
-
-
+		this.caption = caption;
+	}
 
 }

@@ -13,23 +13,39 @@
     <form:form method="post" modelAttribute="record">
     <table>
       <tr>
-        <th><c:out value="${WBS_ID}" /></th>
-        <td><form:input path="id" /></td>
+        <th><c:out value="${CATEGORY_ID}" /></th>
+        <td><c:out value="${record.id}"/> <form:hidden path="id" /></td>
       </tr>
       <tr>
-        <th><c:out value="${PARENT}" /></th>
-        <td><form:input path="parent" /></td>
+        <th><c:out value="${PARENT_ID}" /></th>
+        <td><form:input path="parentId" /></td>
       </tr>
       <tr>
-        <th><c:out value="${INDEX}" /></th>
-        <td><form:input path="index" /></td>
+        <th><c:out value="${CAT_INDEX}" /></th>
+        <td><form:input path="catIndex" /></td>
       </tr>
       <tr>
         <th><c:out value="${CAPTION}" /></th>
         <td><form:input path="caption" /></td>
       </tr>
       <tr>
-        <th><c:out value="${IS_MAIN}" /></th>
+        <th><c:out value="${DETAILS}" /></th>
+        <td><form:input path="details" /></td>
+      </tr>
+      <tr>
+        <th><c:out value="${UNIT}" /></th>
+        <td><form:input path="unit" /></td>
+      </tr>
+      <tr>
+        <th><c:out value="${CAT_LEVEL}" /></th>
+        <td><form:input path="catLevel" /></td>
+      </tr>
+      <tr>
+        <th><c:out value="${TREE_CODE}" /></th>
+        <td><form:input path="treeCode" /></td>
+      </tr>
+      <tr>
+        <th><c:out value="${MAIN_FLAG}" /></th>
         <td><form:input path="mainFlag" /></td>
       </tr>
       <tr>

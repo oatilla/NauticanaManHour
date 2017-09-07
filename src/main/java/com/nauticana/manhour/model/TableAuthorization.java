@@ -10,18 +10,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name = "TABLE_AUTHORIZATION", schema = "ADSAAT")
+@Table(name = "TABLE_AUTHORIZATION")
 public class TableAuthorization implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	public static final String[] fieldNames = new String[] {"AUTHORITY_GROUP",
-			"TABLENAME",
-			"ALLOW_SELECT",
-			"ALLOW_UPDATE",
-			"ALLOW_INSERT",
-			"ALLOW_DELETE"};
+	public static final String tableName = "TABLE_AUTHORIZATION";
+	public static final String[] fieldNames = new String[] { "AUTHORITY_GROUP", "TABLENAME", "ALLOW_SELECT", "ALLOW_INSERT", "ALLOW_UPDATE", "ALLOW_DELETE" };
 	private TableAuthorizationId id;
 	private AuthorityGroup authorityGroup;
 	private char allowSelect;
@@ -30,40 +25,39 @@ public class TableAuthorization implements java.io.Serializable {
 	private char allowDelete;
 
 	public TableAuthorization() {
-    }
+	}
 
-	public TableAuthorization(TableAuthorizationId id, AuthorityGroup authorityGroup, char allowSelect, char allowUpdate, char allowInsert, char allowDelete) {
-       this.id = id;
-       this.authorityGroup = authorityGroup;
-       this.allowSelect = allowSelect;
-       this.allowUpdate = allowUpdate;
-       this.allowInsert = allowInsert;
-       this.allowDelete = allowDelete;
-    }
-   
-     @EmbeddedId
+	public TableAuthorization(TableAuthorizationId id, AuthorityGroup authorityGroup, char allowSelect,	char allowUpdate, char allowInsert, char allowDelete) {
+		this.id = id;
+		this.authorityGroup = authorityGroup;
+		this.allowSelect = allowSelect;
+		this.allowUpdate = allowUpdate;
+		this.allowInsert = allowInsert;
+		this.allowDelete = allowDelete;
+	}
 
-    
-    @AttributeOverrides( {
-        @AttributeOverride(name="authorityGroup", column=@Column(name="AUTHORITY_GROUP", nullable=false, length=30) ), 
-        @AttributeOverride(name="tablename", column=@Column(name="TABLENAME", nullable=false, length=30) ) } )
-    public TableAuthorizationId getId() {
+	@EmbeddedId
+
+	@AttributeOverrides({
+			@AttributeOverride(name = "authorityGroup", column = @Column(name = "AUTHORITY_GROUP", nullable = false, length = 30)),
+			@AttributeOverride(name = "tablename", column = @Column(name = "TABLENAME", nullable = false, length = 30)) })
+	public TableAuthorizationId getId() {
 		return this.id;
 	}
 
 	public void setId(TableAuthorizationId id) {
-        this.id = id;
-    }
+		this.id = id;
+	}
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="AUTHORITY_GROUP", nullable=false, insertable=false, updatable=false)
-    public AuthorityGroup getAuthorityGroup() {
-        return this.authorityGroup;
-    }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AUTHORITY_GROUP", nullable = false, insertable = false, updatable = false)
+	public AuthorityGroup getAuthorityGroup() {
+		return this.authorityGroup;
+	}
 
 	public void setAuthorityGroup(AuthorityGroup authorityGroup) {
-        this.authorityGroup = authorityGroup;
-    }
+		this.authorityGroup = authorityGroup;
+	}
 
 	@Column(name = "ALLOW_SELECT", nullable = false, length = 1)
 	public char getAllowSelect() {

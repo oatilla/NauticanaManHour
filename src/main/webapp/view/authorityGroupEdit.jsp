@@ -14,7 +14,7 @@
     <table>
       <tr>
         <th><c:out value="${AUTHORITY_GROUP}" /></th>
-        <td><form:input path="authorityGroup" /></td>
+        <td><form:input path="id" /></td>
       </tr>
       <tr>
         <th><c:out value="${CAPTION}" /></th>

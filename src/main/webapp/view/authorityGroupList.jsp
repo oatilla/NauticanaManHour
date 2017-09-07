@@ -22,9 +22,9 @@
       <c:forEach var="record" items="${records}" varStatus="status">
         <tr>
           <td>${status.index + 1}</td>
-          <td>${record.authorityGroup}</td>
+          <td>${record.id}</td>
           <td>${record.caption}</td>
-          <td><a href="edit?id=${record.authorityGroup}">Edit</a> &nbsp; <a href="delete?id=${record.authorityGroup}">Delete</a></td>
+          <td><a href="edit?id=${record.id}"> <c:out value="${EDIT}" /> </a> &nbsp; <a href="delete?id=${record.id}"> <c:out value="${DELETE}" /> </a></td>
         </tr>
       </c:forEach>             
     </table>

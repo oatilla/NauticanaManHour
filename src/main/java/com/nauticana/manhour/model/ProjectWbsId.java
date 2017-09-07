@@ -40,6 +40,7 @@ public class ProjectWbsId implements java.io.Serializable {
 		this.categoryId = categoryId;
 	}
 
+	@Override
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -52,6 +53,7 @@ public class ProjectWbsId implements java.io.Serializable {
 		return (this.getProjectId() == castOther.getProjectId()) && (this.getCategoryId() == castOther.getCategoryId());
 	}
 
+	@Override
 	public int hashCode() {
 		int result = 17;
 

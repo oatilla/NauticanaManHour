@@ -1,14 +1,14 @@
 package com.nauticana.manhour.utils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 public class Utils {
 	
@@ -54,18 +54,23 @@ public class Utils {
 		return false;
 	}
 
-	public static void runSQLFile(String filename, Connection conn) throws IOException {
-		File sqlfile = new File(filename);
+	public static void runSQLFile(String filename, Connection conn, String encoding) throws IOException {
+//		File sqlfile = new File(filename);
 		File logfile = new File(filename + ".log");
-		String sep = System.getProperty("line.separator");
-		BufferedReader reader = null;
+//		BufferedReader reader = null;
 		PrintWriter writer = null;
-		String text = null;
-		String sqltext = "";
 
-		reader = new BufferedReader(new FileReader(sqlfile));
+		String sep = System.getProperty("line.separator");
+		String text = "";
+		String sqltext = "";
+		
+		String enc = System.getProperty("file.encoding");
+		if (!emptyStr(encoding)) enc = encoding;
+		Scanner reader = new Scanner(new FileInputStream(filename), enc);
+		
+//		reader = new BufferedReader(new FileReader(sqlfile));
 		writer = new PrintWriter(new FileWriter(logfile));
-		while ((text = reader.readLine()) != null) {
+		while (text != null) {
 			text = text.trim();
 			if (!emptyStr(text)) {
 				if (text.charAt(text.length() - 1) == ';') {
@@ -83,6 +88,11 @@ public class Utils {
 					}
 				} else
 					sqltext = sqltext + " " + text;
+			}
+			try {
+				text = reader.nextLine();
+			} catch (Exception e) {
+				text = null;
 			}
 		}
 		if (reader != null) {

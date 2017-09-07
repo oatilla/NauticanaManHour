@@ -2,6 +2,7 @@ package com.nauticana.manhour.model;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -15,12 +16,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PROJECT_TEAM_PERSON", schema = "ADSAAT")
+@Table(name = "PROJECT_TEAM_PERSON")
 public class ProjectTeamPerson implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	public static final String[] fieldNames = new String[] {"PROJECT_ID","TEAM_ID",	"WORKER_ID","TEAM_LEAD"};
-
+	public static final String tableName = "PROJECT_TEAM_PERSON";
+	public static final String[] fieldNames = new String[] { "PROJECT_ID", "TEAM_ID", "WORKER_ID", "TEAM_LEAD" };
 	private ProjectTeamPersonId id;
 	private Worker worker;
 	private ProjectTeam projectTeam;
@@ -37,8 +38,7 @@ public class ProjectTeamPerson implements java.io.Serializable {
 		this.teamLead = teamLead;
 	}
 
-	public ProjectTeamPerson(ProjectTeamPersonId id, Worker worker, ProjectTeam projectTeam, char teamLead,
-			Set<ProjectWbsManhour> projectWbsManhours) {
+	public ProjectTeamPerson(ProjectTeamPersonId id, Worker worker, ProjectTeam projectTeam, char teamLead, Set<ProjectWbsManhour> projectWbsManhours) {
 		this.id = id;
 		this.worker = worker;
 		this.projectTeam = projectTeam;

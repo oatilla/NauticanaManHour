@@ -2,7 +2,6 @@ package com.nauticana.manhour.service;
 
 import org.springframework.stereotype.Service;
 
-import com.nauticana.manhour.exception.RecordNotFound;
 import com.nauticana.manhour.model.PageAuthorization;
 import com.nauticana.manhour.model.PageAuthorizationId;
 
@@ -22,22 +21,9 @@ public class PageAuthorizationService extends AbstractService<PageAuthorization,
 	}
 
 	@Override
-	public PageAuthorization findStrId(String id) {
+	public PageAuthorizationId StrToId(String id) {
 		String[] s = id.split(",");
-		return findById(new PageAuthorizationId(s[0], s[1]));
+		return new PageAuthorizationId(s[0], s[1]);
 	}
-
-	@Override
-	public void removeStrId(String id) throws RecordNotFound {
-		
-		String[] s = id.split(",");
-		remove(new PageAuthorizationId(s[0], s[1]));
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	
-	
 
 }

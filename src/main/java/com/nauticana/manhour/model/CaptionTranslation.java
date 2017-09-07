@@ -11,39 +11,39 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CAPTION_TRANSLATION", schema = "ADSAAT")
+@Table(name = "CAPTION_TRANSLATION")
 public class CaptionTranslation implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	public static final String[] fieldNames = new String[] {"LANGCODE","CAPTION","LABELUPPER","LABELLOWER"};
+	public static final String tableName = "CAPTION_TRANSLATION";
+	public static final String[] fieldNames = new String[] { "LANGCODE", "CAPTION", "LABELUPPER", "LABELLOWER" };
 	private CaptionTranslationId id;
 	private Language language;
 	private String labelupper;
 	private String labellower;
 
 	public CaptionTranslation() {
-    }
+	}
 
 	public CaptionTranslation(CaptionTranslationId id, Language language, String labelupper, String labellower) {
-       this.id = id;
-       this.language = language;
-       this.labelupper = labelupper;
-       this.labellower = labellower;
-    }
-   
-     @EmbeddedId
+		this.id = id;
+		this.language = language;
+		this.labelupper = labelupper;
+		this.labellower = labellower;
+	}
 
-    
-    @AttributeOverrides( {
-        @AttributeOverride(name="caption", column=@Column(name="CAPTION", nullable=false, length=30) ), 
-        @AttributeOverride(name="langcode", column=@Column(name="LANGCODE", nullable=false, length=2) ) } )
-    public CaptionTranslationId getId() {
+	@EmbeddedId
+
+	@AttributeOverrides({
+			@AttributeOverride(name = "caption", column = @Column(name = "CAPTION", nullable = false, length = 30)),
+			@AttributeOverride(name = "langcode", column = @Column(name = "LANGCODE", nullable = false, length = 2)) })
+	public CaptionTranslationId getId() {
 		return this.id;
 	}
 
 	public void setId(CaptionTranslationId id) {
-        this.id = id;
-    }
+		this.id = id;
+	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "LANGCODE", nullable = false, insertable = false, updatable = false)

@@ -47,19 +47,17 @@ public class ProjectTeamPersonId implements java.io.Serializable {
 		this.workerId = workerId;
 	}
 
+	@Override
 	public boolean equals(Object other) {
-		if ((this == other))
-			return true;
-		if ((other == null))
-			return false;
-		if (!(other instanceof ProjectTeamPersonId))
-			return false;
+		if ((this == other)) return true;
+		if ((other == null)) return false;
+		if (!(other instanceof ProjectTeamPersonId)) return false;
 		ProjectTeamPersonId castOther = (ProjectTeamPersonId) other;
 
-		return (this.getProjectId() == castOther.getProjectId()) && (this.getTeamId() == castOther.getTeamId())
-				&& (this.getWorkerId() == castOther.getWorkerId());
+		return (this.getProjectId() == castOther.getProjectId()) && (this.getTeamId() == castOther.getTeamId()) && (this.getWorkerId() == castOther.getWorkerId());
 	}
 
+	@Override
 	public int hashCode() {
 		int result = 17;
 

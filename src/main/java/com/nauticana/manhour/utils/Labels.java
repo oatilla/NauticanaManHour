@@ -15,6 +15,11 @@ public class Labels {
 	public static final String USERNAME  = "USERNAME";
 	public static final String LANGUAGE  = "LANGUAGE";
 	public static final String PAGETITLE = "PAGETITLE";
+	public static final String MENU      = "MENU";
+	public static final String CHOOSE    = "CHOOSE";
+	public static final String SELECT    = "SELECT";
+	public static final String CANCEL    = "CANCEL";
+	public static final String OK        = "OK";
 	
 /*	public static final String x = "";
 	public static final String x = "";

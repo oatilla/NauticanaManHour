@@ -11,21 +11,21 @@ public class DomainValueId implements java.io.Serializable {
 	private String refvalue;
 
 	public DomainValueId() {
-    }
+	}
 
 	public DomainValueId(String domain, String refvalue) {
-       this.domain = domain;
-       this.refvalue = refvalue;
-    }
+		this.domain = domain;
+		this.refvalue = refvalue;
+	}
 
-	@Column(name="DOMAIN", nullable=false, length=30)
-    public String getDomain() {
-        return this.domain;
-    }
+	@Column(name = "DOMAIN", nullable = false, length = 30)
+	public String getDomain() {
+		return this.domain;
+	}
 
 	public void setDomain(String domain) {
-        this.domain = domain;
-    }
+		this.domain = domain;
+	}
 
 	@Column(name = "REFVALUE", nullable = false, length = 30)
 	public String getRefvalue() {
@@ -36,22 +36,29 @@ public class DomainValueId implements java.io.Serializable {
 		this.refvalue = refvalue;
 	}
 
+	@Override
 	public boolean equals(Object other) {
-         if ( (this == other ) ) return true;
-		 if ( (other == null ) ) return false;
-		 if ( !(other instanceof DomainValueId) ) return false;
-		 DomainValueId castOther = ( DomainValueId ) other; 
-         
-		 return ( (this.getDomain()==castOther.getDomain()) || ( this.getDomain()!=null && castOther.getDomain()!=null && this.getDomain().equals(castOther.getDomain()) ) )
- && ( (this.getRefvalue()==castOther.getRefvalue()) || ( this.getRefvalue()!=null && castOther.getRefvalue()!=null && this.getRefvalue().equals(castOther.getRefvalue()) ) );
-   }
+		if ((this == other))
+			return true;
+		if ((other == null))
+			return false;
+		if (!(other instanceof DomainValueId))
+			return false;
+		DomainValueId castOther = (DomainValueId) other;
 
+		return ((this.getDomain() == castOther.getDomain()) || (this.getDomain() != null
+				&& castOther.getDomain() != null && this.getDomain().equals(castOther.getDomain())))
+				&& ((this.getRefvalue() == castOther.getRefvalue()) || (this.getRefvalue() != null
+						&& castOther.getRefvalue() != null && this.getRefvalue().equals(castOther.getRefvalue())));
+	}
+
+	@Override
 	public int hashCode() {
-         int result = 17;
-         
-         result = 37 * result + ( getDomain() == null ? 0 : this.getDomain().hashCode() );
-         result = 37 * result + ( getRefvalue() == null ? 0 : this.getRefvalue().hashCode() );
-         return result;
-   }
+		int result = 17;
+
+		result = 37 * result + (getDomain() == null ? 0 : this.getDomain().hashCode());
+		result = 37 * result + (getRefvalue() == null ? 0 : this.getRefvalue().hashCode());
+		return result;
+	}
 
 }

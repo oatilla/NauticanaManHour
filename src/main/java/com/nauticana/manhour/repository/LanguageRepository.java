@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.nauticana.manhour.model.Language;
 
-public interface LanguageRepository  extends JpaRepository<Language, String> {
+public interface LanguageRepository extends JpaRepository<Language, String> {
 
 }

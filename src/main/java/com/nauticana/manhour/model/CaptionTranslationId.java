@@ -11,21 +11,21 @@ public class CaptionTranslationId implements java.io.Serializable {
 	private String langcode;
 
 	public CaptionTranslationId() {
-    }
+	}
 
 	public CaptionTranslationId(String caption, String langcode) {
-       this.caption = caption;
-       this.langcode = langcode;
-    }
+		this.caption = caption;
+		this.langcode = langcode;
+	}
 
-	@Column(name="CAPTION", nullable=false, length=30)
-    public String getCaption() {
-        return this.caption;
-    }
+	@Column(name = "CAPTION", nullable = false, length = 30)
+	public String getCaption() {
+		return this.caption;
+	}
 
 	public void setCaption(String caption) {
-        this.caption = caption;
-    }
+		this.caption = caption;
+	}
 
 	@Column(name = "LANGCODE", nullable = false, length = 2)
 	public String getLangcode() {
@@ -36,22 +36,26 @@ public class CaptionTranslationId implements java.io.Serializable {
 		this.langcode = langcode;
 	}
 
+	@Override
 	public boolean equals(Object other) {
-         if ( (this == other ) ) return true;
-		 if ( (other == null ) ) return false;
-		 if ( !(other instanceof CaptionTranslationId) ) return false;
-		 CaptionTranslationId castOther = ( CaptionTranslationId ) other; 
-         
-		 return ( (this.getCaption()==castOther.getCaption()) || ( this.getCaption()!=null && castOther.getCaption()!=null && this.getCaption().equals(castOther.getCaption()) ) )
- && ( (this.getLangcode()==castOther.getLangcode()) || ( this.getLangcode()!=null && castOther.getLangcode()!=null && this.getLangcode().equals(castOther.getLangcode()) ) );
-   }
+		if ((this == other)) return true;
+		if ((other == null)) return false;
+		if (!(other instanceof CaptionTranslationId)) return false;
+		CaptionTranslationId castOther = (CaptionTranslationId) other;
 
+		return ((this.getCaption() == castOther.getCaption()) || (this.getCaption() != null
+				&& castOther.getCaption() != null && this.getCaption().equals(castOther.getCaption())))
+				&& ((this.getLangcode() == castOther.getLangcode()) || (this.getLangcode() != null
+						&& castOther.getLangcode() != null && this.getLangcode().equals(castOther.getLangcode())));
+	}
+
+	@Override
 	public int hashCode() {
-         int result = 17;
-         
-         result = 37 * result + ( getCaption() == null ? 0 : this.getCaption().hashCode() );
-         result = 37 * result + ( getLangcode() == null ? 0 : this.getLangcode().hashCode() );
-         return result;
-   }
+		int result = 17;
+
+		result = 37 * result + (getCaption() == null ? 0 : this.getCaption().hashCode());
+		result = 37 * result + (getLangcode() == null ? 0 : this.getLangcode().hashCode());
+		return result;
+	}
 
 }

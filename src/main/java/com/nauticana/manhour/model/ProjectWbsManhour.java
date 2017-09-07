@@ -12,54 +12,54 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PROJECT_WBS_MANHOUR", schema = "ADSAAT")
+@Table(name = "PROJECT_WBS_MANHOUR")
 public class ProjectWbsManhour implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	public static final String[] fieldNames = new String[] {"PROJECT_ID","CATEGORY_ID","TEAM_ID","WORKER_ID","ACTIVITY_DATE","MANHOUR","OVERTIME","LOCAL_MH","FOREIGN_MH","TR_MH"};
+	public static final String tableName = "PROJECT_WBS_MANHOUR";
+	public static final String[] fieldNames = new String[] { "PROJECT_ID", "CATEGORY_ID", "TEAM_ID", "WORKER_ID", "ACTIVITY_DATE", "MANHOUR", "OVERTIME", "LOCAL_MH", "FOREIGN_MH", "TR_MH" };
 	private ProjectWbsManhourId id;
 	private ProjectTeamPerson projectTeamPerson;
 	private ProjectWbs projectWbs;
 	private byte manhour;
-	private Byte overtime;
-	private Byte localMh;
-	private Byte foreignMh;
-	private Byte trMh;
+	private byte overtime;
+	private byte localMh;
+	private byte foreignMh;
+	private byte trMh;
 
 	public ProjectWbsManhour() {
 	}
 
-	public ProjectWbsManhour(ProjectWbsManhourId id, ProjectTeamPerson projectTeamPerson, ProjectWbs projectWbs,
-			byte manhour) {
+	public ProjectWbsManhour(ProjectWbsManhourId id, ProjectTeamPerson projectTeamPerson, ProjectWbs projectWbs, byte manhour) {
 		this.id = id;
 		this.projectTeamPerson = projectTeamPerson;
 		this.projectWbs = projectWbs;
 		this.manhour = manhour;
 	}
 
-	public ProjectWbsManhour(ProjectWbsManhourId id, ProjectTeamPerson projectTeamPerson, ProjectWbs projectWbs, byte manhour, Byte overtime, Byte localMh, Byte foreignMh, Byte trMh) {
-       this.id = id;
-       this.projectTeamPerson = projectTeamPerson;
-       this.projectWbs = projectWbs;
-       this.manhour = manhour;
-       this.overtime = overtime;
-       this.localMh = localMh;
-       this.foreignMh = foreignMh;
-       this.trMh = trMh;
-    }
-   
-     @EmbeddedId
+	public ProjectWbsManhour(ProjectWbsManhourId id, ProjectTeamPerson projectTeamPerson, ProjectWbs projectWbs,
+			byte manhour, byte overtime, byte localMh, byte foreignMh, byte trMh) {
+		this.id = id;
+		this.projectTeamPerson = projectTeamPerson;
+		this.projectWbs = projectWbs;
+		this.manhour = manhour;
+		this.overtime = overtime;
+		this.localMh = localMh;
+		this.foreignMh = foreignMh;
+		this.trMh = trMh;
+	}
 
-    
-    @AttributeOverrides( {
-        @AttributeOverride(name="projectId", column=@Column(name="PROJECT_ID", nullable=false, precision=8, scale=0) ), 
-        @AttributeOverride(name="categoryId", column=@Column(name="CATEGORY_ID", nullable=false, precision=8, scale=0) ), 
-        @AttributeOverride(name="teamId", column=@Column(name="TEAM_ID", nullable=false, precision=8, scale=0) ), 
-        @AttributeOverride(name="workerId", column=@Column(name="WORKER_ID", nullable=false, precision=8, scale=0) ), 
-        @AttributeOverride(name="activityDate", column=@Column(name="ACTIVITY_DATE", nullable=false, length=7) ) } )
-    public ProjectWbsManhourId getId() {
-        return this.id;
-    }
+	@EmbeddedId
+
+	@AttributeOverrides({
+			@AttributeOverride(name = "projectId", column = @Column(name = "PROJECT_ID", nullable = false, precision = 8, scale = 0)),
+			@AttributeOverride(name = "categoryId", column = @Column(name = "CATEGORY_ID", nullable = false, precision = 8, scale = 0)),
+			@AttributeOverride(name = "teamId", column = @Column(name = "TEAM_ID", nullable = false, precision = 8, scale = 0)),
+			@AttributeOverride(name = "workerId", column = @Column(name = "WORKER_ID", nullable = false, precision = 8, scale = 0)),
+			@AttributeOverride(name = "activityDate", column = @Column(name = "ACTIVITY_DATE", nullable = false, length = 7)) })
+	public ProjectWbsManhourId getId() {
+		return this.id;
+	}
 
 	public void setId(ProjectWbsManhourId id) {
 		this.id = id;
@@ -99,39 +99,39 @@ public class ProjectWbsManhour implements java.io.Serializable {
 		this.manhour = manhour;
 	}
 
-	@Column(name="OVERTIME", precision=2, scale=0)
-    public Byte getOvertime() {
-        return this.overtime;
-    }
+	@Column(name = "OVERTIME", precision = 2, scale = 0)
+	public byte getOvertime() {
+		return this.overtime;
+	}
 
-	public void setOvertime(Byte overtime) {
-        this.overtime = overtime;
-    }
+	public void setOvertime(byte overtime) {
+		this.overtime = overtime;
+	}
 
 	@Column(name = "LOCAL_MH", precision = 2, scale = 0)
-	public Byte getLocalMh() {
+	public byte getLocalMh() {
 		return this.localMh;
 	}
 
-	public void setLocalMh(Byte localMh) {
+	public void setLocalMh(byte localMh) {
 		this.localMh = localMh;
 	}
 
-	@Column(name="FOREIGN_MH", precision=2, scale=0)
-    public Byte getForeignMh() {
-        return this.foreignMh;
-    }
+	@Column(name = "FOREIGN_MH", precision = 2, scale = 0)
+	public byte getForeignMh() {
+		return this.foreignMh;
+	}
 
-	public void setForeignMh(Byte foreignMh) {
-        this.foreignMh = foreignMh;
-    }
+	public void setForeignMh(byte foreignMh) {
+		this.foreignMh = foreignMh;
+	}
 
 	@Column(name = "TR_MH", precision = 2, scale = 0)
-	public Byte getTrMh() {
+	public byte getTrMh() {
 		return this.trMh;
 	}
 
-	public void setTrMh(Byte trMh) {
+	public void setTrMh(byte trMh) {
 		this.trMh = trMh;
 	}
 

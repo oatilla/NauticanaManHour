@@ -23,11 +23,11 @@
 
       <c:forEach var="record" items="${records}" varStatus="status">
         <tr>
-          <td>${status.index + 1}</td>
-          <td>${record.username}</td>
-          <td>${record.caption}</td>
-          <td>${record.status}</td>
-          <td><a href="edit?id=${record.username}">Edit</a> &nbsp; <a href="delete?id=${record.username}">Delete</a></td>
+          <td data-title="${ORDER}">${status.index + 1}</td>
+          <td data-title="${USERNAME}">${record.id}</td>
+          <td data-title="${CAPTION}">${record.caption}</td>
+          <td data-title="${STATUS}">${record.status}</td>
+          <td><a href="edit?id=${record.id}"> <c:out value="${EDIT}" /> </a> &nbsp; <a href="delete?id=${record.id}"> <c:out value="${DELETE}" /> </a></td>
         </tr>
       </c:forEach>             
     </table>

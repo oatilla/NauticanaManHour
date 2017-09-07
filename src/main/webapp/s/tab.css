@@ -1,0 +1,63 @@
+.tabarea {
+  min-height: 250px;
+  position: relative;
+  width: 100%;
+}
+
+.tabarea > div { display: inline; }
+
+.tabarea > div > a {
+  margin-left: -1px;
+  position: relative;
+  left: 1px;
+  text-decoration: none;
+  color: black;
+  background: white;
+  display: block;
+  float: left;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-bottom: 1px solid white;
+}
+
+.tabarea > div:not(:target) > a {
+  border-bottom: 0;
+  background: #fcfcfc;
+}	
+
+.tabarea > div:target > a { background: white; }	
+
+.tabarea > div > div {
+  background: white;
+  z-index: -2;
+  left: 0;
+  top: 30px;
+  bottom: 0;
+  right: 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+}	
+
+.tabarea > div:not(:target) > div { position: absolute }
+
+.tabarea > div:target > div {
+  position: absolute;
+  z-index: -1;
+}
+        
+.box { display: block; }
+
+#box {
+  overflow: hidden;
+  position: relative;
+}
+
+b {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width:1px;
+  height: 251px;
+  overflow: hidden;
+  text-indent: -9999px;
+}

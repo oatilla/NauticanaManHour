@@ -1,9 +1,6 @@
 package com.nauticana.manhour.utils;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,23 +23,23 @@ public class DataCache {
 	private static HashMap<String, Domain> domains = null;
 	private static HashMap<String, PortalLanguage> languages = null;
 
-	private static PreparedStatement psc = null;
-	private static PreparedStatement psr = null;
-	private static PreparedStatement psu = null;
-	private static PreparedStatement psd = null;
-	
-	private static final String p = "SELECT COUNT(*) AS SAYI" +
-			  						"  FROM AUTHORITY_GROUPS A, TABLE_AUTHORIZATIONS T, USER_AUTHORIZATIONS U" +
-			  						" WHERE T.AUTHORITY_GROUP=A.AUTHORITY_GROUP" +
-			  						"   AND U.AUTHORITY_GROUP=A.AUTHORITY_GROUP" +
-			  						"   AND T.TABLENAME=?" +
-			  						"   AND U.USERNAME=?";
-	
-	private static final String sqlC = p + " AND T.ALLOW_INSERT='+'";
-	private static final String sqlR = p + " AND T.ALLOW_SELECT='+'";
-	private static final String sqlU = p + " AND T.ALLOW_UPDATE='+'";
-	private static final String sqlD = p + " AND T.ALLOW_DELETE='+'";
-
+//	private static PreparedStatement psc = null;
+//	private static PreparedStatement psr = null;
+//	private static PreparedStatement psu = null;
+//	private static PreparedStatement psd = null;
+//	
+//	private static final String p = "SELECT COUNT(*) AS SAYI" +
+//			  						"  FROM AUTHORITY_GROUPS A, TABLE_AUTHORIZATIONS T, USER_AUTHORIZATIONS U" +
+//			  						" WHERE T.AUTHORITY_GROUP=A.AUTHORITY_GROUP" +
+//			  						"   AND U.AUTHORITY_GROUP=A.AUTHORITY_GROUP" +
+//			  						"   AND T.TABLENAME=?" +
+//			  						"   AND U.USERNAME=?";
+//	
+//	private static final String sqlC = p + " AND T.ALLOW_INSERT='+'";
+//	private static final String sqlR = p + " AND T.ALLOW_SELECT='+'";
+//	private static final String sqlU = p + " AND T.ALLOW_UPDATE='+'";
+//	private static final String sqlD = p + " AND T.ALLOW_DELETE='+'";
+//
 	
 	public static final String defaultLanguage = "TR";
 
@@ -77,7 +74,7 @@ public class DataCache {
 		domains = new HashMap<String, Domain>();
 		List<DomainName> dl = ds.findAll();
 		for(DomainName dn : dl) {
-			domains.put(dn.getDomain(), new Domain(dn.getDomain(), dn.getCaption(), dn.getKeysize()));
+			domains.put(dn.getId(), new Domain(dn.getId(), dn.getCaption(), dn.getKeysize()));
 		}
 		
 		List<DomainValue> dvl = vs.findAll();
@@ -129,13 +126,13 @@ public class DataCache {
 		languages = new HashMap<String, PortalLanguage>();
 		List<Language> languageList = ls.findAll();
 		for (Language language : languageList) {
-			languages.put(language.getLangcode(), new PortalLanguage(language.getLangcode(), language.getCaption()));
+			languages.put(language.getId(), new PortalLanguage(language.getId(), language.getCaption()));
 		}
 		
 		List<CaptionTranslation> ct = ts.findAll();
 		
 		for (CaptionTranslation t : ct) {
-			languages.get(t.getLanguage().getLangcode()).translations.put(t.getId().getCaption(), t.getLabellower());
+			languages.get(t.getLanguage().getId()).translations.put(t.getId().getCaption(), t.getLabellower());
 		}
 		
 		return languages;
