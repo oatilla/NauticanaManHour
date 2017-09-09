@@ -13,7 +13,7 @@ public class SubcontractorService extends AbstractService<Subcontractor,Integer 
 	}
 
 	@Override
-	public Subcontractor newEntity() {
+	public Subcontractor newEntity(String parentKey) {
 		return new Subcontractor();
 	}
 

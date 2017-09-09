@@ -75,7 +75,7 @@ public class PortalLanguage {
 	
 	public String getText(String caption) {
 		String text = translations.get(caption);
-		if (text == null) {
+		if (Utils.emptyStr(text)) {
 			insertMissing(code, caption);
 			text = caption;
 		}

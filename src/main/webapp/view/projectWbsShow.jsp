@@ -5,37 +5,26 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:out value="${PAGETITLE}" /></title>
-<script type="text/javascript" language="JavaScript">
-function callSelectionProjectWBS(id) {
-  item0 = document.f.WBS_IDS;
-  selectWindow = window.open("select?id=" + id, "selectWindow", "toolbar=no,menubar=no,scrollbar=yes");
-  selectWindow.item0 = item0;
-}
-</script>
+<title> ${PAGETITLE} </title>
 </head>
 <body>
 
 <div align="center">
 	<table>
 		<tr>
-			<th><c:out value="${PROJECT_ID}" /></th>
-			<td><c:out value="${projectId}" /></td>
+			<th> ${PROJECT_ID} </th>
+	        <td> ${record.id.projectId} ${record.project.caption} <form:input type="hidden" path="id.projectId"  /></td>
 		</tr>
 		<tr>
-			<th><c:out value="${CAPTION}" /></th>
-			<td><c:out value="${caption}" /></td>
+        	<th> ${CATEGORY_ID} </th>
+			<td> ${record.id.CategoryId} ${record.category.caption} <form:input type="hidden" path="id.categoryId" /></td>
 		</tr>
 	</table>
 </div>
 
 <div align="center">
-	<p> <c:out value="${PROJECT_WBS}" /> </p>
-	<form name=f method=post>
-	<input type="button" onClick="if (callSelectionProjectWBS('${projectId}');) then submit();" value='<c:out value="${CHOOSE}" />'>
-	<input type=hidden name=PROJECT_ID value="${projectId}">
-	<input type=hidden name=WBS_IDS value="">
-	</form>
+	<p> ${PROJECT_WBS_QUANTITY} Bu form WBS aktivitelerini içerecek, henüz yazılmadı </p>
+
 	<table>
 		<tr>
 			<th><c:out value="${TREE_CODE}" /></th>
@@ -45,23 +34,28 @@ function callSelectionProjectWBS(id) {
 			<th><c:out value="${WORKFORCE}" /></th>
 			<th><c:out value="${PUP_METRIC}" /></th>
 			<th><c:out value="${PUP_WORKFORCE}" /></th>
+	 		<th> &nbsp; </th>
 		</tr>
 		<c:forEach var="record" items="${records}" varStatus="status">
 		<tr>
-			<td>${record.treeCode}</td>
-			<td>${record.caption}</td>
+			<td>${record.category.treeCode}</td>
+			<td>${record.category.caption}</td>
 			<td>${record.unit}</td>
-			<td>${record.metrif}</td>
+			<td>${record.metric}</td>
 			<td>${record.workforce}</td>
 			<td>${record.pupMetric}</td>
 			<td>${record.pupWorkforce}</td>
 			<td>
-			 <a href="edit?projectId=${record.projectId}&id=${record.categoryId}"> <c:out value="${EDIT}" /> </a> &nbsp;
-			 <a href="delete?projectId=${record.projectId}&id=${record.categoryId}"> <c:out value="${DELETE}" /> </a></td>
+			 <a href="edit?id=${record.id.projectId},${record.categoryId}"> <c:out value="${EDIT}" /> </a> &nbsp;
+			 <a href="delete?id=${record.id.projectId},${record.categoryId}"> <c:out value="${DELETE}" /> </a>
+			</td>
 		</tr>
 		</c:forEach>             
 	</table>
-  </div>
+
+	<p> ${PROJECT_WBS_MANHOUR} </p>
+
+</div>
 
 </body>
 </html>

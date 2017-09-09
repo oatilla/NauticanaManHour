@@ -18,6 +18,12 @@ public class PageAuthorizationId implements java.io.Serializable {
 		this.pagename = pagename;
 	}
 
+	public PageAuthorizationId(String keys) {
+		String[] s = keys.split(",");
+		this.authorityGroup = s[0];
+		this.pagename = s[1];
+	}
+	
 	@Column(name = "AUTHORITY_GROUP", nullable = false, length = 30)
 	public String getAuthorityGroup() {
 		return this.authorityGroup;

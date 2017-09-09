@@ -15,7 +15,7 @@ public class ProjectService extends AbstractService<Project, Integer> {
 
 	@Override
 	@Transactional
-	public Project newEntity() {
+	public Project newEntity(String parentKey) {
 		return new Project();
 	}
 

@@ -5,22 +5,22 @@
 <hibernate-configuration>
     <session-factory>
 
-<!-- parameters for ORACLE-->
+<!-- parameters for ORACLE
         <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
         <property name="hibernate.connection.password">adsaat1234</property>
         <property name="hibernate.connection.url">jdbc:oracle:thin:@10.1.5.10:1522:GAMAT</property>
         <property name="hibernate.connection.username">adsaat</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
- 
+ -->
 
-<!-- parameters for HSQLDB 
+<!-- parameters for HSQLDB -->
 
         <property name="hibernate.connection.driver_class">org.hsqldb.jdbc.JDBCDriver</property>
         <property name="hibernate.connection.password"></property>
         <property name="hibernate.connection.url">jdbc:hsqldb:hsql://localhost:9006/GAMADB</property>
         <property name="hibernate.connection.username">SA</property>
         <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
--->
+
         <property name="hibernate.search.autoregister_listeners">true</property>
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.validator.apply_to_ddl">false</property>

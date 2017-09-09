@@ -4,11 +4,14 @@
 
 <html>
     <head>
-		<META name="robots" content="noindex,nofollow">
+		META name="robots" content="noindex,nofollow">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Home</title>
 		<link href="s/eds.css" rel="stylesheet" type="text/css">
 		<link href="s/accordion-menu.css" rel="stylesheet">
+		
+		<meta charset="utf-8">
+  
 		<script type="text/javascript" src="j/accordion-menu.js"></script>
 		<script type="text/javascript" src="j/nav.js"></script>
     </head>
@@ -33,5 +36,7 @@
         <p><a href="authorityGroup/list"> Authority Groups</a></p>
         <p><a href="workBreakDown/list"> Work Break Down Structure </a></p>
          -->
+        
+         
     </body>
 </html>

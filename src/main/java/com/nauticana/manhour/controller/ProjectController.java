@@ -1,7 +1,6 @@
 package com.nauticana.manhour.controller;
 
 import java.io.IOException;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nauticana.manhour.model.Project;
 import com.nauticana.manhour.model.ProjectTeam;
+import com.nauticana.manhour.model.ProjectTeamPerson;
 import com.nauticana.manhour.model.ProjectWbs;
 import com.nauticana.manhour.utils.DataCache;
 import com.nauticana.manhour.utils.Labels;
@@ -45,21 +45,17 @@ public class ProjectController extends AbstractController<Project, Integer> {
 
 		// Read data and assign to model and view object
 		Project project = modelService.findById(modelService.StrToId(request.getParameter("id")));
-		Set<ProjectTeam> projectTeams = project.getProjectTeams();
-		Set<ProjectWbs> projectWbses = project.getProjectWbses();
 		
 		ModelAndView model = new ModelAndView("projectShow");
-		model.addObject("projectId", project.getId());
-		model.addObject("projectCaption", project.getCaption());
-		model.addObject("projectTeams", projectTeams);
-		model.addObject("projectWbses", projectWbses);
+		model.addObject("record", project);
 		
 		// Assign text objects from session language
 		model.addObject(Labels.PAGETITLE, language.getText(tableName));
 		model.addObject(Labels.NEW, language.getText(Labels.NEW));
 		model.addObject(Labels.EDIT, language.getText(Labels.EDIT));
+		model.addObject(Labels.CHOOSE, language.getText(Labels.CHOOSE));
 		model.addObject(Labels.DELETE, language.getText(Labels.DELETE));
-		model.addObject("PROJECT_TEAM", language.getText("PROJECT_TEAM"));
+		model.addObject(tableName, language.getText(tableName));
 		for (int i = 0; i < modelService.getFieldNames().length; i++) {
 			model.addObject(modelService.getFieldNames()[i], language.getText(modelService.getFieldNames()[i]));
 		}
@@ -71,6 +67,7 @@ public class ProjectController extends AbstractController<Project, Integer> {
 		for (int i = 0; i < ProjectWbs.fieldNames.length; i++) {
 			model.addObject(ProjectWbs.fieldNames[i], language.getText(ProjectWbs.fieldNames[i]));
 		}
+		model.addObject(ProjectTeamPerson.tableName, language.getText(ProjectTeamPerson.tableName));
 
 		return model;
 	}

@@ -20,6 +20,7 @@ public class UserAuthorization implements java.io.Serializable {
 
 	private UserAuthorizationId id;
 	private AuthorityGroup authorityGroup;
+	private UserAccount userAccount;
 
 	public UserAuthorization() {
 	}
@@ -49,6 +50,16 @@ public class UserAuthorization implements java.io.Serializable {
 
 	public void setAuthorityGroup(AuthorityGroup authorityGroup) {
 		this.authorityGroup = authorityGroup;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USERNAME", nullable = false, insertable = false, updatable = false)
+	public UserAccount getUserAccount() {
+		return this.userAccount;
+	}
+
+	public void setUserAccount(UserAccount userAccount) {
+		this.userAccount = userAccount;
 	}
 
 }

@@ -1,8 +1,13 @@
 package com.nauticana.manhour.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,6 +21,8 @@ public class UserAccount implements java.io.Serializable {
 	private String password;
 	private String caption;
 	private char status;
+
+	private Set<UserAuthorization> userAuthorizations = new HashSet<UserAuthorization>(0);
 
 	public UserAccount() {
 	}
@@ -66,6 +73,15 @@ public class UserAccount implements java.io.Serializable {
 
 	public boolean checkPassword(String passStr) {
 		return password.equals(passStr);
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccount")
+	public Set<UserAuthorization> getUserAuthorizations() {
+		return this.userAuthorizations;
+	}
+
+	public void setUserAuthorizations(Set<UserAuthorization> userAuthorizations) {
+		this.userAuthorizations = userAuthorizations;
 	}
 
 }

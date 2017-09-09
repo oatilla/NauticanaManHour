@@ -12,7 +12,7 @@ public class HSQLServerFactory {
 	public static final String DRIVER = "org.hsqldb.jdbc.JDBCDriver";
 	
 	private static final Hashtable<String, Server> servers = new Hashtable<String, Server>();
-	private static final String DATAROOT = "D:/WORK/STS/DATA/";
+	private static final String DATAROOT = "D:/WORK/GAMA/DATA/";
 
 	public static synchronized void startdb(String name, int port) {
 		Server  server = servers.get(name);

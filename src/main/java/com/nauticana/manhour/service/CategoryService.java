@@ -16,7 +16,7 @@ public class CategoryService extends AbstractService<Category,Integer> {
 
 	@Override
 	@Transactional
-	public Category newEntity() {
+	public Category newEntity(String parentKey) {
 		return new Category();
 	}
 

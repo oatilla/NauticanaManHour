@@ -17,6 +17,12 @@ public class TableAuthorizationId implements java.io.Serializable {
 		this.authorityGroup = authorityGroup;
 		this.tablename = tablename;
 	}
+	
+	public TableAuthorizationId(String keys) {
+		String[] s = keys.split(",");
+		this.authorityGroup = s[0];
+		this.tablename = s[1];
+	}
 
 	@Column(name = "AUTHORITY_GROUP", nullable = false, length = 30)
 	public String getAuthorityGroup() {

@@ -13,7 +13,7 @@ public class UserAccountService extends AbstractService<UserAccount, String> {
 	}
 
 	@Override
-	public UserAccount newEntity() {
+	public UserAccount newEntity(String parentKey) {
 		return new UserAccount();
 	}
 

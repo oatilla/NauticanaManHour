@@ -26,6 +26,16 @@ public class ProjectWbsManhourId implements java.io.Serializable {
 		this.activityDate = activityDate;
 	}
 
+	public ProjectWbsManhourId(String keys) {
+		String[] s = keys.split(",");
+		this.projectId = Integer.parseInt(s[0]);
+		this.categoryId = Integer.parseInt(s[1]);
+		this.teamId = Integer.parseInt(s[2]);
+		this.workerId = Integer.parseInt(s[3]);
+		this.activityDate = new Date(s[4]);
+	}
+
+	
 	@Column(name = "PROJECT_ID", nullable = false, precision = 8, scale = 0)
 	public int getProjectId() {
 		return this.projectId;

@@ -16,7 +16,7 @@ public class AuthorityGroupService extends AbstractService<AuthorityGroup, Strin
 
 	@Override
 	@Transactional
-	public AuthorityGroup newEntity() {
+	public AuthorityGroup newEntity(String parentKey) {
 		return new AuthorityGroup();
 	}
 

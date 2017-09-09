@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:out value="${PAGETITLE}" /></title>
+<title> ${PAGETITLE} </title>
 </head>
 <body>
 
@@ -13,15 +13,15 @@
     <form:form method="post" modelAttribute="record">
     <table>
       <tr>
-        <th><c:out value="${AUTHORITY_GROUP}" /></th>
+        <th>${AUTHORITY_GROUP}</th>
         <td><form:input path="id" /></td>
       </tr>
       <tr>
-        <th><c:out value="${CAPTION}" /></th>
+        <th>${CAPTION}</th>
         <td><form:input path="caption" /></td>
       </tr>
       <tr>
-        <td colspan="2" align="center"><input type="submit" value='<c:out value="${SAVE}" />'></td>
+        <td colspan="2" align="center"><input type="submit" value="${SAVE}"></td>
       </tr>
     </table>
     </form:form>

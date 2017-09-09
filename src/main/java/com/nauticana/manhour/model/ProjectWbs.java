@@ -1,6 +1,5 @@
 package com.nauticana.manhour.model;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,10 +25,10 @@ public class ProjectWbs implements java.io.Serializable {
 	private Project project;
 	private Category category;
 	private String unit;
-	private BigDecimal metric;
-	private BigDecimal workforce;
-	private BigDecimal pupMetric;
-	private BigDecimal pupWorkforce;
+	private float metric;
+	private float workforce;
+	private float pupMetric;
+	private float pupWorkforce;
 	private Set<ProjectWbsManhour> projectWbsManhours = new HashSet<ProjectWbsManhour>(0);
 
 	private Set<ProjectWbsQuantity> projectWbsQuantities = new HashSet<ProjectWbsQuantity>(0);
@@ -37,8 +36,8 @@ public class ProjectWbs implements java.io.Serializable {
 	public ProjectWbs() {
 	}
 
-	public ProjectWbs(ProjectWbsId id, Project project, Category category, String unit, BigDecimal metric,
-			BigDecimal workforce) {
+	public ProjectWbs(ProjectWbsId id, Project project, Category category, String unit, float metric,
+			float workforce) {
 		this.id = id;
 		this.project = project;
 		this.category = category;
@@ -47,8 +46,8 @@ public class ProjectWbs implements java.io.Serializable {
 		this.workforce = workforce;
 	}
 
-	public ProjectWbs(ProjectWbsId id, Project project, Category category, String unit, BigDecimal metric,
-			BigDecimal workforce, BigDecimal pupMetric, BigDecimal pupWorkforce,
+	public ProjectWbs(ProjectWbsId id, Project project, Category category, String unit, float metric,
+			float workforce, float pupMetric, float pupWorkforce,
 			Set<ProjectWbsManhour> projectWbsManhours, Set<ProjectWbsQuantity> projectWbsQuantities) {
 		this.id = id;
 		this.project = project;
@@ -105,38 +104,38 @@ public class ProjectWbs implements java.io.Serializable {
 	}
 
 	@Column(name = "METRIC", nullable = false, precision = 6)
-	public BigDecimal getMetric() {
+	public float getMetric() {
 		return this.metric;
 	}
 
-	public void setMetric(BigDecimal metric) {
+	public void setMetric(float metric) {
 		this.metric = metric;
 	}
 
 	@Column(name = "WORKFORCE", nullable = false, precision = 6)
-	public BigDecimal getWorkforce() {
+	public float getWorkforce() {
 		return this.workforce;
 	}
 
-	public void setWorkforce(BigDecimal workforce) {
+	public void setWorkforce(float workforce) {
 		this.workforce = workforce;
 	}
 
 	@Column(name = "PUP_METRIC", precision = 6)
-	public BigDecimal getPupMetric() {
+	public float getPupMetric() {
 		return this.pupMetric;
 	}
 
-	public void setPupMetric(BigDecimal pupMetric) {
+	public void setPupMetric(float pupMetric) {
 		this.pupMetric = pupMetric;
 	}
 
 	@Column(name = "PUP_WORKFORCE", precision = 6)
-	public BigDecimal getPupWorkforce() {
+	public float getPupWorkforce() {
 		return this.pupWorkforce;
 	}
 
-	public void setPupWorkforce(BigDecimal pupWorkforce) {
+	public void setPupWorkforce(float pupWorkforce) {
 		this.pupWorkforce = pupWorkforce;
 	}
 

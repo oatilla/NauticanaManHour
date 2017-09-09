@@ -21,6 +21,7 @@ public class ScreenPage implements java.io.Serializable {
 	public static final String[] fieldNames = new String[] { "PAGENAME", "CAPTION", "ICON", "URL", "MENU", "DISPLAY_ORDER" };
 	private String pagename;
 	private String caption;
+	private String icon;
 	private String url;
 	private MainMenu menu;
 	private short displayOrder;
@@ -30,9 +31,10 @@ public class ScreenPage implements java.io.Serializable {
 	public ScreenPage() {
 	}
 
-	public ScreenPage(String pagename, String caption, String url, MainMenu menu, short displayOrder) {
+	public ScreenPage(String pagename, String caption, String icon, String url, MainMenu menu, short displayOrder) {
 		this.pagename = pagename;
 		this.caption = caption;
+		this.icon = icon;
 		this.url = url;
 		this.menu = menu;
 		this.displayOrder = displayOrder;
@@ -74,6 +76,15 @@ public class ScreenPage implements java.io.Serializable {
 
 	public void setCaption(String caption) {
 		this.caption = caption;
+	}
+
+	@Column(name = "ICON", nullable = false, length = 100)
+	public String getIcon() {
+		return this.icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 	@Column(name = "DISPLAY_ORDER")

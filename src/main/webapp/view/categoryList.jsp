@@ -5,30 +5,29 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:out value="${PAGETITLE}" /></title>
+<title> ${PAGETITLE} </title>
 </head>
 
 <body>
   <div align="center">
-    <h3><a href="new"><c:out value="${NEW}" /></a></h3>
+    <h3><a href="new"> ${NEW} </a></h3>
     
     <table>
       <tr>
-        <th><c:out value="${ORDER}" /></th>
-        <th><c:out value="${CATEGORY_ID}" /></th>
-        <th><c:out value="${PARENT_ID}" /></th>
-        <th><c:out value="${CAT_INDEX}" /></th>
-        <th><c:out value="${CAPTION}" /></th>
-        <th><c:out value="${DETAILS}" /></th>
-        <th><c:out value="${UNIT}" /></th>
-        <th><c:out value="${CAT_LEVEL}" /></th>
-        <th><c:out value="${TREE_CODE}" /></th>
-        <th><c:out value="${MAIN_FLAG}" /></th>
+        <th> ${CATEGORY_ID}</th>
+        <th> ${PARENT_ID}</th>
+        <th> ${CAT_INDEX}</th>
+        <th> ${CAPTION}</th>
+        <th> ${DETAILS}</th>
+        <th> ${UNIT}</th>
+        <th> ${CAT_LEVEL}</th>
+        <th> ${TREE_CODE}</th>
+        <th> ${MAIN_FLAG}</th>
+		<th> &nbsp; </th>
       </tr>
 
       <c:forEach var="record" items="${records}" varStatus="status">
         <tr>
-          <td>${status.index + 1}</td>
           <td>${record.id}</td>
           <td>${record.parentId}</td>
           <td>${record.catIndex}</td>
@@ -38,7 +37,7 @@
           <td>${record.catLevel}</td>
           <td>${record.treeCode}</td>
           <td>${record.mainFlag}</td>
-          <td><a href="edit?id=${record.id}"> <c:out value="${EDIT}" /> </a> &nbsp; <a href="delete?id=${record.id}"> <c:out value="${DELETE}" /> </a></td>
+          <td><a href="edit?id=${record.id}"> ${EDIT} </a> &nbsp; <a href="delete?id=${record.id}"> ${DELETE} </a></td>
         </tr>
       </c:forEach>             
     </table>

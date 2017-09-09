@@ -13,7 +13,7 @@ public class MainMenuService extends AbstractService<MainMenu, String> {
 	}
 
 	@Override
-	public MainMenu newEntity() {
+	public MainMenu newEntity(String parentKey) {
 		return new MainMenu();
 	}
 

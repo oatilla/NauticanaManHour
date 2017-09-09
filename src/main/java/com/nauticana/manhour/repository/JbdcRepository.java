@@ -18,12 +18,13 @@ import com.nauticana.manhour.query.UserMenu;
 @Repository
 public class JbdcRepository {
 
-	private String userMenuSql = "SELECT PAGE_CAPTION, PAGE_ICON, URL, MENU_CAPTION, MENU_ICON, MENU_ORDER, PAGE_ORDER FROM USER_MENU_PERMISSION WHERE USERNAME=? ORDER BY MENU_ORDER, PAGE_ORDER";
+	private String userMenuSql    = "SELECT PAGE_CAPTION, PAGE_ICON, URL, MENU_CAPTION, MENU_ICON, MENU_ORDER, PAGE_ORDER FROM USER_MENU_PERMISSION WHERE USERNAME=? ORDER BY MENU_ORDER, PAGE_ORDER";
 	private String allowSelectSql = "SELECT CNT FROM USER_TABLE_SELECT_PERMISSION WHERE TABLENAME = ? AND USERNAME = ?";
 	private String allowInsertSql = "SELECT CNT FROM USER_TABLE_INSERT_PERMISSION WHERE TABLENAME = ? AND USERNAME = ?";
 	private String allowUpdateSql = "SELECT CNT FROM USER_TABLE_UPDATE_PERMISSION WHERE TABLENAME = ? AND USERNAME = ?";
 	private String allowDeleteSql = "SELECT CNT FROM USER_TABLE_DELETE_PERMISSION WHERE TABLENAME = ? AND USERNAME = ?";
-	private String projectWBSSql  = "SELECT C.CATEGORY_ID, C.PARENT_ID, C.TREE_CODE, C.CAPTION, P.PROJECT_ID FROM CATEGORY C LEFT JOIN PROJECT_WBS P ON C.CATEGORY_ID=P.CATEGORY_ID AND P.PROJECT_ID=? ORDER BY C.TREE_CODE ";
+	private String projectWBSSql  = "SELECT C.CATEGORY_ID, C.PARENT_ID, C.TREE_CODE, C.CAPTION, P.PROJECT_ID FROM CATEGORY C LEFT JOIN (SELECT CATEGORY_ID, PROJECT_ID FROM PROJECT_WBS WHERE PROJECT_ID=?) P ON C.CATEGORY_ID=P.CATEGORY_ID ORDER BY C.TREE_CODE ";
+	private String nextTeamIdSql  = "SELECT MAX(TEAM_ID) + 1 FROM PROJECT_TEAM WHERE PROJECT_ID = ?";
 	
 	class UserMenuRowMapper implements RowMapper<UserMenu> {
 	    @Override
@@ -88,4 +89,19 @@ public class JbdcRepository {
     public boolean allowDelete(String tablename, String username) {
 		return allowed(allowDeleteSql, tablename, username);
     }
- }
+
+	@Transactional(readOnly=true)
+    public int nextTeamId(int projectId) {
+		int k = j.query(nextTeamIdSql, new Object[]{projectId}, new ResultSetExtractor<Integer>() {
+			@Override
+			public Integer extractData(ResultSet rs) throws SQLException, DataAccessException {
+				int i = 0;
+				if (rs.next()) {
+					i = rs.getInt(1);
+				} return i;
+			}
+		});
+		return k;
+    }
+
+}

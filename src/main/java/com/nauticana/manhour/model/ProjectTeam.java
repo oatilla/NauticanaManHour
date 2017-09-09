@@ -29,7 +29,7 @@ public class ProjectTeam implements java.io.Serializable {
 	private String caption;
 	private Date begDate;
 	private Date endDate;
-	private Set<ProjectTeamPerson> projectTeamPersons = new HashSet<ProjectTeamPerson>(0);
+	private Set<ProjectTeamPerson> projectTeamPersonnel = new HashSet<ProjectTeamPerson>(0);
 
 	public ProjectTeam() {
 	}
@@ -40,13 +40,13 @@ public class ProjectTeam implements java.io.Serializable {
 		this.caption = caption;
 	}
 
-	public ProjectTeam(ProjectTeamId id, Project project, String caption, Date begDate, Date endDate, Set<ProjectTeamPerson> projectTeamPersons) {
+	public ProjectTeam(ProjectTeamId id, Project project, String caption, Date begDate, Date endDate, Set<ProjectTeamPerson> projectTeamPersonnel) {
 		this.id = id;
 		this.project = project;
 		this.caption = caption;
 		this.begDate = begDate;
 		this.endDate = endDate;
-		this.projectTeamPersons = projectTeamPersons;
+		this.projectTeamPersonnel = projectTeamPersonnel;
 	}
 
 	@EmbeddedId
@@ -102,12 +102,12 @@ public class ProjectTeam implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectTeam")
-	public Set<ProjectTeamPerson> getProjectTeamPersons() {
-		return this.projectTeamPersons;
+	public Set<ProjectTeamPerson> getProjectTeamPersonnel() {
+		return this.projectTeamPersonnel;
 	}
 
-	public void setProjectTeamPersons(Set<ProjectTeamPerson> projectTeamPersons) {
-		this.projectTeamPersons = projectTeamPersons;
+	public void setProjectTeamPersonnel(Set<ProjectTeamPerson> projectTeamPersonnel) {
+		this.projectTeamPersonnel = projectTeamPersonnel;
 	}
 
 }

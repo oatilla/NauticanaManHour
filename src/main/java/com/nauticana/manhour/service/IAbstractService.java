@@ -18,7 +18,7 @@ public interface IAbstractService <M,MId> {
 	
 	String[]  getFieldNames();
 	
-	M newEntity();
+	M newEntity(String parentKey);
 
 	MId StrToId(String id);
 }

@@ -13,7 +13,7 @@ public class DomainNameService extends AbstractService<DomainName,String> {
 	}
 
 	@Override
-	public DomainName newEntity() {
+	public DomainName newEntity(String parentKey) {
 		return new DomainName();
 	}
 	

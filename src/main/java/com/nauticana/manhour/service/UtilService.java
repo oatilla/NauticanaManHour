@@ -38,5 +38,9 @@ public class UtilService {
 	public List<ProjectCategory> findAllCategories(int projectId) {
 		return r.projectCategoory(projectId);
 	}
+	
+	public int nextTeamId(int projectId) {
+		return r.nextTeamId(projectId);
+	}
 
 }

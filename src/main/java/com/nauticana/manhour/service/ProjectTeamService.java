@@ -1,9 +1,12 @@
 package com.nauticana.manhour.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nauticana.manhour.model.ProjectTeam;
 import com.nauticana.manhour.model.ProjectTeamId;
+import com.nauticana.manhour.repository.ProjectRepository;
+import com.nauticana.manhour.utils.Utils;
 
 @Service
 public class ProjectTeamService extends AbstractService<ProjectTeam,ProjectTeamId> {
@@ -11,19 +14,29 @@ public class ProjectTeamService extends AbstractService<ProjectTeam,ProjectTeamI
 
 	@Override
 	public String[] getFieldNames() {
-		// TODO Auto-generated method stub
 		return ProjectTeam.fieldNames;
 	}
 
+	@Autowired
+	ProjectRepository parentRep;
+
+	@Autowired
+	UtilService urepRep;
+
 	@Override
-	public ProjectTeam newEntity() {
-		return new ProjectTeam();
+	public ProjectTeam newEntity(String parentKey) {
+		ProjectTeam entity = new ProjectTeam();
+		ProjectTeamId id = new ProjectTeamId();
+		id.setProjectId(Integer.parseInt(parentKey));
+		id.setTeamId(urepRep.nextTeamId(id.getProjectId()));
+		entity.setId(id);
+		if (!Utils.emptyStr(parentKey)) entity.setProject(parentRep.findOne(id.getProjectId()));
+		return entity;
 	}
 
 	@Override
 	public ProjectTeamId StrToId(String id) {
-		String[] s = id.split(",");
-		return new ProjectTeamId(Integer.parseInt(s[0]),Integer.parseInt(s[1]));
+		return new ProjectTeamId(id);
 	}
 
 }

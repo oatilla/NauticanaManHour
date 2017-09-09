@@ -6,10 +6,13 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -42,6 +45,8 @@ public class Worker implements java.io.Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="WORKER_ID_SEQ")
+	@SequenceGenerator(name="WORKER_ID_SEQ", sequenceName="WORKER_ID_SEQ")
 	@Column(name = "WORKER_ID", unique = true, nullable = false, precision = 8, scale = 0)
 	public int getId() {
 		return this.workerId;

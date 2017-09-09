@@ -1,7 +1,5 @@
 package com.nauticana.manhour.model;
 
-import java.math.BigDecimal;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -22,13 +20,13 @@ public class ProjectWbsQuantity implements java.io.Serializable {
 	public static final String[] fieldNames = new String[] { "PROJECT_ID", "CATEGORY_ID", "YEAR", "TERM_TYPE", "TERM_ID", "QUANTITY", "IS_SUBCONTRACTOR" };
 	private ProjectWbsQuantityId id;
 	private ProjectWbs projectWbs;
-	private BigDecimal quantity;
+	private float quantity;
 	private char isSubcontractor;
 
 	public ProjectWbsQuantity() {
 	}
 
-	public ProjectWbsQuantity(ProjectWbsQuantityId id, ProjectWbs projectWbs, BigDecimal quantity, char isSubcontractor) {
+	public ProjectWbsQuantity(ProjectWbsQuantityId id, ProjectWbs projectWbs, float quantity, char isSubcontractor) {
 		this.id = id;
 		this.projectWbs = projectWbs;
 		this.quantity = quantity;
@@ -63,11 +61,11 @@ public class ProjectWbsQuantity implements java.io.Serializable {
 	}
 
 	@Column(name = "QUANTITY", nullable = false, precision = 8)
-	public BigDecimal getQuantity() {
+	public float getQuantity() {
 		return this.quantity;
 	}
 
-	public void setQuantity(BigDecimal quantity) {
+	public void setQuantity(float quantity) {
 		this.quantity = quantity;
 	}
 

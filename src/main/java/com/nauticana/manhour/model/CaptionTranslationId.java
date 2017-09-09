@@ -17,6 +17,12 @@ public class CaptionTranslationId implements java.io.Serializable {
 		this.caption = caption;
 		this.langcode = langcode;
 	}
+	
+	public CaptionTranslationId(String keys) {
+		String[] s = keys.split(",");
+		this.caption = s[0];
+		this.langcode = s[1];
+	}
 
 	@Column(name = "CAPTION", nullable = false, length = 30)
 	public String getCaption() {

@@ -18,6 +18,12 @@ public class UserAuthorizationId implements java.io.Serializable {
 		this.username = username;
 		this.authorityGroup = authorityGroup;
 	}
+	
+	public UserAuthorizationId(String keys) {
+		String[] s = keys.split(",");
+		this.username = s[0];
+		this.authorityGroup = s[1];
+	}
 
 	@Column(name = "USERNAME", nullable = false, length = 30)
 	public String getUsername() {

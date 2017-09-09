@@ -22,6 +22,12 @@ public class ProjectWbsId implements java.io.Serializable {
 		this.categoryId = categoryId;
 	}
 
+	public ProjectWbsId(String keys) {
+		String[] s = keys.split(",");
+		this.projectId = Integer.parseInt(s[0]);
+		this.categoryId = Integer.parseInt(s[1]);
+	}
+	
 	@Column(name = "PROJECT_ID", nullable = false, precision = 8, scale = 0)
 	public int getProjectId() {
 		return this.projectId;

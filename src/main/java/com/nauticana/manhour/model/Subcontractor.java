@@ -42,11 +42,11 @@ public class Subcontractor implements java.io.Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SUBCONTRACTOR_ID_SEQ")
 	@SequenceGenerator(name="SUBCONTRACTOR_ID_SEQ", sequenceName="SUBCONTRACTOR_ID_SEQ")
 	@Column(name = "SUBCONTRACTOR_ID", unique = true, nullable = false, precision = 8, scale = 0)
-	public int getSubcontractorId() {
+	public int getId() {
 		return this.subcontractorId;
 	}
 
-	public void setSubcontractorId(int subcontractorId) {
+	public void setId(int subcontractorId) {
 		this.subcontractorId = subcontractorId;
 	}
 

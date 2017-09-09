@@ -5,62 +5,44 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:out value="${PAGETITLE}" /></title>
+<title> ${PAGETITLE} </title>
 <link href="../s/eds.css" rel="stylesheet" />
-<link href="../s/tab.css" rel="stylesheet" />
-<script type="text/javascript" language="JavaScript">
-function callSelectionProjectWBS(id) {
-  item0 = document.f.WBS_IDS;
-  selectWindow = window.open("projectWBSSelect?id=" + id, "selectWindow", "toolbar=no,menubar=no,scrollbar=yes");
-  selectWindow.item0 = item0;
-}
-</script>
+<!--  <link href="../s/tab.css" rel="stylesheet" />  -->
 </head>
 
 <body>
 
 <div align="center">
-	<h3><a href="edit?id=${projectId}"><c:out value="${EDIT}" /></a></h3>
-	<table>
-		<tr>
-			<th><c:out value="${PROJECT_ID}" /></th>
-			<td><c:out value="${projectId}" /></td>
-		</tr>
-		<tr>
-			<th><c:out value="${CAPTION}" /></th>
-			<td><c:out value="${projectCaption}" /></td>
-		</tr>
-	</table>
+	<h3><a href="edit?id=${record.id}"> ${EDIT} </a></h3>
+	<p> ${PROJECT_ID} : ${record.id} ${record.caption}</p>
 
 	<div class="tabarea">
 	
 		<div id="tab1">
-  		<a href="#tab1"> ${PROJECT_TEAM} </a>
+	  		<a href="#tab1"> ${PROJECT_TEAM} </a>
 			<div>
-			<a href="/projectTeam/new?parentKey=${projectId}"><c:out value="${NEW}" /></a>
-			<table>
-				<tr>
-					<th><c:out value="${ORDER}" /></th>
-					<th><c:out value="${TEAM_ID}" /></th>
-					<th><c:out value="${CAPTION}" /></th>
-					<th><c:out value="${BEGIN}" /></th>
-					<th><c:out value="${END}" /></th>
-				</tr>
-				<c:forEach var="record" items="${projectTeams}" varStatus="status">
-				<tr>
-					<td>${status.index + 1}</td>
-					<td>${record.id.teamId}</td>
-					<td>${record.caption}</td>
-					<td>${record.begDate}</td>
-					<td>${record.endDate}</td>
-					<td>
-						<a href="edit?id=${record.id.projectId},${record.id.teamId}"> <c:out value="${EDIT}" /> </a> &nbsp;
-						<a href="delete?id=${record.id.projectId},${record.id.teamId}"> <c:out value="${DELETE}" /> </a> &nbsp;
-						<a href="/projectTeamPerson/list?id=${record.id.projectId},${record.id.teamId}"> <c:out value="${PROJECT_TEAM_PERSON}" /> </a> &nbsp;
-					</td>
-				</tr>
-				</c:forEach>             
-			</table>
+				<a href="/projectTeam/new?parentKey=${record.id}"><c:out value="${NEW}" /></a>
+				<table>
+					<tr>
+						<th> ${TEAM_ID} </th>
+						<th> ${CAPTION} </th>
+						<th> ${BEG_DATE} </th>
+						<th> ${END_DATE} </th>
+						<th> &nbsp; </th>
+					</tr>
+					<c:forEach var="projectTeam" items="${record.projectTeams}" varStatus="status">
+					<tr>
+						<td>${projectTeam.id.teamId}</td>
+						<td> <a href="/projectTeam/show?id=${projectTeam.id.projectId},${projectTeam.id.teamId}"> ${projectTeam.caption} </a> </td>
+						<td>${projectTeam.begDate}</td>
+						<td>${projectTeam.endDate}</td>
+						<td>
+							<a href="/projectTeam/edit?id=${projectTeam.id.projectId},${projectTeam.id.teamId}"> ${EDIT} </a> &nbsp;
+							<a href="/projectTeam/delete?id=${projectTeam.id.projectId},${projectTeam.id.teamId}"> ${DELETE} </a> &nbsp;
+						</td>
+					</tr>
+					</c:forEach>             
+				</table>
 			</div>  
 		</div>  
     
@@ -68,43 +50,40 @@ function callSelectionProjectWBS(id) {
   		<a href="#tab2"> ${PROJECT_WBS} </a>
 			<div>
 
-			<form name=f method=post>
-				<input type="button" onClick="if (callSelectionProjectWBS('${projectId}');) then submit();" value='<c:out value="${CHOOSE}" />'>
-				<input type=hidden name=PROJECT_ID value="${projectId}">
-				<input type=hidden name=WBS_IDS value="">
-			</form>
+			<a href="/projectWbs/select?id=${record.id}"> ${CHOOSE} </a>
 
 			<table>
 				<tr>
-					<th><c:out value="${TREE_CODE}" /></th>
-					<th><c:out value="${CAPTION}" /></th>
-					<th><c:out value="${UNIT}" /></th>
-					<th><c:out value="${METRIC}" /></th>
-					<th><c:out value="${WORKFORCE}" /></th>
-					<th><c:out value="${PUP_METRIC}" /></th>
-					<th><c:out value="${PUP_WORKFORCE}" /></th>
+					<th> ${TREE_CODE} </th>
+					<th> ${CAPTION} </th>
+					<th> ${UNIT} </th>
+					<th> ${METRIC} </th>
+					<th> ${WORKFORCE} </th>
+					<th> ${PUP_METRIC} </th>
+					<th> ${PUP_WORKFORCE} </th>
+					<th> &nbsp; </th>
 				</tr>
-				<c:forEach var="record" items="${projectWbses}" varStatus="status">
+				<c:forEach var="projectWbs" items="${record.projectWbses}" varStatus="status">
 				<tr>
-					<td>${record.category.treeCode}</td>
-					<td>${record.category.caption}</td>
-					<td>${record.unit}</td>
-					<td>${record.metrif}</td>
-					<td>${record.workforce}</td>
-					<td>${record.pupMetric}</td>
-					<td>${record.pupWorkforce}</td>
+					<td>${projectWbs.category.treeCode}</td>
+					<td>${projectWbs.category.caption}</td>
+					<td>${projectWbs.unit}</td>
+					<td>${projectWbs.metric}</td>
+					<td>${projectWbs.workforce}</td>
+					<td>${projectWbs.pupMetric}</td>
+					<td>${projectWbs.pupWorkforce}</td>
 					<td>
-						<a href="/projectWbs/edit?id=${record.id.projectId},${record.id.categoryId}"> <c:out value="${EDIT}" /> </a> &nbsp;
-						<a href="/projectWbs/delete?id=${record.id.projectId},${record.id.categoryId}"> <c:out value="${DELETE}" /> </a> &nbsp;
-						<a href="/projectWbsManhour/list?id=${record.id.projectId},${record.id.categoryId}"> <c:out value="${PROJECT_WBS_MANHOUR}" /> </a> &nbsp;
-						<a href="/projectWbsQuantity/list?id=${record.id.projectId},${record.id.categoryId}"> <c:out value="${PROJECT_WBS_MANHOUR}" /> </a> &nbsp;
+						<a href="/projectWbs/edit?id=${projectWbs.id.projectId},${projectWbs.id.categoryId}"> ${EDIT} </a> &nbsp;
+						<a href="/projectWbs/delete?id=${projectWbs.id.projectId},${projectWbs.id.categoryId}"> ${DELETE} </a> &nbsp;
+						<a href="/projectWbsManhour/list?id=${projectWbs.id.projectId},${projectWbs.id.categoryId}"> ${PROJECT_WBS_MANHOUR} </a> &nbsp;
+						<a href="/projectWbsQuantity/list?id=${projectWbs.id.projectId},${projectWbs.id.categoryId}"> ${PROJECT_WBS_MANHOUR} </a> &nbsp;
 					</td>
 				</tr>
-				</c:forEach>             
+				</c:forEach>
 			</table>
-			</div>  
-		</div>  
-	</div>  
+			</div>
+		</div>
+	</div>
 </div>
 
 </body>

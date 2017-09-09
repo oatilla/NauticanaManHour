@@ -19,6 +19,13 @@ public class ProjectTeamPersonId implements java.io.Serializable {
 		this.teamId = teamId;
 		this.workerId = workerId;
 	}
+	
+	public ProjectTeamPersonId(String keys) {
+		String[] s = keys.split(",");
+		this.projectId = Integer.parseInt(s[0]);
+		this.teamId = Integer.parseInt(s[1]);
+		this.workerId = Integer.parseInt(s[2]);
+	}
 
 	@Column(name = "PROJECT_ID", nullable = false, precision = 8, scale = 0)
 	public int getProjectId() {

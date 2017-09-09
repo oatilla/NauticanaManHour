@@ -5,43 +5,38 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:out value="${PAGETITLE}" /></title>
+<title> ${PAGETITLE} </title>
 </head>
 
 <body>
   <div align="center">
-    <h3><a href="edit?id=${authorityGroup}"><c:out value="${EDIT}" /></a></h3>
+    <h3><a href="edit?id=${record.id}"> ${EDIT} </a></h3>
     
 	<table>
 		<tr>
-			<th><c:out value="${USERNAME}" /></th>
-			<td><c:out value="${username}" /></td>
-		</tr>
-		<tr>
-			<th><c:out value="${CAPTION}" /></th>
-			<td><c:out value="${userAccountCaption}" /></td>
+			<th> ${USERNAME} </th>
+			<td> ${record.id} ${record.caption} </td>
 		</tr>
 	</table>
 
     <h3><c:out value="${USER_AUTHORIZATION}" /></h3>
 
-	<a href="/userAuthorizations/new?USERNAME=${username}"><c:out value="${NEW}" /></a>
+	<a href="/userAuthorization/new?parentKey=${record.id}"> ${NEW} </a>
 
     <table>
       <tr>
-        <th><c:out value="${ORDER}" /></th>
-        <th><c:out value="${AUTHORITY_GROUP}" /></th>
+        <th> ${AUTHORITY_GROUP} </th>
+        <th> &nbsp; </th>
       </tr>
 
-      <c:forEach var="record" items="${userAuthorizations}" varStatus="status">
+      <c:forEach var="userAuthorization" items="${record.userAuthorizations}" varStatus="status">
         <tr>
-          <td>${status.index + 1}</td>
-          <td>${record.id.auhtorityGroup}</td>
-          <td><a href="/userAuthorizations/delete?id=${record.id.username},${record.id.auhtorityGroup}"> <c:out value="${DELETE}" /> </a></td>
+          <td>${userAuthorization.id.authorityGroup}</td>
+          <td><a href="/userAuthorization/delete?id=${userAuthorization.id.username},${userAuthorization.id.authorityGroup}"> ${DELETE} </a></td>
         </tr>
       </c:forEach>
     </table>
-    
+
   </div>
 </body>
 

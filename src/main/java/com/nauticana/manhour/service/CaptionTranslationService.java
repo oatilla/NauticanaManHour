@@ -1,9 +1,12 @@
 package com.nauticana.manhour.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nauticana.manhour.model.CaptionTranslation;
 import com.nauticana.manhour.model.CaptionTranslationId;
+import com.nauticana.manhour.repository.LanguageRepository;
+import com.nauticana.manhour.utils.Utils;
 
 @Service
 public class CaptionTranslationService extends AbstractService<CaptionTranslation,CaptionTranslationId> {
@@ -13,9 +16,14 @@ public class CaptionTranslationService extends AbstractService<CaptionTranslatio
 		return CaptionTranslation.fieldNames;
 	}
 
+	@Autowired
+	LanguageRepository parentRep;
+
 	@Override
-	public CaptionTranslation newEntity() {
-		return new CaptionTranslation();
+	public CaptionTranslation newEntity(String parentKey) {
+		CaptionTranslation entity = new CaptionTranslation();
+		if (!Utils.emptyStr(parentKey)) entity.setLanguage(parentRep.findOne(parentKey));
+		return entity;
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public class LanguageService  extends AbstractService<Language,String> {
 	}
 
 	@Override
-	public Language newEntity() {
+	public Language newEntity(String parentKey) {
 		return new Language();
 	}
 

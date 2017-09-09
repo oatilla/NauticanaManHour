@@ -18,6 +18,12 @@ public class DomainValueId implements java.io.Serializable {
 		this.refvalue = refvalue;
 	}
 
+	public DomainValueId(String keys) {
+		String[] s = keys.split(",");
+		this.domain = s[0];
+		this.refvalue = s[1];
+	}
+	
 	@Column(name = "DOMAIN", nullable = false, length = 30)
 	public String getDomain() {
 		return this.domain;

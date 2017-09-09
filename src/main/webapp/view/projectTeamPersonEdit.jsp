@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:out value="${PAGETITLE}" /></title>
+<title> ${PAGETITLE} </title>
+
 <script type="text/javascript" language="JavaScript">
 function callSelectionPersonnel() {
   item0 = document.f.PERSON_ID;
@@ -30,45 +31,45 @@ function callSelectionSubcontractor() {
   <div align="center">
 	<table>
 		<tr>
-			<th><c:out value="${PROJECT_ID}" /></th>
-			<td><c:out value="${projectId}" /> <c:out value="${caption}" /></td>
+			<th> ${PROJECT_ID} </th>
+			<td> ${projectId} ${projectCaption} </td>
 		</tr>
 		<tr>
-			<th><c:out value="${TEAM_ID}" /></th>
-			<td><c:out value="${teamId}" /> <c:out value="${teamCaption}" /></td>
+			<th> ${TEAM_ID} </th>
+			<td> ${teamId} ${teamCaption} </td>
 		</tr>
 		<tr>
-			<th><c:out value="${DATE}" /></th>
-			<td><c:out value="${begDate}" /> .. <c:out value="${endDate}" /></td>
+			<th> ${DATE} </th>
+			<td> ${begDate} .. ${endDate} </td>
 		</tr>
 	</table>
   
     <form:form name="f" method="post" modelAttribute="record">
     <table>
       <tr>
-        <th><c:out value="${WORKER_ID}" /></th>
-        <td><c:out value="${record.teamId}"/> <form:hidden path="teamId" /></td>
+        <th> ${WORKER_ID}</th>
+        <td> ${record.teamId} <form:hidden path="teamId" /></td>
       </tr>
       <tr>
-        <th><c:out value="${TEAM_LEAD}" /></th>
-        <td><form:checkbox path="teamLead" /></td>
+        <th> ${TEAM_LEAD} </th>
+        <td> ${record.teamLead} <form:hidden path="teamLead" /></td>
       </tr>
       <tr>
-        <th><c:out value="${PERSON_ID}" /></th>
+        <th> ${PERSON_ID} </th>
         <td><form:input path="personId" />
-        	<input type="button" onClick="if (callSelectionPersonnel();) then {document.f.SUBCONTRACTOR_ID.value=''; document.f.SUBCONTRACTOR_CAPTION.value='';}" value='<c:out value="${CHOOSE}" />'>
+        	<input type="button" onClick="if (callSelectionPersonnel();) then {document.f.SUBCONTRACTOR_ID.value=''; document.f.SUBCONTRACTOR_CAPTION.value='';}" value="${CHOOSE}">
         	<form:input path="personCaption" />
         </td>
       </tr>
       <tr>
-        <th><c:out value="${SUBCONTRACTOR_ID}" /></th>
-        <td><form:input path="subcontractorId" />
-        	<input type="button" onClick="if (callSelectionSubcontractor();) then {document.f.PERSON_ID.value=''; document.f.PERSON_CAPTION.value='';}" value='<c:out value="${CHOOSE}" />'>
-        	<form:input path="subcontractorCaption" />
+        <th> ${SUBCONTRACTOR_ID} </th>
+        <td><form:input path="subcontractor.id" />
+        	<input type="button" onClick="if (callSelectionSubcontractor();) then {document.f.PERSON_ID.value=''; document.f.PERSON_CAPTION.value='';}" value="${CHOOSE}">
+        	<form:input path="subcontractor.caption" />
         </td>
       </tr>
       <tr>
-        <td colspan="2" align="center"><input type="submit" value='<c:out value="${SAVE}" />'></td>
+        <td colspan="2" align="center"><input type="submit" value="${SAVE}"></td>
       </tr>
     </table>
     </form:form>

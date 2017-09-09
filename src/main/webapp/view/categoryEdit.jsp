@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:out value="${PAGETITLE}" /></title>
+<title> ${PAGETITLE} </title>
 </head>
 <body>
 
@@ -13,43 +13,43 @@
     <form:form method="post" modelAttribute="record">
     <table>
       <tr>
-        <th><c:out value="${CATEGORY_ID}" /></th>
-        <td><c:out value="${record.id}"/> <form:hidden path="id" /></td>
+        <th>${CATEGORY_ID}</th>
+        <td>${record.id} <form:hidden path="id" /></td>
       </tr>
       <tr>
-        <th><c:out value="${PARENT_ID}" /></th>
+        <th>${PARENT_ID}</th>
         <td><form:input path="parentId" /></td>
       </tr>
       <tr>
-        <th><c:out value="${CAT_INDEX}" /></th>
+        <th>${CAT_INDEX}</th>
         <td><form:input path="catIndex" /></td>
       </tr>
       <tr>
-        <th><c:out value="${CAPTION}" /></th>
+        <th>${CAPTION}</th>
         <td><form:input path="caption" /></td>
       </tr>
       <tr>
-        <th><c:out value="${DETAILS}" /></th>
+        <th>${DETAILS}</th>
         <td><form:input path="details" /></td>
       </tr>
       <tr>
-        <th><c:out value="${UNIT}" /></th>
+        <th>${UNIT}</th>
         <td><form:input path="unit" /></td>
       </tr>
       <tr>
-        <th><c:out value="${CAT_LEVEL}" /></th>
+        <th>${CAT_LEVEL}</th>
         <td><form:input path="catLevel" /></td>
       </tr>
       <tr>
-        <th><c:out value="${TREE_CODE}" /></th>
+        <th>${TREE_CODE}</th>
         <td><form:input path="treeCode" /></td>
       </tr>
       <tr>
-        <th><c:out value="${MAIN_FLAG}" /></th>
+        <th>${MAIN_FLAG}</th>
         <td><form:input path="mainFlag" /></td>
       </tr>
       <tr>
-        <td colspan="2" align="center"><input type="submit" value='<c:out value="${SAVE}" />'></td>
+        <td colspan="2" align="center"> <input type="submit" value="${SAVE}"> </td>
       </tr>
     </table>
     </form:form>

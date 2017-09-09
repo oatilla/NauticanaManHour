@@ -1,9 +1,12 @@
 package com.nauticana.manhour.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nauticana.manhour.model.ProjectWbs;
 import com.nauticana.manhour.model.ProjectWbsId;
+import com.nauticana.manhour.repository.ProjectRepository;
+import com.nauticana.manhour.utils.Utils;
 
 @Service
 public class ProjectWbsService extends AbstractService<ProjectWbs,ProjectWbsId> {
@@ -14,9 +17,14 @@ public class ProjectWbsService extends AbstractService<ProjectWbs,ProjectWbsId> 
 		return ProjectWbs.fieldNames;
 	}
 
+	@Autowired
+	ProjectRepository parentRep;
+
 	@Override
-	public ProjectWbs newEntity() {
-		return new ProjectWbs();
+	public ProjectWbs newEntity(String parentKey) {
+		ProjectWbs entity = new ProjectWbs();
+		if (!Utils.emptyStr(parentKey)) entity.setProject(parentRep.findOne(Integer.parseInt(parentKey)));
+		return entity;
 	}
 
 	@Override

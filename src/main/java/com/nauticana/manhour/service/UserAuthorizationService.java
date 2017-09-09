@@ -1,9 +1,12 @@
 package com.nauticana.manhour.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nauticana.manhour.model.UserAuthorization;
 import com.nauticana.manhour.model.UserAuthorizationId;
+import com.nauticana.manhour.repository.UserAccountRepository;
+import com.nauticana.manhour.utils.Utils;
 
 @Service
 public class UserAuthorizationService extends AbstractService<UserAuthorization,UserAuthorizationId> {
@@ -13,9 +16,14 @@ public class UserAuthorizationService extends AbstractService<UserAuthorization,
 		return UserAuthorization.fieldNames;
 	}
 
+	@Autowired
+	UserAccountRepository parentRep;
+
 	@Override
-	public UserAuthorization newEntity() {
-		return new UserAuthorization();
+	public UserAuthorization newEntity(String parentKey) {
+		UserAuthorization entity = new UserAuthorization();
+		if (!Utils.emptyStr(parentKey)) entity.getId().setUsername(parentKey);
+		return entity;
 	}
 
 	@Override

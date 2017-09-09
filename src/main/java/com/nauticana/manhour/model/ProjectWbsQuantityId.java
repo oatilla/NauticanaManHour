@@ -24,6 +24,15 @@ public class ProjectWbsQuantityId implements java.io.Serializable {
 		this.termId = termId;
 	}
 
+	public ProjectWbsQuantityId(String keys) {
+		String[] s = keys.split(",");
+		this.projectId = Integer.parseInt(s[0]);
+		this.categoryId = Integer.parseInt(s[1]);
+		this.year = Short.parseShort(s[2]);
+		this.termType = s[3].charAt(0);
+		this.termId = Short.parseShort(s[4]);
+	}
+	
 	@Column(name = "PROJECT_ID", nullable = false, precision = 8, scale = 0)
 	public int getProjectId() {
 		return this.projectId;

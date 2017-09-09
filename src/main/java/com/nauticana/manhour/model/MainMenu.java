@@ -20,6 +20,7 @@ public class MainMenu implements java.io.Serializable {
 
 	private String menu;
 	private String caption;
+	private String icon;
 	private short  displayOrder;
 
 	private Set<ScreenPage> screenPages = new HashSet<ScreenPage>(0);
@@ -27,15 +28,17 @@ public class MainMenu implements java.io.Serializable {
 	public MainMenu() {
 	}
 
-	public MainMenu(String menu, String caption, short displayOrder) {
+	public MainMenu(String menu, String caption, String icon, short displayOrder) {
 		this.menu = menu;
 		this.caption = caption;
+		this.icon = icon;
 		this.displayOrder = displayOrder;
 	}
 
-	public MainMenu(String menu, String caption, short displayOrder, Set<ScreenPage> screenPages) {
+	public MainMenu(String menu, String caption, String icon, short displayOrder, Set<ScreenPage> screenPages) {
 		this.menu = menu;
 		this.caption = caption;
+		this.icon = icon;
 		this.displayOrder = displayOrder;
 		this.screenPages = screenPages;
 	}
@@ -57,6 +60,15 @@ public class MainMenu implements java.io.Serializable {
 
 	public void setCaption(String caption) {
 		this.caption = caption;
+	}
+
+	@Column(name = "ICON", nullable = false, length = 100)
+	public String getIcon() {
+		return this.icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 	@Column(name = "DISPLAY_ORDER")

@@ -5,79 +5,54 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:out value="${PAGETITLE}" /></title>
-<script type="text/javascript" language="JavaScript">
-function callSelectionProjectTeam(id) {
-  item0 = document.f.WBS_IDS;
-  selectWindow = window.open("projectTeamSelect?id=" + id, "selectWindow", "toolbar=no,menubar=no,scrollbar=yes");
-  selectWindow.item0 = item0;
-}
-</script>
+<title> ${PAGETITLE} </title>
 </head>
+
 <body>
 
 <div align="center">
 	<table>
 		<tr>
-			<th><c:out value="${PROJECT_ID}" /></th>
-			<td><c:out value="${projectId}" /> <c:out value="${caption}" /></td>
+			<th> ${PROJECT_ID} </th>
+	        <td> ${record.id.projectId} ${record.project.caption} <form:input type="hidden" path="id.projectId"  /></td>
 		</tr>
 		<tr>
-			<th><c:out value="${CATEGORY_ID}" /></th>
-			<td><c:out value="${categoryId}" /> <c:out value="${treeCode}" /> <c:out value="${categoryCaption}" /></td>
+        	<th> ${CATEGORY_ID} </th>
+			<td> ${record.id.CategoryId} ${record.category.caption} <form:input type="hidden" path="id.categoryId" /></td>
 		</tr>
 		<tr>
-			<th><c:out value="${UNIT}" /></th>
-			<td><c:out value="${unit}" /></td>
+			<th> ${METRIC} </th>
+			<td> ${record.metric} ${record.unit}</td>
 		</tr>
 		<tr>
-			<th><c:out value="${METRIC}" /></th>
-			<td><c:out value="${metric}" /></td>
-		</tr>
-		<tr>
-			<th><c:out value="${WORKFORCE}" /></th>
-			<td><c:out value="${workforce}" /></td>
+			<th> ${WORKFORCE}</th>
+			<td> ${record.workforce} ${record.unit}</td>
 		</tr>
 	</table>
 </div>
 
 <div align="center">
-	<p> <c:out value="${PROJECT_TEAM}" /> </p>
-	<a href="new?PROJECT_ID=<c:out value="${projectId}" />&TEAM_ID=<c:out value="${teamId}" />"><c:out value="${NEW}" /></a>
+	<p> <c:out value="${PROJECT_WBS_QUANTITY}" /> </p>
+	<a href="new?parentKey=${record.id.projectId},${record.id.categoryId}"> ${NEW} </a>
 	<table>
 		<tr>
-			<th rowspan=2><c:out value="${ORDER}" /></th>
-			<th rowspan=2><c:out value="${TEAM_LEAD}" /></th>
-			<th colspan=2><c:out value="${PERSONNEL}" /></th>
-			<th colspan=2><c:out value="${SUBCONTRACTOR}" /></th>
+			<th> ${YEAR} </th>
+			<th> ${TERM_TYPE} </th>
+			<th> ${TERM_ID} </th>
+			<th> ${QUANTITY} </th>
+			<th> ${IS_SUBCONTRACTOR} </th>
+			<th> &nbsp; </th>
 		</tr>
+		<c:forEach var="quantity" items="${quantities}" varStatus="status">
 		<tr>
-			<th><c:out value="${PERSON_ID}" /></th>
-			<th><c:out value="${CAPTION}" /></th>
-			<th><c:out value="${SUBCONTRACTOR_ID}" /></th>
-			<th><c:out value="${CAPTION}" /></th>
-		</tr>
-		<c:forEach var="record" items="${records}" varStatus="status">
-		<tr>
-			<td>${status.index + 1}</td>
-			<td>${record.teamLead}</td>
-			<c:choose>
-				<c:when test="${empty record.personId}">
-					<td> &nbsp; </td>
-					<td> &nbsp; </td>
-					<td>${record.subcontractorId}</td>
-					<td>${record.caption}</td>
-				</c:when>
-				<c:otherwise>
-					<td>${record.personId}</td>
-					<td>${record.caption}</td>
-					<td> &nbsp; </td>
-					<td> &nbsp; </td>
-				</c:otherwise>
-			</c:choose>	
+			<td>${quantity.year}</td>
+			<td>${quantity.term_type}</td>
+			<td>${quantity.termId}</td>
+			<td>${quantity.quantity}</td>
+			<td>${quantity.isSubcontractor}</td>
 			<td>
-				<a href="edit?id=${record.id.projectId},${record.id.teamId},${record.id.workerId}"> <c:out value="${EDIT}" /> </a> &nbsp;
-				<a href="delete?id=${record.id.projectId},${record.id.teamId},${record.id.workerId}"> <c:out value="${DELETE}" /> </a> &nbsp;
+				<a href="edit?id=${quantity.id.projectId},${record.id.category},${record.id.year},${record.id.termType},${record.id.termId}"> ${EDIT} </a> &nbsp;
+				<a href="delete?id=${record.id.projectId},${record.id.category},${record.id.year},${record.id.termType},${record.id.termId}"> ${DELETE} </a> &nbsp;
 			</td>
 		</tr>
 		</c:forEach>             

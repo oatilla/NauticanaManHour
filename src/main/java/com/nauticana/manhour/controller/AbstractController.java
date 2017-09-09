@@ -81,7 +81,9 @@ public abstract class AbstractController<B, K extends Serializable> {
 			return new ModelAndView("redirect:/unauthorized");
 
 		// Create empty bean and assign to model and view object
-		B record = modelService.newEntity();
+		String parentKey = request.getParameter("parentKey");
+		System.out.println("Parent Key is : " + parentKey);
+		B record = modelService.newEntity(parentKey);
 		ModelAndView model = new ModelAndView(editView);
 		model.addObject("record", record);
 		
@@ -106,7 +108,11 @@ public abstract class AbstractController<B, K extends Serializable> {
 			return new ModelAndView("redirect:/unauthorized");
 		if (result.hasErrors()) return new ModelAndView("redirect:/bindingError");
 		modelService.save(record);
-		return new ModelAndView("redirect:list");
+		String nextpage = request.getParameter("nextpage");
+		if (Utils.emptyStr(nextpage))
+			return new ModelAndView("redirect:list");
+		else
+			return new ModelAndView("redirect:" + nextpage);
 	}
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -149,7 +155,11 @@ public abstract class AbstractController<B, K extends Serializable> {
 
 		// Update record in database
 		modelService.save(record);
-		return new ModelAndView("redirect:list");
+		String nextpage = request.getParameter("nextpage");
+		if (Utils.emptyStr(nextpage))
+			return new ModelAndView("redirect:list");
+		else
+			return new ModelAndView("redirect:" + nextpage);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
@@ -171,5 +181,4 @@ public abstract class AbstractController<B, K extends Serializable> {
 		}
 	}
 	
-    
 }

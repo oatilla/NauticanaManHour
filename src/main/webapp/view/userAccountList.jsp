@@ -5,29 +5,28 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:out value="${PAGETITLE}" /></title>
+<title> ${PAGETITLE} </title>
 </head>
 
 <body>
   <div align="center">
-    <h3><a href="new"><c:out value="${NEW}" /></a></h3>
+    <h3><a href="new"> ${NEW} </a></h3>
     
     <table>
       <tr>
-        <th><c:out value="${ORDER}" /></th>
-        <th><c:out value="${USERNAME}" /></th>
-        <th><c:out value="${CAPTION}" /></th>
-        <th><c:out value="${STATUS}" /></th>
+        <th>${USERNAME} </th>
+        <th>${CAPTION} </th>
+        <th>${STATUS} </th>
         <th> &nbsp; </th>
       </tr>
 
       <c:forEach var="record" items="${records}" varStatus="status">
         <tr>
-          <td data-title="${ORDER}">${status.index + 1}</td>
-          <td data-title="${USERNAME}">${record.id}</td>
-          <td data-title="${CAPTION}">${record.caption}</td>
-          <td data-title="${STATUS}">${record.status}</td>
-          <td><a href="edit?id=${record.id}"> <c:out value="${EDIT}" /> </a> &nbsp; <a href="delete?id=${record.id}"> <c:out value="${DELETE}" /> </a></td>
+          <td>${status.index + 1}</td>
+          <td><a href="show?id=${record.id}"> ${record.id} </a> </td>
+          <td>${record.caption}</td>
+          <td>${record.status}</td>
+          <td><a href="edit?id=${record.id}"> ${EDIT} </a> &nbsp; <a href="delete?id=${record.id}"> ${DELETE} </a></td>
         </tr>
       </c:forEach>             
     </table>
