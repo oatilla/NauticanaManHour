@@ -49,7 +49,7 @@
                 </tr>
             </thead>
 
-<tbody>
+	<tbody>
       <c:forEach var="record" items="${records}" varStatus="status">
       <tr>
         <td> <a href="show?id=${record.id}"> ${record.id} </a> </td>

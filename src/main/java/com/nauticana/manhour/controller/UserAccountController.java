@@ -89,13 +89,18 @@ public class UserAccountController extends AbstractController<UserAccount, Strin
 					if (!Utils.emptyStr(last))	menu = menu+"   </ul>" + System.lineSeparator() + "  </li>";
 					last = page.getMenuCaption();
 					menu=menu+"  <li class=\"treeview active\"> "
-							+ "<a href=\"#\"><i class=\"fa fa-link\"></i> <span>" + language.getText(last) + "</span>\r\n" + 
+							+ "<a   href=\"#\"><i class=\"fa fa-link\"></i> <span>" + language.getText(last) + "</span>\r\n" + 
 							"            <span class=\"pull-right-container\">\r\n" + 
 							"              <i class=\"fa fa-angle-left pull-right\"></i>\r\n" + 
 							"            </span>\r\n" + 
 							"          </a> " + System.lineSeparator() + "   <ul class=\"treeview-menu menu-open\" style=\"display: block;\">" + System.lineSeparator();
 				}
-				menu=menu+"    <li> <a href=\"" + page.getUrl() + "\" target=frmupage> <i class=\"fa fa-link\"></i>" + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
+				menu=menu+"    <li > <a href=\"" + page.getUrl() + "\" target=frmupage> <i class=\"fa fa-link\"></i>" + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
+//				menu=menu+"    <li > <a href=\"" + page.getUrl() + "\" > <i class=\"fa fa-link\"></i>" + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
+
+				//				menu=menu+"    <li > <a id=\"load_home\" href=\"#\" > <i class=\"fa fa-link\"></i>" + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
+			
+				
 			}
 			if (!Utils.emptyStr(last))	menu = menu+"   </ul>" + System.lineSeparator() + "  </li>";
 			menu = menu+" </ul>" + System.lineSeparator();
