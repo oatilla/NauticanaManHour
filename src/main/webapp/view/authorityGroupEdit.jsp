@@ -1,31 +1,28 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title> ${PAGETITLE} </title>
-</head>
-<body>
 
+<h1> ${PAGETITLE}</h1>
   <div align="center">
-    <form:form method="post" modelAttribute="record">
-    <table>
-      <tr>
-        <th>${AUTHORITY_GROUP}</th>
-        <td><form:input path="id" /></td>
-      </tr>
-      <tr>
-        <th>${CAPTION}</th>
-        <td><form:input path="caption" /></td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center"><input type="submit" value="${SAVE}"></td>
-      </tr>
-    </table>
+    
+    <form:form class="form-horizontal" method="post" modelAttribute="record" >
+     <div class="box-body">
+      <div class="form-group has-feedback">
+      	  <label class="col-sm-2 control-label" for="authGroup">${AUTHORITY_GROUP}</label>
+	      <div class="col-sm-10">  
+	        <form:input placeholder=""  id="authGroup" name="authGroup" class="form-control" path="id"/>
+	      </div>
+      </div>
+      <div class="form-group has-feedback">
+  		    <label  class="col-sm-2 control-label" for="caption">${CAPTION}</label>
+        	<div class="col-sm-10"> 
+       			 <form:input placeholder="" id="caption" name="authCaption" class="form-control" path="caption"/>
+       		</div>
+      </div>
+      </div>
+       <div class="box-footer">
+      
+	          <button type="submit" class="btn btn-primary btn-block btn-flat" value="${SAVE}">Save</button>
+	    </div>
     </form:form>
   </div>
-    
-</body>
-</html>

@@ -1,1 +1,22 @@
+Important links/
 https://stormpath.com/blog/build-spring-boot-spring-security-app
+
+Yapılacaklar 11/09/2017
+
+Alt yapı ve genel konular
+
+A-Ajax form submit: doAjaxPost--> doAjaxGet olacak doAjaxPost yazılacak
+A-Tüm ekranlara geri dönüş düğmesi konuşacak
+A-Birden çok çocuk olan sayfalarda Tabbed area gösterimi yapılacak
+A-Hata lar yakalanacak ortak hata sayfasına yönlendirilecek
+M-Anaveri için caption translation yapılacak
+MA-proje bazlı yetkilendirme yapılacak
+
+
+Süreçle ilgili konular
+MA-Proje onay hiyerarşisi
+M-team wbs template tablosu tanımlanacak
+M-Adamsaat girişekranı
+M-Metraj giriş ekranı
+-
+

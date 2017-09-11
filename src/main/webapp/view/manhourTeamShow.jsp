@@ -4,16 +4,6 @@
 
 ${DATATABLE1}
 
-<script type="text/javascript">
-function callSelectionProjectTeamPerson(projectId, teamId) {
-  item0 = document.worker.WORKER_ID;
-  item1 = document.worker.CAPTION;
-  selectWindow = window.open("projectTeamPerson/select?projectId=" + projectId + "&teamId=" + teamId, "selectWindow", "toolbar=no,menubar=no,scrollbar=yes");
-  selectWindow.item0 = item0;
-  selectWindow.item1 = item1;
-}
-</script>
-
 <h3> ${PAGETITLE} </h3>
 
 <div align="center">
@@ -31,14 +21,15 @@ function callSelectionProjectTeamPerson(projectId, teamId) {
 
 <div align="center">
 	<p> ${PROJECT_TEAM_PERSON} </p>
-	<a href="#" onclick="doAjaxPost('worker/selectPersonnel?parentKey=${record.id.projectId},${record.id.teamId}&nextpage=projectTeam/show?id=${record.id.projectId},${record.id.teamId}');"> ${NEW} ${PERSONNEL} </a> 
-	<a href="#" onclick="doAjaxPost('worker/selectWorker?parentKey=${record.id.projectId},${record.id.teamId}&nextpage=projectTeam/show?id=${record.id.projectId},${record.id.teamId}');"> ${NEW} ${SUBCONTRACTOR} </a>
 
     <table id="dataTable1" class="table table-bordered table-hover">
 		<thead>
 		<tr>
 			<th> ${TEAM_LEAD} </th>
-			<th> ${PERSONNEL} </th>
+			<th> ${PERSON} </th>
+			<c:forEach var="category" items="${categories}" varStatus="status">
+			<th>${category.treeCode} <br> ${category.caption}</th>
+			</c:forEach>
 			<th> ${SUBCONTRACTOR} </th>
 	 		<th> &nbsp; </th>
 		</tr>

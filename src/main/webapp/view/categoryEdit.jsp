@@ -1,16 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title> ${PAGETITLE} </title>
-</head>
-<body>
 
-  <div align="center">
-    <form:form method="post" modelAttribute="record">
+<h3> ${PAGETITLE} </h3>
+
+<div align="center">
+    <form:form name="f" method="post" modelAttribute="record">
     <table>
       <tr>
         <th>${CATEGORY_ID}</th>
@@ -49,11 +44,10 @@
         <td><form:input path="mainFlag" /></td>
       </tr>
       <tr>
-        <td colspan="2" align="center"> <input type="submit" value="${SAVE}"> </td>
+        <td colspan="2" align="center">
+        <button type="submit" class="btn btn-primary" onClick="document.f.submit();"> <i class="${SAVE_ICON}"> ${SAVE} </i> </button>
+        <button type="button" class="btn btn-warning" onClick="history.back();"> <i class="${CANCEL_ICON}"> ${CANCEL} </i> </button>
       </tr>
     </table>
     </form:form>
-  </div>
-    
-</body>
-</html>
+</div>

@@ -1,13 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title> ${PAGETITLE} </title>
-</head>
-<body>
+
+${DATATABLE1}
+
+<h3> ${PAGETITLE} </h3>
 
 <div align="center">
   
@@ -15,22 +12,22 @@
   	
   	<h3> ${WORKER} </h3>
   
-	<a href="/worker/new?parentKey=${record.id}"> ${NEW} </a>
-	<table>
+	<a href="#" onclick="doAjaxPost('worker/new?parentKey=${record.id}');"> ${NEW} </a>
+    <table id="dataTable1" class="table table-bordered table-hover">
+		<thead>
 		<tr>
 			<th> ${CAPTION} </th>
+			<th> &nbsp; </th>
 		</tr>
+		</thead>
 		<c:forEach var="worker" items="${record.workers}" varStatus="status">
 		<tr>
 			<td>${worker.caption}</td>
 			<td>
-				<a href="/worker/edit?id=${worker.id}"> ${EDIT} </a> &nbsp;
-				<a href="/worker/delete?id=${worker.id}"> ${DELETE} </a> &nbsp;
+				<a href="#" onclick="doAjaxPost('worker/edit?id=${worker.id}');"> ${EDIT} </a>
+				<a href="#" onclick="doAjaxPost('worker/delete?id=${worker.id}');"> ${DELETE} </a>
 			</td>
 		</tr>
 		</c:forEach>             
 	</table>
-</div>  
-
-</body>
-</html>
+</div>

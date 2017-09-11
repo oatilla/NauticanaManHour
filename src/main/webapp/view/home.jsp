@@ -63,7 +63,7 @@ desired effect
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>N</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>NAUTICANA</b></span>
+      <span class="logo-lg"><b>GAMA</b></span>
     </a>
 
     <!-- Header Navbar -->
@@ -103,11 +103,9 @@ desired effect
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" id="subView">
 
       <!-- Your Page Content Here -->
-<iframe name="frmupage" src="hello.html" frameborder="0" style="overflow: hidden; height: 100%; width: 100%; position: absolute;" height="100%" width="100%"></iframe>
-
 
     </section>
     <!-- /.content -->
@@ -226,5 +224,20 @@ desired effect
     	});
     </script>
 -->
+
+
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+    function doAjaxPost(x) {
+
+        $.ajax({
+            type: "GET",
+            url: x,
+            success: function(response) {
+                $("#subView").html( response );
+            }
+        });
+    }
+</script>
 </body>
 </html>

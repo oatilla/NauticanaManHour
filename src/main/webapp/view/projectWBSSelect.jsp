@@ -61,8 +61,8 @@ function findSelected(cname) {
 				<form name=f method=post>
 					<input type=hidden name=PROJECT_ID value="${projectId}">
 					<input type=hidden name=WBS_IDS value="">
-					<input type="button" onClick="findSelected('WBS');submit();" value='<c:out value="${OK}" />'>
-					<input type="button" onClick="history.back();" value='<c:out value="${CANCEL}" />'>
+					<input type="button" onClick="findSelected('WBS');submit();" value="${OK}">
+					<input type="button" onClick="history.back();" value="${CANCEL}">
 				</form>
 			</td>
 		</tr>

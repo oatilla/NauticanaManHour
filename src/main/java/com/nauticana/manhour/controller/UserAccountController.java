@@ -95,9 +95,9 @@ public class UserAccountController extends AbstractController<UserAccount, Strin
 							"            </span>\r\n" + 
 							"          </a> " + System.lineSeparator() + "   <ul class=\"treeview-menu menu-open\" style=\"display: block;\">" + System.lineSeparator();
 				}
-				menu=menu+"    <li > <a href=\"" + page.getUrl() + "\" target=frmupage> <i class=\"fa fa-link\"></i>" + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
+				menu=menu+"    <li > <a href=\"#\"  onclick=\"doAjaxPost('" + page.getUrl() + "');\"> <i class=\"fa fa-link\"></i>" + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
 //				menu=menu+"    <li > <a href=\"" + page.getUrl() + "\" > <i class=\"fa fa-link\"></i>" + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
-
+			
 				//				menu=menu+"    <li > <a id=\"load_home\" href=\"#\" > <i class=\"fa fa-link\"></i>" + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
 			
 				

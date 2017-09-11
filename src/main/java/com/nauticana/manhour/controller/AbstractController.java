@@ -18,6 +18,7 @@ import com.nauticana.manhour.exception.RecordNotFound;
 import com.nauticana.manhour.service.AbstractService;
 import com.nauticana.manhour.service.UtilService;
 import com.nauticana.manhour.utils.DataCache;
+import com.nauticana.manhour.utils.Icons;
 import com.nauticana.manhour.utils.Labels;
 import com.nauticana.manhour.utils.PortalLanguage;
 import com.nauticana.manhour.utils.Utils;
@@ -53,6 +54,8 @@ public abstract class AbstractController<B, K extends Serializable> {
 		// Read data and assign to model and view object
 		List<B> records = modelService.findAll();
 		ModelAndView model = new ModelAndView(listView);
+		model.addObject("PAGECOMMONS", Labels.pageCommons);
+		model.addObject("DATATABLE1", Labels.dataTableSetting1);
 		model.addObject("records", records);
 		
 		// Read language of session
@@ -61,8 +64,11 @@ public abstract class AbstractController<B, K extends Serializable> {
 		// Assign text objects from session language
 		model.addObject(Labels.PAGETITLE, language.getText(tableName));
 		model.addObject(Labels.NEW, language.getText(Labels.NEW));
+		model.addObject(Icons.NEW, Icons.getIcon(Icons.NEW));
 		model.addObject(Labels.EDIT, language.getText(Labels.EDIT));
+		model.addObject(Icons.EDIT, Icons.getIcon(Icons.EDIT));
 		model.addObject(Labels.DELETE, language.getText(Labels.DELETE));
+		model.addObject(Icons.DELETE, Icons.getIcon(Icons.DELETE));
 		for (int i = 0; i < modelService.getFieldNames().length; i++) {
 			model.addObject(modelService.getFieldNames()[i], language.getText(modelService.getFieldNames()[i]));
 		}
@@ -85,6 +91,7 @@ public abstract class AbstractController<B, K extends Serializable> {
 		System.out.println("Parent Key is : " + parentKey);
 		B record = modelService.newEntity(parentKey);
 		ModelAndView model = new ModelAndView(editView);
+		model.addObject("PAGECOMMONS", Labels.pageCommons);
 		model.addObject("record", record);
 		
 		// Read language of session
@@ -93,6 +100,9 @@ public abstract class AbstractController<B, K extends Serializable> {
 		// Assign text objects from session language
 		model.addObject(Labels.PAGETITLE, language.getText(tableName));
 		model.addObject(Labels.SAVE, language.getText(Labels.SAVE));
+		model.addObject(Icons.SAVE, Icons.getIcon(Icons.SAVE));
+		model.addObject(Labels.CANCEL, language.getText(Labels.CANCEL));
+		model.addObject(Icons.CANCEL, Icons.getIcon(Icons.CANCEL));
 		for (int i = 0; i < modelService.getFieldNames().length; i++) {
 			model.addObject(modelService.getFieldNames()[i], language.getText(modelService.getFieldNames()[i]));
 		}
@@ -128,6 +138,7 @@ public abstract class AbstractController<B, K extends Serializable> {
 		// Read data record and assign to model and view object
 		B record = modelService.findById(modelService.StrToId(request.getParameter("id")));
 		ModelAndView model = new ModelAndView(editView);
+		model.addObject("PAGECOMMONS", Labels.pageCommons);
 		model.addObject("record", record);
 
 		// Read language of session
@@ -136,6 +147,9 @@ public abstract class AbstractController<B, K extends Serializable> {
 		// Assign text objects from session language
 		model.addObject(Labels.PAGETITLE, language.getText(tableName));
 		model.addObject(Labels.SAVE, language.getText(Labels.SAVE));
+		model.addObject(Icons.SAVE, Icons.getIcon(Icons.SAVE));
+		model.addObject(Labels.CANCEL, language.getText(Labels.CANCEL));
+		model.addObject(Icons.CANCEL, Icons.getIcon(Icons.CANCEL));
 		for (int i = 0; i < modelService.getFieldNames().length; i++) {
 			model.addObject(modelService.getFieldNames()[i], language.getText(modelService.getFieldNames()[i]));
 		}
@@ -175,7 +189,11 @@ public abstract class AbstractController<B, K extends Serializable> {
 		// Delete record from database
 		try {
 			modelService.remove(modelService.StrToId(request.getParameter("id")));
-			return new ModelAndView("redirect:list");
+			String nextpage = request.getParameter("nextpage");
+			if (Utils.emptyStr(nextpage))
+				return new ModelAndView("redirect:list");
+			else
+				return new ModelAndView("redirect:" + nextpage);
 		} catch (RecordNotFound e) {
 			return new ModelAndView("redirect:/recordnotfound");
 		}

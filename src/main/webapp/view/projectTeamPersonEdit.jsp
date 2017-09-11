@@ -1,17 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title> ${PAGETITLE} </title>
 
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 function callSelectionPersonnel() {
   item0 = document.f.PERSON_ID;
   item1 = document.f.PERSON_CAPTION;
-  selectWindow = window.open("personnelSelect", "selectWindow", "toolbar=no,menubar=no,scrollbar=yes");
+  selectWindow = window.open("worker/personnelSelect", "selectWindow", "toolbar=no,menubar=no,scrollbar=yes");
   selectWindow.item0 = item0;
   selectWindow.item1 = item1;
 }
@@ -19,16 +14,15 @@ function callSelectionPersonnel() {
 function callSelectionSubcontractor() {
   item0 = document.f.SUBCONTRACTOR_ID;
   item1 = document.f.SUBCONTRACTOR_CAPTION;
-  selectWindow = window.open("subcontractorSelect", "selectWindow", "toolbar=no,menubar=no,scrollbar=yes");
+  selectWindow = window.open("worker/subcontractorSelect", "selectWindow", "toolbar=no,menubar=no,scrollbar=yes");
   selectWindow.item0 = item0;
   selectWindow.item1 = item1;
 }
 </script>
 
-</head>
-<body>
+<h3> ${PAGETITLE} </h3>
 
-  <div align="center">
+<div align="center">
 	<table>
 		<tr>
 			<th> ${PROJECT_ID} </th>
@@ -73,7 +67,4 @@ function callSelectionSubcontractor() {
       </tr>
     </table>
     </form:form>
-  </div>
-    
-</body>
-</html>
+</div>

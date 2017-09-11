@@ -1,36 +1,32 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title> ${PAGETITLE} </title>
-</head>
+${DATATABLE1}
 
-<body>
-  <div align="center">
-    <h3><a href="new"> ${NEW} </a></h3>
+<h3> ${PAGETITLE} </h3>
+
+<div align="center">
+    <h3><a href="#" onclick="doAjaxPost('userAccount/new');"> ${NEW} </a></h3>
     
-    <table>
+    <table id="dataTable1" class="table table-bordered table-hover">
+	  <thead>
       <tr>
         <th>${USERNAME} </th>
         <th>${CAPTION} </th>
         <th>${STATUS} </th>
         <th> &nbsp; </th>
       </tr>
+      </thead>
 
       <c:forEach var="record" items="${records}" varStatus="status">
         <tr>
-          <td>${status.index + 1}</td>
-          <td><a href="show?id=${record.id}"> ${record.id} </a> </td>
+          <td><a href="#" onclick="doAjaxPost('userAccount/show?id=${record.id}');"> ${record.id} </a> </td>
           <td>${record.caption}</td>
           <td>${record.status}</td>
-          <td><a href="edit?id=${record.id}"> ${EDIT} </a> &nbsp; <a href="delete?id=${record.id}"> ${DELETE} </a></td>
+          <td>
+          	<a href="#" onclick="doAjaxPost('userAccount/edit?id=${record.id}');"> ${EDIT} </a>
+          	<a href="#" onclick="doAjaxPost('userAccount/delete?id=${record.id}');"> ${DELETE} </a></td>
         </tr>
       </c:forEach>             
     </table>
-  </div>
-</body>
-
-</html>
+</div>
