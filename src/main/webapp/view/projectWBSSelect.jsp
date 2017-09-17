@@ -1,15 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:out value="${PAGETITLE}" /></title>
 
 <script type="text/javascript" src="../j/selectCB.js"></script>
 
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 function findSelected(cname) {
 	var checkBoxes = document.getElementsByName(cname);
 	var x = "";
@@ -21,23 +16,19 @@ function findSelected(cname) {
 }
 </script>
 
-</head>
-
-
-<body onLoad="self.focus();" onmouseout="self.focus();">
-
 <div align="center">
+	<h3> ${PAGETITLE} </h3>
 	<input type=button id=sa1 value="select all" onClick="selectAll('WBS')" />
 	<input type=button id=sa2 value="de-select all" onClick="deSelectAll('WBS')" />
 	<input type=button id=sa3 value="toggle select" onClick="toggleSelect('WBS')" />
 	
 	<table>
 		<tr>
-			<th><c:out value="${CATEGORY_ID}" /></th>
-			<th><c:out value="${PARENT_ID}" /></th>
-			<th><c:out value="${TREE_CODE}" /></th>
-			<th><c:out value="${CAPTION}" /></th>
-			<th><c:out value="${SELECT}" /></th>
+			<th> ${CATEGORY_ID} </th>
+			<th> ${PARENT_ID} </th>
+			<th> ${TREE_CODE} </th>
+			<th> ${CAPTION} </th>
+			<th> ${SELECT} </th>
 		</tr>
 		<c:forEach var="record" items="${records}" varStatus="status">
 		<tr>
@@ -68,6 +59,3 @@ function findSelected(cname) {
 		</tr>
 	</table>
 </div>
-
-</body>
-</html>

@@ -2,11 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 ${DATATABLE1}
-
-<h3> ${PAGETITLE} </h3>
-
 <div align="center">
-    <h3><a href="#" onclick="doAjaxPost('userAccount/new');"> ${NEW} </a></h3>
+	<h3> ${PAGETITLE} </h3>
+    <p><a class="btn btn-primary" href="#" onClick="doAjaxGet('userAccount/new');"> <i class="${NEW_ICON}"> ${NEW} </i> </a></p>
     
     <table id="dataTable1" class="table table-bordered table-hover">
 	  <thead>
@@ -20,12 +18,13 @@ ${DATATABLE1}
 
       <c:forEach var="record" items="${records}" varStatus="status">
         <tr>
-          <td><a href="#" onclick="doAjaxPost('userAccount/show?id=${record.id}');"> ${record.id} </a> </td>
+          <td><a href="#" onClick="doAjaxGet('userAccount/show?id=${record.id}');"> ${record.id} </a> </td>
           <td>${record.caption}</td>
           <td>${record.status}</td>
-          <td>
-          	<a href="#" onclick="doAjaxPost('userAccount/edit?id=${record.id}');"> ${EDIT} </a>
-          	<a href="#" onclick="doAjaxPost('userAccount/delete?id=${record.id}');"> ${DELETE} </a></td>
+			<td>
+				<a class="btn btn-primary" href="#" onClick="doAjaxGet('userAccount/edit?id=${record.id}');"> <i class="${EDIT_ICON}"> </i> ${EDIT} </a>
+				<a class="btn btn-danger" href="#" onClick="doAjaxGet('userAccount/delete?id=${record.id}');"> <i class="${DELETE_ICON}"> </i> ${DELETE} </a>
+			</td>
         </tr>
       </c:forEach>             
     </table>

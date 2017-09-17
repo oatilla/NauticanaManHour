@@ -2,14 +2,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<h3> ${PAGETITLE} </h3>
-
 <div align="center">
-    <form:form method="post" modelAttribute="record">
-    <input type=hidden name=nextpage value="language/show?id=${record.id.langcode}">
-	<table>
+	<h3> ${PAGETITLE} </h3>
+    <form:form name="f" method="post" modelAttribute="record" id="f">
+    <input type=hidden name=nextpage value="/language/show?id=${record.id.langcode}">
+	<table class="table table-condensed">
 		<tr>
-			<th> ${LANGUAGE} </th>
+			<th> ${LANGCODE} </th>
 			<td>${record.id.langcode} <form:input type="hidden" path="id.langcode"  /></td>
 		</tr>
 		<tr>
@@ -17,15 +16,18 @@
 			<td> <form:input path="id.caption" /></td>
 		</tr>
 		<tr>
-			<th> ${LABEL_UPPER} </th>
+			<th> ${LABELUPPER} </th>
 			<td><form:input path="labelupper" /></td>
 		</tr>
 		<tr>
-			<th> ${LABEL_LOWER} </th>
+			<th> ${LABELLOWER} </th>
 			<td><form:input path="labellower" /></td>
 		</tr>
 		<tr>
-			<td colspan="2" align="center"> <input type="submit" value="${SAVE}"></td>
+        <td colspan="2" align="center">
+			<a href="#" onclick="doAjaxPost('captionTranslation/edit'); " class="btn btn-primary pull-right btn-flat" >${SAVE}</a>
+				<button type="button" class="btn btn-warning" onClick="doAjaxGet('${prevpage}');"> <i class="${CANCEL_ICON}"></i> ${CANCEL} </button> 
+        </td>
 		</tr>
 	</table>
 	</form:form>

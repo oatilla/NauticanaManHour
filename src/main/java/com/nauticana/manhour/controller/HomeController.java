@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nauticana.manhour.utils.Icons;
 import com.nauticana.manhour.utils.Labels;
 import com.nauticana.manhour.utils.Utils;
 
@@ -21,6 +22,10 @@ public class HomeController {
 		String username = (String) session.getAttribute(Labels.USERNAME);
 		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
 		ModelAndView model = new ModelAndView("home");
+		model.addObject("userCaption", username);
+		model.addObject(Icons.MENU, Icons.getIcon(Icons.MENU));
+		model.addObject(Icons.LOGIN, Icons.getIcon(Icons.LOGIN));
+		model.addObject(Icons.LOGOFF, Icons.getIcon(Icons.LOGOFF));
 		model.addObject("menu", (String) session.getAttribute(Labels.MENU));
 		return model;
 	}

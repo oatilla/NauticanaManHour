@@ -21,4 +21,11 @@ public class SubcontractorService extends AbstractService<Subcontractor,Integer 
 	public Integer StrToId(String id) {
 		return Integer.parseInt(id);
 	}
+
+	@Override
+	public Subcontractor newEntityWithId(String strId) {
+		Subcontractor entity = new Subcontractor();
+		entity.setId(StrToId(strId));
+		return entity;
+	}
 }

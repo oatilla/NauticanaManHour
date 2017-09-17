@@ -4,98 +4,76 @@
 
 <html>
     <head>
-
+		<META name="robots" content="noindex,nofollow">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Home</title>
-		<link href="s/eds.css" rel="stylesheet" type="text/css">
-		<link href="s/accordion-menu.css" rel="stylesheet">
-		
-		<meta charset="utf-8">
-  
-		<script type="text/javascript" src="j/accordion-menu.js"></script>
-		<script type="text/javascript" src="j/nav.js"></script>
-		
-		
-		
-		  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+		<link rel="stylesheet" href="s/eds.css">
+		<link rel="stylesheet" href="s/accordion-menu.css">
+		<link rel="stylesheet" href="s/bootstrap.min.css">
+		<link rel="stylesheet" href="s/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="s/Ionicons/css/ionicons.min.css">
+		<link rel="stylesheet" href="s/dataTables.bootstrap.min.css">
 		
-		
-		
-		
+		<script type="text/javascript" src="j/accordion-menu.js"></script>
+ 		<script type="text/javascript" src="j/nav.js"></script>
+		<script src="j/jquery.min.js"></script>
+		<script src="j/bootstrap.min.js"></script>
+
+
     </head>
     <body>
-		<!-- header id="header">
+		<header id="header">
 			<div>
-				<img src="i/menu.png" class="button" id="showMenuBtn" onClick="showMenu();">
-				<img src="i/delete.png" class="button" id="shutMenuBtn" onClick="shutMenu();">
-				<img src="i/key.png" class="button" id="logonBtn" onClick="document.location='/user/Login';">
-				<img src="i/exit.png" class="button" id="logoffBtn" onClick="document.location='/user/Logoff;">
+				<button type="button" class="btn btn-primary" onClick="showMenu();"> <i class="${MENU_ICON}"></i> </button>
+				${userCaption}
+				<button type="button" class="btn btn-success" onClick="document.location='/userAccount/login';"> <i class="${LOGIN_ICON}"></i> </button>
+				<button type="button" class="btn btn-danger" onClick="document.location='/userAccount/logoff';"> <i class="${LOGOFF_ICON}"></i> </button>
 			</div>
 		</header>
-		
-		 -->
-		 
-		 
 		<div id="content">
-			<iframe name="frmupage" src="hello.html"></iframe>
+
 		</div>
-		<div >
-			<section class="sidebar">
+		<div id="accordion">
 		${menu}
-		    </section>
 		</div>
-		<!-- 
-        <h1>Work Break Down</h1>
-        <p><a href="user/list"> Users</a></p>
-        <p><a href="authorityGroup/list"> Authority Groups</a></p>
-        <p><a href="workBreakDown/list"> Work Break Down Structure </a></p>
-         -->
-        
-         
-<!-- jQuery 2.2.3 -->
-<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="../../bootstrap/js/bootstrap.min.js"></script>
-<!-- DataTables -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="../../plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
-<!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false
-    });
-  });
+
+<script type="text/javascript">
+function doAjaxPost(target) {
+
+	$("#f").submit(function(e) {
+
+	    $.ajax({
+	           type: "POST",
+	           url: target,
+	           data: $("#f").serialize(), // serializes the form's elements.
+	           success: function( response ) {
+	   	        $("#content").load( response );
+	   	        
+	   	     }
+  	     
+	         });
+
+	    e.preventDefault(); // avoid to execute the actual submit of the form.
+	});
+	}
+
+
+
+
+// 	  $.ajax({
+// 	     type: "POST",
+// 	     url: target,
+// 	     data: $("#f").serialize(),
+// 	     success: function( data ) {
+// 	        $("#content").html( data );
+// 	     }
+// 	  });
+// 	}
+
+
+
 </script>
+
     </body>
 </html>

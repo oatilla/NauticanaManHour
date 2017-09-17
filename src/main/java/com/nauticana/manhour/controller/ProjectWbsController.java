@@ -19,8 +19,8 @@ import com.nauticana.manhour.model.ProjectWbsManhour;
 import com.nauticana.manhour.model.ProjectWbsQuantity;
 import com.nauticana.manhour.query.ProjectCategory;
 import com.nauticana.manhour.service.CategoryService;
-import com.nauticana.manhour.service.UtilService;
 import com.nauticana.manhour.utils.DataCache;
+import com.nauticana.manhour.utils.Icons;
 import com.nauticana.manhour.utils.Labels;
 import com.nauticana.manhour.utils.PortalLanguage;
 import com.nauticana.manhour.utils.Utils;
@@ -31,9 +31,6 @@ public class ProjectWbsController extends AbstractController<ProjectWbs, Project
 
 //	@Autowired
 //	protected ProjectWbsService modelService;
-
-	@Autowired
-	private UtilService utilService;
 
 	@Autowired
 	private CategoryService categoryService;
@@ -65,6 +62,9 @@ public class ProjectWbsController extends AbstractController<ProjectWbs, Project
 		model.addObject(Labels.SELECT, language.getText(Labels.SELECT));
 		model.addObject(Labels.OK, language.getText(Labels.OK));
 		model.addObject(Labels.CANCEL, language.getText(Labels.CANCEL));
+		model.addObject(Icons.SELECT, Icons.getIcon(Icons.SELECT));
+		model.addObject(Icons.OK, Icons.getIcon(Icons.OK));
+		model.addObject(Icons.CANCEL, Icons.getIcon(Icons.CANCEL));
 		model.addObject(Category.tableName, language.getText(Category.tableName));
 		for (int i = 0; i < Category.fieldNames.length; i++) {
 			model.addObject(Category.fieldNames[i], language.getText(Category.fieldNames[i]));
@@ -99,7 +99,7 @@ public class ProjectWbsController extends AbstractController<ProjectWbs, Project
 					pw.setCategory(category);
 					pw.setId(id);
 					pw.setMetric(0);
-					pw.setWorkforce(0);
+					pw.setQuantity(0);
 					String u = category.getUnit();
 					if (Utils.emptyStr(u))
 						pw.setUnit("m");

@@ -1,5 +1,7 @@
 package com.nauticana.manhour.utils;
 
+import java.text.SimpleDateFormat;
+
 public class Labels {
 
 	// Common used label names
@@ -23,21 +25,27 @@ public class Labels {
 	public static final String NEXTPAGE  = "nextpage";
 	public static final String PERSONNEL = "PERSONNEL";
 	public static final String SUBCONTRACTOR = "SUBCONTRACTOR";
-	public static final String OVERTIME = "OVERTIME";
-	public static final String FOREIGN = "FOREIGN";
-	public static final String LOCALMH = "LOCALMH";
-	public static final String TRMH = "TRMH";
+	public static final String OVERTIME  = "OVERTIME";
+	public static final String FOREIGN   = "FOREIGN";
+	public static final String LOCALMH   = "LOCALMH";
+	public static final String TRMH      = "TRMH";
+	public static final String TOTAL     = "TOTAL";
 	
+	public static final String dmyDFStr = "dd-MM-yyyy";
+	public static final String ymdDFStr = "yyyy-MM-dd";
+	public static final SimpleDateFormat dmyDF = new SimpleDateFormat(dmyDFStr);
+	public static final SimpleDateFormat ymdDF = new SimpleDateFormat(ymdDFStr);
+
 	
-	public static final String pageCommons =
-		"<link rel=\"stylesheet\" href=\"../s/bootstrap.min.css\">" + System.lineSeparator() +
-		"<link rel=\"stylesheet\" href=\"../s/font-awesome/css/font-awesome.min.css\">" + System.lineSeparator() +
-		"<link rel=\"stylesheet\" href=\"../s/Ionicons/css/ionicons.min.css\">" + System.lineSeparator() +
-		"<link rel=\"stylesheet\" href=\"../s/dataTables.bootstrap.min.css\">" + System.lineSeparator() +
-		"<script src=\"../j/jquery.min.js\"></script>" + System.lineSeparator() +
-		"<script src=\"../j/jquery.dataTables.min.js\"></script>" + System.lineSeparator() +
-		"<script src=\"../j/bootstrap.min.js\"></script>" + System.lineSeparator() +
-		"<script src=\"../j/dataTables.bootstrap.min.js\"></script>";
+//	public static final String pageCommons =
+//		"<link rel=\"stylesheet\" href=\"../s/bootstrap.min.css\">" + System.lineSeparator() +
+//		"<link rel=\"stylesheet\" href=\"../s/font-awesome/css/font-awesome.min.css\">" + System.lineSeparator() +
+//		"<link rel=\"stylesheet\" href=\"../s/Ionicons/css/ionicons.min.css\">" + System.lineSeparator() +
+//		"<link rel=\"stylesheet\" href=\"../s/dataTables.bootstrap.min.css\">" + System.lineSeparator() +
+//		"<script src=\"../j/jquery.min.js\"></script>" + System.lineSeparator() +
+//		"<script src=\"../j/jquery.dataTables.min.js\"></script>" + System.lineSeparator() +
+//		"<script src=\"../j/bootstrap.min.js\"></script>" + System.lineSeparator() +
+//		"<script src=\"../j/dataTables.bootstrap.min.js\"></script>";
 	
 
 	public static final String dataTableSetting1 =

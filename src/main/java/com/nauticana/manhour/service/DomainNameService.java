@@ -21,4 +21,11 @@ public class DomainNameService extends AbstractService<DomainName,String> {
 	public String StrToId(String id) {
 		return id;
 	}
+
+	@Override
+	public DomainName newEntityWithId(String strId) {
+		DomainName entity = new DomainName();
+		entity.setId(StrToId(strId));
+		return entity;
+	}
 }

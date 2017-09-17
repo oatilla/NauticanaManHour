@@ -1,4 +1,4 @@
-﻿/* Accordion Menu by www.menucool.com/vertical/accordion-menu*/
+/* Accordion Menu by www.menucool.com/vertical/accordion-menu*/
 
 #accordion {
     visibility:hidden;
@@ -9,11 +9,15 @@
     padding:0;
     margin:0;
     list-style:none;
+/*    background:linear-gradient(to right,#28231f,#483f36,#312c26,#28231f); */
+/*    background:linear-gradient(to right,#1f2328,#363f48,#262c31,#1f2328); */
+  background: #1f2328;
 }
 
 /* sub UL */
 #accordion ul ul {
-    /*background:#f5f5f5;*/
+    /* background:#333; */
+background:#363f48;
     padding:0px 0;
 }
 
@@ -21,57 +25,52 @@
 
 /*top-level*/
 #accordion .top > a, #accordion .top > div { 
-    padding-left:10px;
-    padding-top:10px;padding-bottom:10px;
+    padding-left:16px;
+    padding-top:12px;padding-bottom:12px;
+    font-size:large;
 }
 
 /*2nd-level*/
 #accordion li li > a, #accordion li li > div {
-    padding-left:20px;
+    padding-left:30px;
     padding-top:8px;padding-bottom:8px;
 }
 
 /*3rd-level*/
-#accordion li li li > a, #accordion li li li > div {
-    padding-left:50px;
-}
+#accordion li li li > a, #accordion li li li > div { padding-left:50px; }
 
 
 /*---------- Other styles ------*/
 
 /* headings */
 #accordion li > div{
-    font-family:'Lucida Grande', Geneva, Candara, Tahoma, sans-serif;
+    font-family: 'Lucida Grande', Geneva, Candara, sans-serif;
+    letter-spacing:3px;
     font-weight:bold;
-    font-size:large;
-    color:black;
+    color:#999;
 }
 #accordion .active > div{
-    color:#333;
+    color:#ddd;
 }
 
 #accordion li {
     font-family:Arial, sans-serif;
     font-size:13px;
-    padding: 0;
+	padding: 0;
     margin:0;
     overflow:hidden;
-    cursor: pointer;
+	cursor: pointer;
 }
 
 /* Add borders to the top LIs */
 #accordion .top {
-    border:1px solid #000;
-}
-
-/* No double borders between LIs*/
-#accordion li.top + li.top {
-    border-top:0;
+	border-top: 1px solid #4d4d4d;
+    border-bottom: 1px solid #1a1a1a;
 }
 
 /* links */
 #accordion a {
-    color:black;
+    color:#999;
     font-weight:normal;
     font-size:13px;
     text-decoration:none;
@@ -79,13 +78,14 @@
     line-height:1;
     transition:all 0.3s;
 }
-#accordion a:hover, #accordion a.active {
-    background-color:#eee;/*#ffda3f;*/
+#accordion a:hover {
+    color:white;
 }
 
 
+
 /* carets */
-#accordion div.caret {
+#accordion .caret {
     color:inherit;
     display:inline-block; /*float:right;*/
     margin-bottom:0px;
@@ -94,13 +94,13 @@
     height: 0;
     overflow:hidden;/*for IE6*/
     border-style:solid;
-    border-width:6px; /*caret size is 6px now*/
+    border-width:6px;
     position:relative;
     border-bottom:6px solid transparent;
     border-right: none;
     border-left-color:initial;
     border-top-color: transparent;
-}
+}  
 
 #accordion div.caret.active {
     margin-bottom:3px;

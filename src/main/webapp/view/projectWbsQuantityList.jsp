@@ -3,10 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 ${DATATABLE1}
-
-<h3> ${PAGETITLE} </h3>
-
 <div align="center">
+	<h3> ${PAGETITLE} </h3>
 	<table>
 		<tr>
 			<th> ${PROJECT_ID} </th>
@@ -14,47 +12,44 @@ ${DATATABLE1}
 		</tr>
 		<tr>
         	<th> ${CATEGORY_ID} </th>
-			<td> ${record.id.CategoryId} ${record.category.caption} <form:input type="hidden" path="id.categoryId" /></td>
+			<td> ${record.id.categoryId} ${record.category.caption} <form:input type="hidden" path="id.categoryId" /></td>
 		</tr>
 		<tr>
 			<th> ${METRIC} </th>
 			<td> ${record.metric} ${record.unit}</td>
 		</tr>
 		<tr>
-			<th> ${WORKFORCE}</th>
-			<td> ${record.workforce} ${record.unit}</td>
+			<th> ${QUANTITY}</th>
+			<td> ${record.quantity} ${record.unit}</td>
 		</tr>
 	</table>
-</div>
 
-<div align="center">
-	<p> <c:out value="${PROJECT_WBS_QUANTITY}" /> </p>
-	<a href="#" onclick="doAjaxPost('projectWbsQuantity/new?parentKey=${record.id.projectId},${record.id.categoryId}');"> ${NEW} </a>
+	<h3> ${PROJECT_WBS_QUANTITY} </h3>
+	
+	<a class="btn btn-primary" href="#" onClick="doAjaxGet('projectWbsQuantity/new?parentKey=${record.id.projectId},${record.id.categoryId}');"> <i class="${NEW_ICON}"></i> ${NEW} </a>
 
     <table id="dataTable1" class="table table-bordered table-hover">
 		<thead>
 		<tr>
-			<th> ${YEAR} </th>
-			<th> ${TERM_TYPE} </th>
-			<th> ${TERM_ID} </th>
+			<th> ${BEGDA} </th>
+			<th> ${ENDDA} </th>
 			<th> ${QUANTITY} </th>
 			<th> ${IS_SUBCONTRACTOR} </th>
 			<th> &nbsp; </th>
 		</tr>
 		</thead>
 		
-		<c:forEach var="quantity" items="${quantities}" varStatus="status">
+		<c:forEach var="quantity" items="${record.projectWbsQuantities}" varStatus="status">
 		<tr>
-			<td>${quantity.year}</td>
-			<td>${quantity.term_type}</td>
-			<td>${quantity.termId}</td>
+			<td>${quantity.id.begda}</td>
+			<td>${quantity.endda}</td>
 			<td>${quantity.quantity}</td>
 			<td>${quantity.isSubcontractor}</td>
 			<td>
-				<a href="#" onclick="doAjaxPost('projectWbsQuantity/edit?id=${quantity.id.projectId},${record.id.category},${record.id.year},${record.id.termType},${record.id.termId}');"> ${EDIT} </a>
-				<a href="#" onclick="doAjaxPost('projectWbsQuantity/delete?id=${record.id.projectId},${record.id.category},${record.id.year},${record.id.termType},${record.id.termId}');"> ${DELETE} </a>
+				<a class="btn btn-primary" href="#" onClick="doAjaxGet('projectWbsQuantity/edit?id=${quantity.id.projectId},${record.id.category},${record.id.year},${record.id.termType},${record.id.termId}');"> <i class="${EDIT_ICON}"></i> ${EDIT} </a>
+				<a class="btn btn-danger" href="#" onClick="doAjaxGet('projectWbsQuantity/delete?id=${record.id.projectId},${record.id.category},${record.id.year},${record.id.termType},${record.id.termId}');"> <i class="${DELETE_ICON}"></i> ${DELETE} </a>
 			</td>
 		</tr>
-		</c:forEach>             
+		</c:forEach>
 	</table>
 </div>

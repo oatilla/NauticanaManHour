@@ -1,7 +1,12 @@
 package com.nauticana.manhour.model;
 
+import java.text.ParseException;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+
+import com.nauticana.manhour.utils.Labels;
 
 @Embeddable
 public class ProjectWbsQuantityId implements java.io.Serializable {
@@ -9,28 +14,26 @@ public class ProjectWbsQuantityId implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private int projectId;
 	private int categoryId;
-	private short year;
-	private char termType;
-	private short termId;
+	private Date begda;
 
 	public ProjectWbsQuantityId() {
 	}
 
-	public ProjectWbsQuantityId(int projectId, int categoryId, short year, char termType, short termId) {
+	public ProjectWbsQuantityId(int projectId, int categoryId, Date begda) {
 		this.projectId = projectId;
 		this.categoryId = categoryId;
-		this.year = year;
-		this.termType = termType;
-		this.termId = termId;
+		this.begda = begda;
 	}
 
 	public ProjectWbsQuantityId(String keys) {
 		String[] s = keys.split(",");
 		this.projectId = Integer.parseInt(s[0]);
 		this.categoryId = Integer.parseInt(s[1]);
-		this.year = Short.parseShort(s[2]);
-		this.termType = s[3].charAt(0);
-		this.termId = Short.parseShort(s[4]);
+		try {
+			this.begda = Labels.dmyDF.parse(s[2]);
+		} catch (ParseException e) {
+			this.begda = new Date(System.currentTimeMillis());
+		}
 	}
 	
 	@Column(name = "PROJECT_ID", nullable = false, precision = 8, scale = 0)
@@ -51,33 +54,14 @@ public class ProjectWbsQuantityId implements java.io.Serializable {
 		this.categoryId = categoryId;
 	}
 
-	@Column(name = "YEAR", nullable = false, precision = 4, scale = 0)
-	public short getYear() {
-		return this.year;
+	@Column(name = "BEGDA", nullable = false)
+	public Date getBegda() {
+		return this.begda;
 	}
 
-	public void setYear(short year) {
-		this.year = year;
+	public void setBegda(Date begda) {
+		this.begda = begda;
 	}
-
-	@Column(name = "TERM_TYPE", nullable = false, length = 1)
-	public char getTermType() {
-		return this.termType;
-	}
-
-	public void setTermType(char termType) {
-		this.termType = termType;
-	}
-
-	@Column(name = "TERM_ID", nullable = false, precision = 3, scale = 0)
-	public short getTermId() {
-		return this.termId;
-	}
-
-	public void setTermId(short termId) {
-		this.termId = termId;
-	}
-
 	@Override
 	public boolean equals(Object other) {
 		if ((this == other)) return true;
@@ -86,8 +70,7 @@ public class ProjectWbsQuantityId implements java.io.Serializable {
 		ProjectWbsQuantityId castOther = (ProjectWbsQuantityId) other;
 
 		return (this.getProjectId() == castOther.getProjectId()) && (this.getCategoryId() == castOther.getCategoryId())
-				&& (this.getYear() == castOther.getYear()) && (this.getTermType() == castOther.getTermType())
-				&& (this.getTermId() == castOther.getTermId());
+				&& (this.getBegda() == castOther.getBegda());
 	}
 
 	@Override
@@ -96,9 +79,7 @@ public class ProjectWbsQuantityId implements java.io.Serializable {
 
 		result = 37 * result + this.getProjectId();
 		result = 37 * result + this.getCategoryId();
-		result = 37 * result + this.getYear();
-		result = 37 * result + this.getTermType();
-		result = 37 * result + this.getTermId();
+		result = 37 * result + this.getBegda().hashCode();
 		return result;
 	}
 

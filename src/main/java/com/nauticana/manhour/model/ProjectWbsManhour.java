@@ -21,11 +21,11 @@ public class ProjectWbsManhour implements java.io.Serializable {
 	private ProjectWbsManhourId id;
 	private ProjectTeamPerson projectTeamPerson;
 	private ProjectWbs projectWbs;
-	private byte manhour;
-	private byte overtime;
-	private byte localMh;
-	private byte foreignMh;
-	private byte trMh;
+	private short manhour;
+	private short overtime;
+	private short localMh;
+	private short foreignMh;
+	private short trMh;
 
 	public ProjectWbsManhour() {
 	}
@@ -38,7 +38,7 @@ public class ProjectWbsManhour implements java.io.Serializable {
 	}
 
 	public ProjectWbsManhour(ProjectWbsManhourId id, ProjectTeamPerson projectTeamPerson, ProjectWbs projectWbs,
-			byte manhour, byte overtime, byte localMh, byte foreignMh, byte trMh) {
+			short manhour, short overtime, short localMh, short foreignMh, short trMh) {
 		this.id = id;
 		this.projectTeamPerson = projectTeamPerson;
 		this.projectWbs = projectWbs;
@@ -90,48 +90,48 @@ public class ProjectWbsManhour implements java.io.Serializable {
 		this.projectWbs = projectWbs;
 	}
 
-	@Column(name = "MANHOUR", nullable = false, precision = 2, scale = 0)
-	public byte getManhour() {
+	@Column(name = "MANHOUR", nullable = false, precision = 4, scale = 0)
+	public short getManhour() {
 		return this.manhour;
 	}
 
-	public void setManhour(byte manhour) {
+	public void setManhour(short manhour) {
 		this.manhour = manhour;
 	}
 
-	@Column(name = "OVERTIME", precision = 2, scale = 0)
-	public byte getOvertime() {
+	@Column(name = "OVERTIME", precision = 4, scale = 0)
+	public short getOvertime() {
 		return this.overtime;
 	}
 
-	public void setOvertime(byte overtime) {
+	public void setOvertime(short overtime) {
 		this.overtime = overtime;
 	}
 
-	@Column(name = "LOCAL_MH", precision = 2, scale = 0)
-	public byte getLocalMh() {
+	@Column(name = "LOCAL_MH", precision = 4, scale = 0)
+	public short getLocalMh() {
 		return this.localMh;
 	}
 
-	public void setLocalMh(byte localMh) {
+	public void setLocalMh(short localMh) {
 		this.localMh = localMh;
 	}
 
-	@Column(name = "FOREIGN_MH", precision = 2, scale = 0)
-	public byte getForeignMh() {
-		return this.foreignMh;
+	@Column(name = "FOREIGN_MH", precision = 4, scale = 0)
+	public short getForeignMh() {
+		return foreignMh;
 	}
 
-	public void setForeignMh(byte foreignMh) {
+	public void setForeignMh(short foreignMh) {
 		this.foreignMh = foreignMh;
 	}
 
-	@Column(name = "TR_MH", precision = 2, scale = 0)
-	public byte getTrMh() {
+	@Column(name = "TR_MH", precision = 4, scale = 0)
+	public short getTrMh() {
 		return this.trMh;
 	}
 
-	public void setTrMh(byte trMh) {
+	public void setTrMh(short trMh) {
 		this.trMh = trMh;
 	}
 

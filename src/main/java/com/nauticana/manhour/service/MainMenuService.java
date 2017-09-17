@@ -22,4 +22,11 @@ public class MainMenuService extends AbstractService<MainMenu, String> {
 		return id;
 	}
 
+	@Override
+	public MainMenu newEntityWithId(String strId) {
+		MainMenu entity = new MainMenu();
+		entity.setId(StrToId(strId));
+		return entity;
+	}
+
 }

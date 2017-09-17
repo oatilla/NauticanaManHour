@@ -1,9 +1,12 @@
 package com.nauticana.manhour.model;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+
+import com.nauticana.manhour.utils.Labels;
 
 @Embeddable
 public class ProjectWbsManhourId implements java.io.Serializable {
@@ -32,7 +35,11 @@ public class ProjectWbsManhourId implements java.io.Serializable {
 		this.categoryId = Integer.parseInt(s[1]);
 		this.teamId = Integer.parseInt(s[2]);
 		this.workerId = Integer.parseInt(s[3]);
-		this.activityDate = new Date(s[4]);
+		try {
+			this.activityDate = Labels.ymdDF.parse(s[4]);
+		} catch (ParseException e) {
+			this.activityDate = new Date(System.currentTimeMillis());
+		}
 	}
 
 	
@@ -105,6 +112,10 @@ public class ProjectWbsManhourId implements java.io.Serializable {
 		result = 37 * result + this.getWorkerId();
 		result = 37 * result + (getActivityDate() == null ? 0 : this.getActivityDate().hashCode());
 		return result;
+	}
+	
+	public String toString() {
+		return projectId + "," + categoryId + "," + teamId + "," + workerId + "," + activityDate;
 	}
 
 }

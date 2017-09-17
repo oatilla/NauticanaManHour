@@ -3,6 +3,7 @@ package com.nauticana.manhour.controller;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,14 +32,33 @@ public abstract class AbstractController<B, K extends Serializable> {
 	
 	@Autowired
 	protected AbstractService<B, K> modelService;
-	
+
 	@Autowired
 	protected UtilService utilService;
 
+	public static String[] domainNames = null;
+	public static String[] listNames = null;
+	
 	public AbstractController(String tableName, String listView, String editView) {
 		this.tableName = tableName;
 		this.listView = listView;
 		this.editView = editView;
+	}
+	
+	public void initDomainList() {
+		if (domainNames == null) {
+			System.out.println("Initializing domain names for " + tableName);
+			List<String> dl = utilService.tableDomains(tableName);
+			domainNames = new String[dl.size()];
+			listNames = new String[dl.size()];
+			int i = 0;
+			for (String domain : dl) {
+				System.out.println("    Found domain " + domain);
+				domainNames[i] = domain;
+				listNames[i] = domain + "_LIST";
+				i++;
+			}
+		}
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -54,7 +74,6 @@ public abstract class AbstractController<B, K extends Serializable> {
 		// Read data and assign to model and view object
 		List<B> records = modelService.findAll();
 		ModelAndView model = new ModelAndView(listView);
-		model.addObject("PAGECOMMONS", Labels.pageCommons);
 		model.addObject("DATATABLE1", Labels.dataTableSetting1);
 		model.addObject("records", records);
 		
@@ -88,10 +107,14 @@ public abstract class AbstractController<B, K extends Serializable> {
 
 		// Create empty bean and assign to model and view object
 		String parentKey = request.getParameter("parentKey");
-		System.out.println("Parent Key is : " + parentKey);
-		B record = modelService.newEntity(parentKey);
+		String id = request.getParameter("id");
+		//System.out.println("Parent Key is : " + parentKey);
+		B record;
+		if (!Utils.emptyStr(id))
+			record = modelService.newEntityWithId(id);
+		else
+			record = modelService.newEntity(parentKey);
 		ModelAndView model = new ModelAndView(editView);
-		model.addObject("PAGECOMMONS", Labels.pageCommons);
 		model.addObject("record", record);
 		
 		// Read language of session
@@ -105,6 +128,10 @@ public abstract class AbstractController<B, K extends Serializable> {
 		model.addObject(Icons.CANCEL, Icons.getIcon(Icons.CANCEL));
 		for (int i = 0; i < modelService.getFieldNames().length; i++) {
 			model.addObject(modelService.getFieldNames()[i], language.getText(modelService.getFieldNames()[i]));
+		}
+		initDomainList();
+		for (int i = 0; i < domainNames.length; i++) {
+			model.addObject(listNames[i], getDomainValues(domainNames[i]));
 		}
 		return model;
 	}
@@ -138,7 +165,6 @@ public abstract class AbstractController<B, K extends Serializable> {
 		// Read data record and assign to model and view object
 		B record = modelService.findById(modelService.StrToId(request.getParameter("id")));
 		ModelAndView model = new ModelAndView(editView);
-		model.addObject("PAGECOMMONS", Labels.pageCommons);
 		model.addObject("record", record);
 
 		// Read language of session
@@ -152,6 +178,10 @@ public abstract class AbstractController<B, K extends Serializable> {
 		model.addObject(Icons.CANCEL, Icons.getIcon(Icons.CANCEL));
 		for (int i = 0; i < modelService.getFieldNames().length; i++) {
 			model.addObject(modelService.getFieldNames()[i], language.getText(modelService.getFieldNames()[i]));
+		}
+		initDomainList();
+		for (int i = 0; i < domainNames.length; i++) {
+			model.addObject(listNames[i], getDomainValues(domainNames[i]));
 		}
 		return model;
 	}
@@ -199,4 +229,8 @@ public abstract class AbstractController<B, K extends Serializable> {
 		}
 	}
 	
+	@ModelAttribute("domainLookup")
+	public Map<String, String> getDomainValues(String domainName) {
+		return DataCache.getDomainOptions(domainName);
+	}
 }

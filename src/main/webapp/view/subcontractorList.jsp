@@ -2,11 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 ${DATATABLE1}
-
-<h3> ${PAGETITLE} </h3>
-
 <div align="center">
-    <h3><a href="#" onclick="doAjaxPost('subcontractor/new');"> ${NEW} </a></h3>
+	<h3> ${PAGETITLE} </h3>
+    <p><a class="btn btn-primary" href="#" onClick="doAjaxGet('subcontractor/new');"> <i class="${NEW_ICON}"> ${NEW} </i> </a></p>
     
     <table id="dataTable1" class="table table-bordered table-hover">
 	  <thead>
@@ -20,11 +18,11 @@ ${DATATABLE1}
       <c:forEach var="record" items="${records}" varStatus="status">
         <tr>
           <td> ${record.id} </td>
-          <td> <a href="#" onclick="doAjaxPost('subcontractor/show?id=${record.id}');"> ${record.caption} </a> </td>
-          <td>
-          	<a href="#" onclick="doAjaxPost('subcontractor/edit?id=${record.id}');"> ${EDIT} </a>
-          	<a href="#" onclick="doAjaxPost('delete?id=${record.id}');"> ${DELETE} </a>
-          </td>
+          <td> <a href="#" onClick="doAjaxGet('subcontractor/show?id=${record.id}');"> ${record.caption} </a> </td>
+			<td>
+				<a class="btn btn-primary" href="#" onClick="doAjaxGet('subcontractor/edit?id=${record.id}');"> <i class="${EDIT_ICON}"> </i> ${EDIT} </a>
+				<a class="btn btn-danger" href="#" onClick="doAjaxGet('subcontractor/delete?id=${record.id}');"> <i class="${DELETE_ICON}"> </i> ${DELETE} </a>
+			</td>
         </tr>
       </c:forEach>             
     </table>

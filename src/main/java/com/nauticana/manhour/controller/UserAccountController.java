@@ -33,9 +33,6 @@ import com.nauticana.manhour.utils.Utils;
 @RequestMapping("/userAccount")
 public class UserAccountController extends AbstractController<UserAccount, String> {
 
-//	@Autowired
-//	protected UserAccountService modelService;
-
 	@Autowired
 	private LanguageService languageService;
 	
@@ -81,26 +78,32 @@ public class UserAccountController extends AbstractController<UserAccount, Strin
 			// Prepare left menu
 			List<UserMenu> pages = utilService.userMenu(uname);
 			System.out.println("Generating HTML for left menu");
+//			String menu = " <ul>" + System.lineSeparator();
 			String menu = " <ul class=\"sidebar-menu\">" + System.lineSeparator();
 			String last = "";
-			
+// Menu HTML kodu tablosundan alınan verilerle oluşturuluyor.			
 			for (UserMenu page : pages) {
+//				if (!page.getMenuCaption().equals(last)) {
+//					if (!Utils.emptyStr(last))	menu = menu+"   </ul>" + System.lineSeparator() + "  </li>";
+//					last = page.getMenuCaption();
+//					menu=menu+"  <li><div> <i class=\"fa " + page.getMenuIcon() + "\"></i> " + language.getText(last) + " </div>" + System.lineSeparator() + "   <ul>" + System.lineSeparator();
+//				}
+//				menu=menu+"    <li> <a href=\"#\" onClick=\"doAjaxGet('" + page.getUrl() + "');\"> <i class=\"fa " + page.getPageIcon() + "\"></i> " + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
+
+				// Atillanin adminlte icin hazirladigi menu
+				
 				if (!page.getMenuCaption().equals(last)) {
 					if (!Utils.emptyStr(last))	menu = menu+"   </ul>" + System.lineSeparator() + "  </li>";
 					last = page.getMenuCaption();
 					menu=menu+"  <li class=\"treeview active\"> "
-							+ "<a   href=\"#\"><i class=\"fa fa-link\"></i> <span>" + language.getText(last) + "</span>\r\n" + 
+							+ "<a href=\"#\"><i class=\"fa " + page.getMenuIcon() + "\"></i> <span>" + language.getText(last) + "</span>\r\n" + 
 							"            <span class=\"pull-right-container\">\r\n" + 
-							"              <i class=\"fa fa-angle-left pull-right\"></i>\r\n" + 
+			//				"              <i class=\"fa fa-angle-left pull-right\"></i>\r\n" + 
 							"            </span>\r\n" + 
 							"          </a> " + System.lineSeparator() + "   <ul class=\"treeview-menu menu-open\" style=\"display: block;\">" + System.lineSeparator();
 				}
-				menu=menu+"    <li > <a href=\"#\"  onclick=\"doAjaxPost('" + page.getUrl() + "');\"> <i class=\"fa fa-link\"></i>" + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
-//				menu=menu+"    <li > <a href=\"" + page.getUrl() + "\" > <i class=\"fa fa-link\"></i>" + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
-			
-				//				menu=menu+"    <li > <a id=\"load_home\" href=\"#\" > <i class=\"fa fa-link\"></i>" + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
-			
-				
+				menu=menu+"    <li> <a href=\"#\" onClick=\"doAjaxGet('" + page.getUrl() + "');\"> <i class=\"fa " + page.getPageIcon() + "\"></i> " + language.getText(page.getPageCaption()) + " </a> </li>" + System.lineSeparator();
+		
 			}
 			if (!Utils.emptyStr(last))	menu = menu+"   </ul>" + System.lineSeparator() + "  </li>";
 			menu = menu+" </ul>" + System.lineSeparator();
@@ -149,51 +152,6 @@ public class UserAccountController extends AbstractController<UserAccount, Strin
 		return languageList;
 	}
 	
-	@Override
-	@RequestMapping(value = "/new", method = RequestMethod.GET)
-	public ModelAndView newGet(HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
-		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/login");
-		PortalLanguage language = DataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
-		if (!DataCache.insertAllowed(tableName, username))
-			return new ModelAndView("redirect:/unauthorized");
-		UserAccount record = new UserAccount();
-		ModelAndView model = new ModelAndView(editView);
-		model.addObject("record", record);
-		model.addObject("statusList", getStatusList());
-		model.addObject(Labels.PAGETITLE, language.getText(tableName));
-		model.addObject(Labels.SAVE, language.getText(Labels.SAVE));
-		for (int i = 0; i < UserAccount.fieldNames.length; i++) {
-			model.addObject(UserAccount.fieldNames[i], language.getText(UserAccount.fieldNames[i]));
-		}
-		return model;
-	}
-
-	@Override
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView editGet(HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
-		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/login");
-		PortalLanguage language = DataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
-		if (!DataCache.updateAllowed(tableName, username))
-			return new ModelAndView("redirect:/unauthorized");
-		String id = request.getParameter("id");
-		UserAccount record = modelService.findById(id);
-		ModelAndView model = new ModelAndView(editView);
-		model.addObject("record", record);
-		model.addObject("statusList", getStatusList());
-		model.addObject("edit", true);
-		model.addObject(Labels.PAGETITLE, language.getText(tableName));
-		model.addObject(Labels.SAVE, language.getText(Labels.SAVE));
-		for (int i = 0; i < UserAccount.fieldNames.length; i++) {
-			model.addObject(UserAccount.fieldNames[i], language.getText(UserAccount.fieldNames[i]));
-		}
-		return model;
-	}
-
-
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
 	public ModelAndView showGet(HttpServletRequest request) throws IOException {
 		
@@ -228,10 +186,5 @@ public class UserAccountController extends AbstractController<UserAccount, Strin
 			model.addObject(UserAuthorization.fieldNames[i], language.getText(UserAuthorization.fieldNames[i]));
 		}
 		return model;
-	}
-	
-	@ModelAttribute("status")
-	public Map<String, String> getStatusList() {
-		return DataCache.getDomainOptions("USER_STATUS");
 	}
 }

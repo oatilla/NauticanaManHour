@@ -22,7 +22,12 @@ public class DomainValueService extends AbstractService<DomainValue, DomainValue
 	@Override
 	public DomainValue newEntity(String parentKey) {
 		DomainValue entity = new DomainValue();
-		if (!Utils.emptyStr(parentKey)) entity.setDomainName(parentRep.findOne(parentKey));
+		if (!Utils.emptyStr(parentKey)) {
+			DomainValueId id = new DomainValueId();
+			id.setDomain(parentKey);
+			entity.setDomainName(parentRep.findOne(parentKey));
+			entity.setId(id);
+		}
 		return entity;
 	}
 
@@ -30,6 +35,13 @@ public class DomainValueService extends AbstractService<DomainValue, DomainValue
 	public DomainValueId StrToId(String id) {
 		String[] s = id.split(",");
 		return new DomainValueId(s[0], s[1]);
+	}
+
+	@Override
+	public DomainValue newEntityWithId(String strId) {
+		DomainValue entity = new DomainValue();
+		entity.setId(StrToId(strId));
+		return entity;
 	}
 
 }

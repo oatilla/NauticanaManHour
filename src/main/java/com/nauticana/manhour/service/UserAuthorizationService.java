@@ -22,7 +22,12 @@ public class UserAuthorizationService extends AbstractService<UserAuthorization,
 	@Override
 	public UserAuthorization newEntity(String parentKey) {
 		UserAuthorization entity = new UserAuthorization();
-		if (!Utils.emptyStr(parentKey)) entity.getId().setUsername(parentKey);
+		if (!Utils.emptyStr(parentKey)) {
+			UserAuthorizationId id = new UserAuthorizationId();
+			id.setUsername(parentKey);
+			entity.setId(id);
+			entity.setUserAccount(parentRep.findOne(parentKey));
+		}
 		return entity;
 	}
 
@@ -30,6 +35,13 @@ public class UserAuthorizationService extends AbstractService<UserAuthorization,
 	public UserAuthorizationId StrToId(String id) {
 		String[] s = id.split(",");
 		return new UserAuthorizationId(s[0],s[1]);
+	}
+
+	@Override
+	public UserAuthorization newEntityWithId(String strId) {
+		UserAuthorization entity = new UserAuthorization();
+		entity.setId(StrToId(strId));
+		return entity;
 	}
 
 }

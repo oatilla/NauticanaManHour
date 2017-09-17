@@ -1,5 +1,7 @@
 package com.nauticana.manhour.model;
 
+import java.util.Date;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -17,8 +19,9 @@ public class ProjectWbsQuantity implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "PROJECT_WBS_QUANTITY";
-	public static final String[] fieldNames = new String[] { "PROJECT_ID", "CATEGORY_ID", "YEAR", "TERM_TYPE", "TERM_ID", "QUANTITY", "IS_SUBCONTRACTOR" };
+	public static final String[] fieldNames = new String[] { "PROJECT_ID", "CATEGORY_ID", "BEGDA", "ENDDA", "QUANTITY", "IS_SUBCONTRACTOR" };
 	private ProjectWbsQuantityId id;
+	private Date endda;
 	private ProjectWbs projectWbs;
 	private float quantity;
 	private char isSubcontractor;
@@ -37,9 +40,7 @@ public class ProjectWbsQuantity implements java.io.Serializable {
 	@AttributeOverrides({
 			@AttributeOverride(name = "projectId", column = @Column(name = "PROJECT_ID", nullable = false, precision = 8, scale = 0)),
 			@AttributeOverride(name = "categoryId", column = @Column(name = "CATEGORY_ID", nullable = false, precision = 8, scale = 0)),
-			@AttributeOverride(name = "year", column = @Column(name = "YEAR", nullable = false, precision = 4, scale = 0)),
-			@AttributeOverride(name = "termType", column = @Column(name = "TERM_TYPE", nullable = false, length = 1)),
-			@AttributeOverride(name = "termId", column = @Column(name = "TERM_ID", nullable = false, precision = 3, scale = 0)) })
+			@AttributeOverride(name = "begda", column = @Column(name = "BEGDA", nullable = false)) })
 	public ProjectWbsQuantityId getId() {
 		return this.id;
 	}
@@ -58,6 +59,15 @@ public class ProjectWbsQuantity implements java.io.Serializable {
 
 	public void setProjectWbs(ProjectWbs projectWbs) {
 		this.projectWbs = projectWbs;
+	}
+	
+	@Column(name = "ENDDA", nullable = false)
+	public Date getEndda() {
+		return endda;
+	}
+
+	public void setEndda(Date endda) {
+		this.endda = endda;
 	}
 
 	@Column(name = "QUANTITY", nullable = false, precision = 8)

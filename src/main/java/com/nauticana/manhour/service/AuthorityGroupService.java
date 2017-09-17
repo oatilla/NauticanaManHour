@@ -25,4 +25,11 @@ public class AuthorityGroupService extends AbstractService<AuthorityGroup, Strin
 		return id;
 	}
 
+	@Override
+	public AuthorityGroup newEntityWithId(String strId) {
+		AuthorityGroup entity = new AuthorityGroup();
+		entity.setId(strId);
+		return entity;
+	}
+
 }

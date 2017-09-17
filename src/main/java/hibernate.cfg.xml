@@ -38,6 +38,7 @@
         <mapping class="com.nauticana.manhour.model.ProjectWbs" />
         <mapping class="com.nauticana.manhour.model.ProjectWbsManhour" />
         <mapping class="com.nauticana.manhour.model.UserAuthorization" />
+        <mapping class="com.nauticana.manhour.model.UserAuthorityLimit" />
         <mapping class="com.nauticana.manhour.model.Project" />
         <mapping class="com.nauticana.manhour.model.DomainValue" />
         <mapping class="com.nauticana.manhour.model.TableAuthorization" />

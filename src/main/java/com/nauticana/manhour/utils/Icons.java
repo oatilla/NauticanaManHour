@@ -10,9 +10,9 @@ public class Icons {
 	public static final String ALLOW_INSERT = "ALLOW_INSERT_ICON";
 	public static final String ALLOW_SELECT = "ALLOW_SELECT_ICON";
 	public static final String ALLOW_UPDATE = "ALLOW_UPDATE_ICON";
-	public static final String AUTHORITY_GROUP = "AUTHORITY_GROUP_ICON";
 	public static final String AUTHORITY_GROUPS = "AUTHORITY_GROUPS_ICON";
 	public static final String AUTHORS = "AUTHORS_ICON";
+	public static final String OK = "OK_ICON";
 	public static final String CANCEL = "CANCEL_ICON";
 	public static final String CHANGE_PASSWORD = "CHANGE_PASSWORD_ICON";
 	public static final String CHILD = "CHILD_ICON";
@@ -31,13 +31,11 @@ public class Icons {
 	public static final String FIND = "FIND_ICON";
 	public static final String HELP = "HELP_ICON";
 	public static final String INSERT = "INSERT_ICON";
-	public static final String LANGUAGE = "LANGUAGE_ICON";
 	public static final String LANGUAGES = "LANGUAGES_ICON";
 	public static final String LIST = "LIST_ICON";
 	public static final String LOGIN = "LOGIN_ICON";
 	public static final String LOGOFF = "LOGOFF_ICON";
 	public static final String MAIN_PAGE = "MAIN_PAGE_ICON";
-	public static final String MENU = "MENU_ICON";
 	public static final String NEW_RECORD = "NEW_RECORD_ICON";
 	public static final String NEW = "NEW_ICON";
 	public static final String NO = "NO_ICON";
@@ -53,7 +51,6 @@ public class Icons {
 	public static final String SEARCH = "SEARCH_ICON";
 	public static final String SELECT = "SELECT_ICON";
 	public static final String SEQUENCE = "SEQUENCE_ICON";
-	public static final String SETTINGS = "SETTINGS_ICON";
 	public static final String TABLE = "TABLE_ICON";
 	public static final String TABLES = "TABLES_ICON";
 	public static final String TEXT = "TEXT_ICON";
@@ -65,6 +62,21 @@ public class Icons {
 	public static final String WRONG_PASSWORD = "WRONG_PASSWORD_ICON";
 	public static final String YES = "YES_ICON";
 
+	public static final String MANHOUR          = "MANHOUR_ICON";
+	public static final String PROJECT          = "PROJECT_ICON";
+	public static final String CATEGORY         = "CATEGORY_ICON";
+	public static final String SUBCONTRACTOR    = "SUBCONTRACTOR_ICON";
+	public static final String PROJECT_MANHOUR  = "PROJECT_MANHOUR_ICON";
+	public static final String PROJECT_QUANTITY = "PROJECT_QUANTITY_ICON";
+	public static final String REPORT           = "REPORT_ICON";
+	public static final String SETTINGS         = "SETTINGS_ICON";
+	public static final String AUTHORITY_GROUP  = "AUTHORITY_GROUP_ICON";
+	public static final String LANGUAGE         = "LANGUAGE_ICON";
+	public static final String MENU             = "MENU_ICON";
+	public static final String USER_ACCOUNT     = "USER_ACCOUNT_ICON";
+	public static final String DOMAIN           = "DOMAIN_ICON";
+
+	
 	private static final HashMap<String, String> favicons = new HashMap<String, String>();
 	
 	private static Icons instance = null;
@@ -90,6 +102,7 @@ public class Icons {
 		favicons.put(AUTHORITY_GROUP, "fa fa-users");
 		favicons.put(AUTHORITY_GROUPS, "fa fa-users");
 		favicons.put(AUTHORS, "fa fa-group");
+		favicons.put(OK, "fa fa-check");
 		favicons.put(CANCEL, "fa fa-times");
 		favicons.put(CHANGE_PASSWORD, "fa fa-unlock");
 		favicons.put(CHILD, "fa fa-child");
@@ -141,6 +154,16 @@ public class Icons {
 		favicons.put(WRITE, "fa fa-pencil");
 		favicons.put(WRONG_PASSWORD, "fa fa-lock");
 		favicons.put(YES, "fa fa-check");
+		favicons.put(USER_ACCOUNT, "fa fa-user");
+		favicons.put(DOMAIN, "fa fa-server");
+	
+		favicons.put(MANHOUR, "fa fa-calendar");
+		favicons.put(CATEGORY, "fa fa-sitemap");
+		favicons.put(PROJECT, "fa fa-building");
+		favicons.put(SUBCONTRACTOR, "fa fa-male");
+		favicons.put(PROJECT_MANHOUR, "fa fa-calendar-check-o");
+		favicons.put(PROJECT_QUANTITY, "fa fa-industry");
+		favicons.put(REPORT, "fa fa-file-text");
 	}
 
 	public static String getIcon(String iconid) {

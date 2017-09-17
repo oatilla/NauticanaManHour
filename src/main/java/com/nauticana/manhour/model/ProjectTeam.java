@@ -11,8 +11,11 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,8 +32,11 @@ public class ProjectTeam implements java.io.Serializable {
 	private String caption;
 	private Date begDate;
 	private Date endDate;
+	
 	private Set<ProjectTeamPerson> projectTeamPersonnel = new HashSet<ProjectTeamPerson>(0);
 
+	private Set<Category> projectTeamCategory = new HashSet<Category>(0);
+	
 	public ProjectTeam() {
 	}
 
@@ -102,6 +108,7 @@ public class ProjectTeam implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectTeam")
+	@OrderBy("TEAM_LEAD")
 	public Set<ProjectTeamPerson> getProjectTeamPersonnel() {
 		return this.projectTeamPersonnel;
 	}
@@ -110,4 +117,20 @@ public class ProjectTeam implements java.io.Serializable {
 		this.projectTeamPersonnel = projectTeamPersonnel;
 	}
 
+	@ManyToMany
+	@OrderBy("TREE_CODE")
+	@JoinTable(name="PROJECT_TEAM_TEMPLATE",
+		joinColumns= {
+			@JoinColumn(name = "PROJECT_ID", referencedColumnName = "PROJECT_ID", nullable = false, insertable = false, updatable = false),
+			@JoinColumn(name = "TEAM_ID", referencedColumnName = "TEAM_ID", nullable = false, insertable = false, updatable = false)},
+		inverseJoinColumns=@JoinColumn(name="CATEGORY_ID"))
+	public Set<Category> getProjectTeamCategory() {
+		return projectTeamCategory;
+	}
+
+	public void setProjectTeamCategory(Set<Category> projectTeamCategory) {
+		this.projectTeamCategory = projectTeamCategory;
+	}
+
+	
 }

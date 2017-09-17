@@ -2,16 +2,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<h3> ${PAGETITLE} </h3>
-
 <div align="center">
+	<h3> ${PAGETITLE} </h3>
     <form:form name="f" method="post" modelAttribute="record">
-    <table>
-      <tr>
-        <th>${CATEGORY_ID}</th>
-        <td>${record.id} <form:hidden path="id" /></td>
+    <table class="table table-condensed">
+        <tr>
+        <th><label class="control-label" for="id">${CATEGORY_ID}</label></th>
+        <td><form:input type="text" class="form-control" id="id" path="id" /></td>
       </tr>
-      <tr>
+       <tr>
         <th>${PARENT_ID}</th>
         <td><form:input path="parentId" /></td>
       </tr>
@@ -21,7 +20,7 @@
       </tr>
       <tr>
         <th>${CAPTION}</th>
-        <td><form:input path="caption" /></td>
+        <td><form:input path="caption" id="caption" /></td>
       </tr>
       <tr>
         <th>${DETAILS}</th>
@@ -45,8 +44,9 @@
       </tr>
       <tr>
         <td colspan="2" align="center">
-        <button type="submit" class="btn btn-primary" onClick="document.f.submit();"> <i class="${SAVE_ICON}"> ${SAVE} </i> </button>
-        <button type="button" class="btn btn-warning" onClick="history.back();"> <i class="${CANCEL_ICON}"> ${CANCEL} </i> </button>
+			<a href="#" onclick="doAjaxPost('category/edit'); " class="btn btn-primary pull-right btn-flat" >${SAVE}</a>
+			<a href="#" onclick="doAjaxPost('${prevpage}'); " class="btn btn-primary pull-right btn-flat" >${CANCEL} </a>
+	    </td>
       </tr>
     </table>
     </form:form>

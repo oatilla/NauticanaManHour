@@ -23,12 +23,26 @@ public class ProjectTeamPersonService extends AbstractService<ProjectTeamPerson,
 	@Override
 	public ProjectTeamPerson newEntity(String parentKey) {
 		ProjectTeamPerson entity = new ProjectTeamPerson();
-		if (!Utils.emptyStr(parentKey)) entity.setProjectTeam(parentRep.findOne(new ProjectTeamId(parentKey)));
+		if (!Utils.emptyStr(parentKey)) {
+			ProjectTeamPersonId id = new ProjectTeamPersonId();
+			ProjectTeamId parentId = new ProjectTeamId(parentKey);
+			id.setProjectId(parentId.getProjectId());
+			id.setTeamId(parentId.getTeamId());
+			entity.setProjectTeam(parentRep.findOne(parentId));
+			entity.setId(id);
+		}
 		return entity;
 	}
 
 	@Override
 	public ProjectTeamPersonId StrToId(String id) {
 		return new ProjectTeamPersonId(id);
+	}
+
+	@Override
+	public ProjectTeamPerson newEntityWithId(String strId) {
+		ProjectTeamPerson entity = new ProjectTeamPerson();
+		entity.setId(StrToId(strId));
+		return entity;
 	}
 }

@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
@@ -26,9 +27,10 @@ public class ProjectWbs implements java.io.Serializable {
 	private Category category;
 	private String unit;
 	private float metric;
-	private float workforce;
+	private float quantity;
 	private float pupMetric;
-	private float pupWorkforce;
+	private float pupQuantity;
+
 	private Set<ProjectWbsManhour> projectWbsManhours = new HashSet<ProjectWbsManhour>(0);
 
 	private Set<ProjectWbsQuantity> projectWbsQuantities = new HashSet<ProjectWbsQuantity>(0);
@@ -37,32 +39,31 @@ public class ProjectWbs implements java.io.Serializable {
 	}
 
 	public ProjectWbs(ProjectWbsId id, Project project, Category category, String unit, float metric,
-			float workforce) {
+			float quantity) {
 		this.id = id;
 		this.project = project;
 		this.category = category;
 		this.unit = unit;
 		this.metric = metric;
-		this.workforce = workforce;
+		this.quantity = quantity;
 	}
 
 	public ProjectWbs(ProjectWbsId id, Project project, Category category, String unit, float metric,
-			float workforce, float pupMetric, float pupWorkforce,
+			float quantity, float pupMetric, float pupQuantity,
 			Set<ProjectWbsManhour> projectWbsManhours, Set<ProjectWbsQuantity> projectWbsQuantities) {
 		this.id = id;
 		this.project = project;
 		this.category = category;
 		this.unit = unit;
 		this.metric = metric;
-		this.workforce = workforce;
+		this.quantity = quantity;
 		this.pupMetric = pupMetric;
-		this.pupWorkforce = pupWorkforce;
+		this.pupQuantity = pupQuantity;
 		this.projectWbsManhours = projectWbsManhours;
 		this.projectWbsQuantities = projectWbsQuantities;
 	}
 
 	@EmbeddedId
-
 	@AttributeOverrides({
 			@AttributeOverride(name = "projectId", column = @Column(name = "PROJECT_ID", nullable = false, precision = 8, scale = 0)),
 			@AttributeOverride(name = "categoryId", column = @Column(name = "CATEGORY_ID", nullable = false, precision = 8, scale = 0)) })
@@ -112,13 +113,13 @@ public class ProjectWbs implements java.io.Serializable {
 		this.metric = metric;
 	}
 
-	@Column(name = "WORKFORCE", nullable = false, precision = 6)
-	public float getWorkforce() {
-		return this.workforce;
+	@Column(name = "QUANTITY", nullable = false, precision = 6)
+	public float getQuantity() {
+		return this.quantity;
 	}
 
-	public void setWorkforce(float workforce) {
-		this.workforce = workforce;
+	public void setQuantity(float quantity) {
+		this.quantity = quantity;
 	}
 
 	@Column(name = "PUP_METRIC", precision = 6)
@@ -130,13 +131,13 @@ public class ProjectWbs implements java.io.Serializable {
 		this.pupMetric = pupMetric;
 	}
 
-	@Column(name = "PUP_WORKFORCE", precision = 6)
-	public float getPupWorkforce() {
-		return this.pupWorkforce;
+	@Column(name = "PUP_QUANTITY", precision = 6)
+	public float getPupQuantity() {
+		return this.pupQuantity;
 	}
 
-	public void setPupWorkforce(float pupWorkforce) {
-		this.pupWorkforce = pupWorkforce;
+	public void setPupQuantity(float pupQuantity) {
+		this.pupQuantity = pupQuantity;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectWbs")
@@ -148,6 +149,7 @@ public class ProjectWbs implements java.io.Serializable {
 		this.projectWbsManhours = projectWbsManhours;
 	}
 
+	@OrderBy("BEGDA DESC")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectWbs")
 	public Set<ProjectWbsQuantity> getProjectWbsQuantities() {
 		return this.projectWbsQuantities;

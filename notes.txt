@@ -5,18 +5,26 @@ Yapılacaklar 11/09/2017
 
 Alt yapı ve genel konular
 
-A-Ajax form submit: doAjaxPost--> doAjaxGet olacak doAjaxPost yazılacak
-A-Tüm ekranlara geri dönüş düğmesi konuşacak
-A-Birden çok çocuk olan sayfalarda Tabbed area gösterimi yapılacak
-A-Hata lar yakalanacak ortak hata sayfasına yönlendirilecek
-M-Anaveri için caption translation yapılacak
-MA-proje bazlı yetkilendirme yapılacak
-
-
++A-Ajax form submit: doAjaxPost--> doAjaxGet olacak doAjaxPost yazılacak
+ A-Tüm ekranlara geri dönüş(cancel) düğmesi konuşacak
+ A-Birden çok çocuk olan sayfalarda Tabbed area gösterimi yapılacak
+ A-Hata lar yakalanacak ortak hata sayfasına yönlendirilecek
+ M-Anaveri için caption translation yapılacak
+ MA-proje bazlı yetkilendirme yapılacak
+ A-Home.jsp nin css ve js lerinin düzenlenmesi
+ A-Tarih alanlarının seçim yardımı
+		
 Süreçle ilgili konular
-MA-Proje onay hiyerarşisi
-M-team wbs template tablosu tanımlanacak
-M-Adamsaat girişekranı
-M-Metraj giriş ekranı
--
+ MA-Proje onay hiyerarşisi
+ M-team wbs template tablosu tanımlanacak
++M-Adamsaat girişekranı
++M-Metraj giriş ekranı
+ A Raporlar
+   Team tanımlanırken Gama Veri tabanından; formen e bağlı ve taşerona bağlı personelin seçimi
+   WBS'ler sorted gelecek
+   Ekranlar test edilerek eksik hata var mı bakılacak.
+   Yetki Matrisi oluşturulacak
+ 
 
+
+ 

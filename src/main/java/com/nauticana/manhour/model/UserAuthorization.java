@@ -1,5 +1,8 @@
 package com.nauticana.manhour.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -8,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,6 +26,8 @@ public class UserAuthorization implements java.io.Serializable {
 	private AuthorityGroup authorityGroup;
 	private UserAccount userAccount;
 
+	private Set<UserAuthorityLimit> userAuthorityLimits = new HashSet<UserAuthorityLimit>(0);
+	
 	public UserAuthorization() {
 	}
 
@@ -62,4 +68,14 @@ public class UserAuthorization implements java.io.Serializable {
 		this.userAccount = userAccount;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAuthorization")
+	public Set<UserAuthorityLimit> getUserAuthorityLimits() {
+		return userAuthorityLimits;
+	}
+
+	public void setUserAuthorityLimits(Set<UserAuthorityLimit> userAuthorityLimits) {
+		this.userAuthorityLimits = userAuthorityLimits;
+	}
+
+	
 }

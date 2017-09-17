@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.Scanner;
 
 public class Utils {
@@ -101,5 +102,24 @@ public class Utils {
 		if (writer != null) {
 			writer.close();
 		}
+	}
+
+	public static short[] nextTermId(char termType, short year, short termId) {
+		short[] r = new short[2];
+		if (year == 0)
+			r[0] = (short) Calendar.getInstance().get(Calendar.YEAR);
+		else
+			r[0] = year;
+		
+		r[1] = (short) (termId+1);
+		if ((termType == 'D' && termId == 365) ||
+			(termType == 'E' && termId == 52) ||
+			(termType == 'M' && termId == 12) ||
+			(termType == 'Q' && termId == 4) ||
+			(termType == 'Y') ) {
+			r[0]++;
+			r[1] = 1;
+		}
+		return r;
 	}
 }

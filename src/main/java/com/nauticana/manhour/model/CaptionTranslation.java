@@ -35,7 +35,7 @@ public class CaptionTranslation implements java.io.Serializable {
 	@EmbeddedId
 
 	@AttributeOverrides({
-			@AttributeOverride(name = "caption", column = @Column(name = "CAPTION", nullable = false, length = 30)),
+			@AttributeOverride(name = "caption", column = @Column(name = "CAPTION", nullable = false, length = 200)),
 			@AttributeOverride(name = "langcode", column = @Column(name = "LANGCODE", nullable = false, length = 2)) })
 	public CaptionTranslationId getId() {
 		return this.id;
@@ -55,7 +55,7 @@ public class CaptionTranslation implements java.io.Serializable {
 		this.language = language;
 	}
 
-	@Column(name = "LABELUPPER", nullable = false, length = 80)
+	@Column(name = "LABELUPPER", nullable = false, length = 200)
 	public String getLabelupper() {
 		return this.labelupper;
 	}
@@ -64,7 +64,7 @@ public class CaptionTranslation implements java.io.Serializable {
 		this.labelupper = labelupper;
 	}
 
-	@Column(name = "LABELLOWER", nullable = false, length = 80)
+	@Column(name = "LABELLOWER", nullable = false, length = 200)
 	public String getLabellower() {
 		return this.labellower;
 	}

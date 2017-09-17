@@ -22,5 +22,12 @@ public class UserAccountService extends AbstractService<UserAccount, String> {
 		return id;
 	}
 
+	@Override
+	public UserAccount newEntityWithId(String strId) {
+		UserAccount entity = new UserAccount();
+		entity.setId(StrToId(strId));
+		return entity;
+	}
+
 }
 

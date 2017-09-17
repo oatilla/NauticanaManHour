@@ -23,4 +23,11 @@ public class ProjectService extends AbstractService<Project, Integer> {
 	public Integer StrToId(String id) {
 		return Integer.parseInt(id);
 	}
+
+	@Override
+	public Project newEntityWithId(String strId) {
+		Project entity = new Project();
+		entity.setId(StrToId(strId));
+		return entity;
+	}
 }

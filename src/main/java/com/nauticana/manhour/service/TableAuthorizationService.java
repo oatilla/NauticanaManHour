@@ -22,7 +22,12 @@ public class TableAuthorizationService extends AbstractService<TableAuthorizatio
 	@Override
 	public TableAuthorization newEntity(String parentKey) {
 		TableAuthorization entity = new TableAuthorization();
-		if (!Utils.emptyStr(parentKey)) entity.setAuthorityGroup(parentRep.findOne(parentKey));
+		if (!Utils.emptyStr(parentKey)) {
+			TableAuthorizationId id = new TableAuthorizationId();
+			id.setAuthorityGroup(parentKey);
+			entity.setId(id);
+			entity.setAuthorityGroup(parentRep.findOne(parentKey));
+		}
 		return entity;
 	}
 
@@ -30,6 +35,13 @@ public class TableAuthorizationService extends AbstractService<TableAuthorizatio
 	public TableAuthorizationId StrToId(String id) {
 		String[] s = id.split(",");
 		return new TableAuthorizationId(s[0],s[1]);
+	}
+
+	@Override
+	public TableAuthorization newEntityWithId(String strId) {
+		TableAuthorization entity = new TableAuthorization();
+		entity.setId(StrToId(strId));
+		return entity;
 	}
 
 }

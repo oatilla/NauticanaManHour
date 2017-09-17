@@ -21,13 +21,22 @@ public class ScreenPageService extends AbstractService<ScreenPage, String> {
 	@Override
 	public ScreenPage newEntity(String parentKey) {
 		ScreenPage entity = new ScreenPage();
-		if (!Utils.emptyStr(parentKey)) entity.setMenu(parentRep.findOne(parentKey));
+		if (!Utils.emptyStr(parentKey)) {
+			entity.setMenu(parentRep.findOne(parentKey));
+		}
 		return entity;
 	}
 
 	@Override
 	public String StrToId(String id) {
 		return id;
+	}
+
+	@Override
+	public ScreenPage newEntityWithId(String strId) {
+		ScreenPage entity = new ScreenPage();
+		entity.setId(StrToId(strId));
+		return entity;
 	}
 
 }

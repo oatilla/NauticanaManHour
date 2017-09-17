@@ -3,9 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 ${DATATABLE1}
-
-<h3> ${PAGETITLE} </h3>
-
 <div align="center">
 	<table>
 		<tr>
@@ -17,9 +14,7 @@ ${DATATABLE1}
 			<td> ${record.id.teamId} ${record.caption} </td>
 		</tr>
 	</table>
-</div>
 
-<div align="center">
 	<p> ${PROJECT_TEAM_PERSON} </p>
 
     <table id="dataTable1" class="table table-bordered table-hover">
@@ -49,7 +44,7 @@ ${DATATABLE1}
 				</c:otherwise>
 			</c:choose>
 			<td>
-				<a href="#" onclick="doAjaxPost('projectTeamPerson/delete?id=${projectTeamPerson.id.projectId},${projectTeamPerson.id.teamId},${projectTeamPerson.id.workerId}&nextpage=projectTeam/show?id=${projectTeamPerson.id.projectId},${projectTeamPerson.id.teamId}');"> ${DELETE} </a>
+				<a href="#" onClick="doAjaxGet('projectTeamPerson/delete?id=${projectTeamPerson.id.projectId},${projectTeamPerson.id.teamId},${projectTeamPerson.id.workerId}&nextpage=/projectTeam/show?id=${projectTeamPerson.id.projectId},${projectTeamPerson.id.teamId}');"> ${DELETE} </a>
 			</td>
 		</tr>
 		</c:forEach>

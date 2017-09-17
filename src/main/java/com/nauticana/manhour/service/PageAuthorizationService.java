@@ -24,7 +24,12 @@ public class PageAuthorizationService extends AbstractService<PageAuthorization,
 	@Override
 	public PageAuthorization newEntity(String parentKey) {
 		PageAuthorization entity = new PageAuthorization();
-		if (!Utils.emptyStr(parentKey)) entity.setAuthorityGroup(parentRep.findOne(parentKey));
+		if (!Utils.emptyStr(parentKey)) {
+			PageAuthorizationId id = new PageAuthorizationId();
+			id.setAuthorityGroup(parentKey);
+			entity.setAuthorityGroup(parentRep.findOne(parentKey));
+			entity.setId(id);
+		}
 		return entity;
 	}
 
@@ -32,6 +37,13 @@ public class PageAuthorizationService extends AbstractService<PageAuthorization,
 	public PageAuthorizationId StrToId(String id) {
 		String[] s = id.split(",");
 		return new PageAuthorizationId(s[0], s[1]);
+	}
+
+	@Override
+	public PageAuthorization newEntityWithId(String strId) {
+		PageAuthorization entity = new PageAuthorization();
+		entity.setId(StrToId(strId));
+		return entity;
 	}
 
 }

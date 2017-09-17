@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nauticana.manhour.model.DomainLookup;
 import com.nauticana.manhour.model.DomainName;
 import com.nauticana.manhour.model.DomainValue;
 import com.nauticana.manhour.utils.DataCache;
+import com.nauticana.manhour.utils.Icons;
 import com.nauticana.manhour.utils.Labels;
 import com.nauticana.manhour.utils.PortalLanguage;
 import com.nauticana.manhour.utils.Utils;
@@ -53,6 +55,11 @@ public class DomainNameController extends AbstractController<DomainName, String>
 		model.addObject(Labels.EDIT, language.getText(Labels.EDIT));
 		model.addObject(Labels.CHOOSE, language.getText(Labels.CHOOSE));
 		model.addObject(Labels.DELETE, language.getText(Labels.DELETE));
+		model.addObject(Icons.EDIT, Icons.getIcon(Icons.EDIT));
+		model.addObject(Icons.NEW, Icons.getIcon(Icons.NEW));
+		model.addObject(Icons.DELETE, Icons.getIcon(Icons.DELETE));
+		model.addObject("DATATABLE1", Labels.dataTableSetting1);
+		model.addObject("DATATABLE2", Labels.dataTableSetting2);
 		model.addObject(tableName, language.getText(tableName));
 		for (int i = 0; i < modelService.getFieldNames().length; i++) {
 			model.addObject(modelService.getFieldNames()[i], language.getText(modelService.getFieldNames()[i]));
@@ -60,6 +67,10 @@ public class DomainNameController extends AbstractController<DomainName, String>
 		model.addObject(DomainValue.tableName, language.getText(DomainValue.tableName));
 		for (int i = 0; i < DomainValue.fieldNames.length; i++) {
 			model.addObject(DomainValue.fieldNames[i], language.getText(DomainValue.fieldNames[i]));
+		}
+		model.addObject(DomainLookup.tableName, language.getText(DomainLookup.tableName));
+		for (int i = 0; i < DomainLookup.fieldNames.length; i++) {
+			model.addObject(DomainLookup.fieldNames[i], language.getText(DomainLookup.fieldNames[i]));
 		}
 		return model;
 	}

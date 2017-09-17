@@ -25,5 +25,12 @@ public class CategoryService extends AbstractService<Category,Integer> {
 		return Integer.parseInt(id);
 	}
 
+	@Override
+	public Category newEntityWithId(String strId) {
+		Category entity = new Category();
+		entity.setId(StrToId(strId));
+		return entity;
+	}
+
 
 }

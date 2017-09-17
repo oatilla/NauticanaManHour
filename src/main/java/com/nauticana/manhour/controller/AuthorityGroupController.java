@@ -15,6 +15,7 @@ import com.nauticana.manhour.model.PageAuthorization;
 import com.nauticana.manhour.model.TableAuthorization;
 import com.nauticana.manhour.model.UserAuthorization;
 import com.nauticana.manhour.utils.DataCache;
+import com.nauticana.manhour.utils.Icons;
 import com.nauticana.manhour.utils.Labels;
 import com.nauticana.manhour.utils.PortalLanguage;
 import com.nauticana.manhour.utils.Utils;
@@ -56,6 +57,12 @@ public class AuthorityGroupController extends AbstractController<AuthorityGroup,
 		model.addObject(Labels.EDIT, language.getText(Labels.EDIT));
 		model.addObject(Labels.CHOOSE, language.getText(Labels.CHOOSE));
 		model.addObject(Labels.DELETE, language.getText(Labels.DELETE));
+		model.addObject(Icons.EDIT, Icons.getIcon(Icons.EDIT));
+		model.addObject(Icons.NEW, Icons.getIcon(Icons.NEW));
+		model.addObject(Icons.DELETE, Icons.getIcon(Icons.DELETE));
+		model.addObject("DATATABLE1", Labels.dataTableSetting1);
+		model.addObject("DATATABLE2", Labels.dataTableSetting2);
+		model.addObject("DATATABLE3", Labels.dataTableSetting3);
 		model.addObject(tableName, language.getText(tableName));
 		for (int i = 0; i < modelService.getFieldNames().length; i++) {
 			model.addObject(modelService.getFieldNames()[i], language.getText(modelService.getFieldNames()[i]));

@@ -23,7 +23,12 @@ public class ProjectWbsService extends AbstractService<ProjectWbs,ProjectWbsId> 
 	@Override
 	public ProjectWbs newEntity(String parentKey) {
 		ProjectWbs entity = new ProjectWbs();
-		if (!Utils.emptyStr(parentKey)) entity.setProject(parentRep.findOne(Integer.parseInt(parentKey)));
+		if (!Utils.emptyStr(parentKey)) {
+			ProjectWbsId id = new ProjectWbsId();
+			id.setProjectId(Integer.parseInt(parentKey));
+			entity.setId(id);
+			entity.setProject(parentRep.findOne(id.getProjectId()));
+		}
 		return entity;
 	}
 
@@ -31,6 +36,13 @@ public class ProjectWbsService extends AbstractService<ProjectWbs,ProjectWbsId> 
 	public ProjectWbsId StrToId(String id) {
 		String[] s = id.split(",");
 		return new ProjectWbsId(Integer.parseInt(s[0]),Integer.parseInt(s[1]));
+	}
+
+	@Override
+	public ProjectWbs newEntityWithId(String strId) {
+		ProjectWbs entity = new ProjectWbs();
+		entity.setId(StrToId(strId));
+		return entity;
 	}
 
 }

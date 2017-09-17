@@ -10,9 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "CATEGORY")
 public class Category implements java.io.Serializable {
@@ -117,6 +119,7 @@ public class Category implements java.io.Serializable {
 		this.catLevel = catLevel;
 	}
 
+	@OrderBy("TREE_CODE")
 	@Column(name = "TREE_CODE", length = 20)
 	public String getTreeCode() {
 		return this.treeCode;
@@ -143,5 +146,9 @@ public class Category implements java.io.Serializable {
 	public void setProjectWbses(Set<ProjectWbs> projectWbses) {
 		this.projectWbses = projectWbses;
 	}
+	
+	
+	
+	
 
 }

@@ -21,8 +21,10 @@ public class HSQLServerFactory {
             server.setAddress("localhost");  
             server.setPort(port);  
             server.setDatabasePath(0, DATAROOT + name);  
-            server.setDatabaseName(0, name);  
+            server.setDatabaseName(0, name);
+            server.setTrace(false);
             server.start();
+            server.setSilent(true);
 			servers.put(name, server);
 		}
 	}

@@ -15,18 +15,16 @@ function findSelected(cname) {
 }
 </script>
 
-<h3> ${PAGETITLE} </h3>
-
 <div align="center">
-
-    <form name="f">
+	<h3> ${PAGETITLE} </h3>
+    <form name="f" method="post">
     
 	<input type=hidden name=nextpage value="${nextpage}">
 	<input type=hidden name=parentKey value="${parentKey}">
 	<input type=hidden name=workerIds value="">
 	<input type=hidden name=operation value="SEARCH">
 
-	<select name=subcontractorId onChange="submit();">
+	<select name=subcontractorId onChange="doAjaxPost('worker/select');">
 	
     <c:forEach var="subcontractor" items="${subcontractors}" varStatus="status">
 	<c:choose>
@@ -45,6 +43,7 @@ function findSelected(cname) {
 	<c:when test="${empty workers}">
 	</c:when>
 	<c:otherwise>
+
 	<table>
 		<tr>
 			<th>${CAPTION} </th>
@@ -60,9 +59,7 @@ function findSelected(cname) {
 	</table>
 	</c:otherwise>
 	</c:choose>
-
-	<input type="button" onClick="findSelected('WORKER_ID');submit();" value='<c:out value="${OK}" />'>
-	<input type="button" onClick="history.back();" value='<c:out value="${CANCEL}" />'>
+	<button type="submit" class="btn btn-primary" onClick="findSelected('WORKER_ID');doAjaxPost('worker/select');"> <i class="${SAVE_ICON}"></i> ${SAVE} </button> 
+	<button type="button" class="btn btn-warning" onClick="doAjaxGet('${prevpage}');"> <i class="${CANCEL_ICON}"></i> ${CANCEL} </button> 
     </form>
-    
 </div>

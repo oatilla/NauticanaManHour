@@ -22,6 +22,7 @@ public class DomainName implements java.io.Serializable {
 	private String caption;
 
 	private Set<DomainValue> domainValues = new HashSet<DomainValue>(0);
+	private Set<DomainLookup> domainLookups = new HashSet<DomainLookup>(0);
 
 	public DomainName() {
 	}
@@ -74,6 +75,15 @@ public class DomainName implements java.io.Serializable {
 
 	public void setDomainValues(Set<DomainValue> domainValues) {
 		this.domainValues = domainValues;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "domainName")
+	public Set<DomainLookup> getDomainLookups() {
+		return this.domainLookups;
+	}
+
+	public void setDomainLookups(Set<DomainLookup> domainLookups) {
+		this.domainLookups = domainLookups;
 	}
 
 }

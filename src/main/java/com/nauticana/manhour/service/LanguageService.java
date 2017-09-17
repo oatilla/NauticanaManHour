@@ -21,4 +21,11 @@ public class LanguageService  extends AbstractService<Language,String> {
 	public String StrToId(String id) {
 		return id;
 	}
+
+	@Override
+	public Language newEntityWithId(String strId) {
+		Language entity = new Language();
+		entity.setId(StrToId(strId));
+		return entity;
+	}
 }
