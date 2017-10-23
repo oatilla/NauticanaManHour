@@ -13,27 +13,33 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "PROJECT_WBS_QUANTITY")
 public class ProjectWbsQuantity implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "PROJECT_WBS_QUANTITY";
-	public static final String[] fieldNames = new String[] { "PROJECT_ID", "CATEGORY_ID", "BEGDA", "ENDDA", "QUANTITY", "IS_SUBCONTRACTOR" };
+	public static final String[] fieldNames = new String[] { "PROJECT_ID", "CATEGORY_ID", "TEAM_ID", "BEGDA", "ENDDA", "QUANTITY", "STATUS" };
+	public static final String rootMapping = "projectWbsQuantity";
+
 	private ProjectWbsQuantityId id;
 	private Date endda;
 	private ProjectWbs projectWbs;
+	private ProjectTeam projectTeam;
 	private float quantity;
-	private char isSubcontractor;
+	private String status;
 
 	public ProjectWbsQuantity() {
 	}
 
-	public ProjectWbsQuantity(ProjectWbsQuantityId id, ProjectWbs projectWbs, float quantity, char isSubcontractor) {
+	public ProjectWbsQuantity(ProjectWbsQuantityId id, ProjectWbs projectWbs, ProjectTeam projectTeam, float quantity, String status) {
 		this.id = id;
 		this.projectWbs = projectWbs;
+		this.projectTeam = projectTeam;
 		this.quantity = quantity;
-		this.isSubcontractor = isSubcontractor;
+		this.status = status;
 	}
 
 	@EmbeddedId
@@ -61,6 +67,19 @@ public class ProjectWbsQuantity implements java.io.Serializable {
 		this.projectWbs = projectWbs;
 	}
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({
+			@JoinColumn(name = "PROJECT_ID", referencedColumnName = "PROJECT_ID", nullable = false, insertable = false, updatable = false),
+			@JoinColumn(name = "TEAM_ID", referencedColumnName = "TEAM_ID", nullable = false, insertable = false, updatable = false) })
+	public ProjectTeam getProjectTeam() {
+		return this.projectTeam;
+	}
+
+	public void setProjectTeam(ProjectTeam projectTeam) {
+		this.projectTeam = projectTeam;
+	}
+	
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	@Column(name = "ENDDA", nullable = false)
 	public Date getEndda() {
 		return endda;
@@ -79,13 +98,13 @@ public class ProjectWbsQuantity implements java.io.Serializable {
 		this.quantity = quantity;
 	}
 
-	@Column(name = "IS_SUBCONTRACTOR", nullable = false, length = 1)
-	public char getIsSubcontractor() {
-		return this.isSubcontractor;
+	@Column(name = "STATUS", nullable = false, length = 20)
+	public String getStatus() {
+		return this.status;
 	}
 
-	public void setIsSubcontractor(char isSubcontractor) {
-		this.isSubcontractor = isSubcontractor;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

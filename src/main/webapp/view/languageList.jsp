@@ -3,15 +3,23 @@
 
 ${DATATABLE1}
 
-<div align="center">
-    <h3>${PAGETITLE}</h3>
-    <p><a class="btn btn-primary" href="#" onClick="doAjaxGet('language/new');"> <i class="${NEW_ICON}"> ${NEW} </i> </a></p>
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${PAGETITLE} </h3>
+		<c:if test="${!empty INSERT_ALLOWED}">
+			<a class="btn btn-primary" href="#" onClick="doAjaxGet('language/new');"> ${NEW} </a>
+		</c:if>
+	</div>
+
+	<div class="box-body">
     
     <table id="dataTable1" class="table table-bordered table-hover">
 	  <thead>
       <tr>
         <th>${LANGCODE}</th>
         <th>${CAPTION}</th>
+        <th>${DIRECTION}</th>
+        <th>${FLAG}</th>
 		<th> &nbsp; </th>
       </tr>
       </thead>
@@ -20,11 +28,18 @@ ${DATATABLE1}
         <tr>
           <td>${record.id}</td>
           <td> <a href="#" onClick="doAjaxGet('language/show?id=${record.id}');"> ${record.caption} </a> </td>
+          <td>${record.direction}</td>
+          <td><span class="flag-icon ${record.flag}"></span> ${record.flag} </td>
 			<td>
-				<a class="btn btn-primary" href="#" onClick="doAjaxGet('language/edit?id=${record.id}');"> <i class="${EDIT_ICON}"> </i> ${EDIT} </a>
-				<a class="btn btn-danger" href="#" onClick="doAjaxGet('language/delete?id=${record.id}');"> <i class="${DELETE_ICON}"> </i> ${DELETE} </a>
+				<c:if test="${!empty UPDATE_ALLOWED}">
+					<a class="btn btn-primary" href="#" onClick="doAjaxGet('language/edit?id=${record.id}');"> ${EDIT} </a>
+				</c:if>
+				<c:if test="${!empty DELETE_ALLOWED}">
+					<a class="btn btn-danger" href="#" onClick="doAjaxGet('language/delete?id=${record.id}');"> ${DELETE} </a>
+				</c:if>
 			</td>
         </tr>
       </c:forEach>             
     </table>
+    </div>
 </div>

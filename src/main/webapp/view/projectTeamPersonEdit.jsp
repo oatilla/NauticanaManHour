@@ -20,53 +20,64 @@ function callSelectionSubcontractor() {
 }
 </script>
 
-<div align="center">
-	<h3> ${PAGETITLE} </h3>
-	<table class="table table-condensed">
-		<tr>
-			<th> ${PROJECT_ID} </th>
-			<td> ${projectId} ${projectCaption} </td>
-		</tr>
-		<tr>
-			<th> ${TEAM_ID} </th>
-			<td> ${teamId} ${teamCaption} </td>
-		</tr>
-		<tr>
-			<th> ${DATE} </th>
-			<td> ${begDate} .. ${endDate} </td>
-		</tr>
-	</table>
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${PAGETITLE} </h3>
+	</div>
+
+	<form:form class="form-horizontal" method="post" modelAttribute="record" id="f">
+	<input type="hidden" name="nextpage" value="projectTeam/show?id=${projectId},${teamId}"/>
+
+	<div class="box-body">
+		<table>
+			<tr>
+				<th> ${PROJECT_ID} </th>
+				<td> ${projectId} ${projectCaption} </td>
+			</tr>
+			<tr>
+				<th> ${TEAM_ID} </th>
+				<td> ${teamId} ${teamCaption} </td>
+			</tr>
+			<tr>
+				<th> ${DATE} </th>
+				<td> ${begDate} .. ${endDate} </td>
+			</tr>
+		</table>
   
-    <form:form name="f" method="post" modelAttribute="record" id="f">
-    <table class="table table-condensed">
-      <tr>
-        <th> ${WORKER_ID}</th>
-        <td> ${record.teamId} <form:hidden path="teamId" /></td>
-      </tr>
-      <tr>
-        <th> ${TEAM_LEAD} </th>
-        <td> ${record.teamLead} <form:hidden path="teamLead" /></td>
-      </tr>
-      <tr>
-        <th> ${PERSON_ID} </th>
-        <td><form:input path="personId" />
-        	<input type="button" onClick="if (callSelectionPersonnel()) {document.f.SUBCONTRACTOR_ID.value=''; document.f.SUBCONTRACTOR_CAPTION.value='';}" value="${CHOOSE}">
-        	<form:input path="personCaption" />
-        </td>
-      </tr>
-      <tr>
-        <th> ${SUBCONTRACTOR_ID} </th>
-        <td><form:input path="subcontractor.id" />
-        	<input type="button" onClick="if (callSelectionSubcontractor()) {document.f.PERSON_ID.value=''; document.f.PERSON_CAPTION.value='';}" value="${CHOOSE}">
-        	<form:input path="subcontractor.caption" />
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-		<a href="#" onclick="doAjaxPost('projectTeamPerson/edit'); " class="btn btn-primary pull-right btn-flat" >${SAVE}</a>
-			<button type="button" class="btn btn-warning" onClick="doAjaxGet('${prevpage}');"> <i class="${CANCEL_ICON}"></i> ${CANCEL} </button> 
-        </td>
-      </tr>
-    </table>
-    </form:form>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="id"> ${WORKER_ID} </label>
+			<div class="col-sm-10">
+				${record.worker.caption}
+				<form:input type="hidden" path="record.id.projectId"/>
+				<form:input type="hidden" path="record.id.teamId"/>
+				<form:input type="hidden" path="record.id.workerId"/>
+				<form:input type="hidden" path="record.teamLead"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="caption">${PERSON_ID}</label>
+			<div class="col-sm-10">
+				<form:input type="hidden" path="personId" />
+        		<a href="#" onClick="if (callSelectionPersonnel()) {document.f.subcontractorId.value=''; document.f.subcontractorCaption.value='';}"> ${CHOOSE} ${PERSON_ID} </a>
+				<form:input path="personCaption" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="caption">${SUBCONTRACTOR_ID}</label>
+			<div class="col-sm-10"> 
+				<form:input type="hidden" path="subcontractorId" />
+        		<a href="#" onClick="if (callSelectionSubcontractor()) {document.f.subcontractorId.value=''; document.f.subcontractorCaption.value='';}"> ${CHOOSE} ${SUBCONTRACTOR_ID} </a>
+				<form:input path="subcontractorCaption" />
+			</div>
+		</div>
+	</div>
+
+	<div class="box-footer">
+		<a href="#" onclick="doAjaxPost('${postlink}');" class="btn btn-primary">${SAVE}</a>
+		<a href="#" onclick="doAjaxGet('${prevpage}');" class="btn btn-warning">${CANCEL}</a>
+	</div>
+
+	</form:form>
 </div>

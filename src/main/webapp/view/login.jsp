@@ -5,10 +5,10 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="../s/bootstrap.min.css">
-  <link rel="stylesheet" href="../s/font-awesome.min.css">
-  <link rel="stylesheet" href="../s/ionicons.min.css">
-  <link rel="stylesheet" href="../s/AdminLTE.min.css">
+<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">  
+<link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../dist/css/skins/skin-blue.min.css">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">

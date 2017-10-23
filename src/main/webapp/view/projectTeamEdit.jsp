@@ -2,37 +2,57 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<div align="center">
-	<h3> ${PAGETITLE} </h3>
-    <form:form name="f" method="post" modelAttribute="record" id="f">
-    <input type=hidden name=nextpage value="/project/show?id=${record.id.projectId}">
-	<table class="table table-condensed">
-		<tr>
-			<th> ${PROJECT_ID} </th>
-			<td>${record.id.projectId} ${record.project.caption} <form:input type="hidden" path="id.projectId"  /></td>
-		</tr>
-		<tr>
-			<th> ${TEAM_ID} </th>
-			<td> ${record.id.teamId} <form:input type="hidden" path="id.teamId" /></td>
-		</tr>
-		<tr>
-			<th> ${CAPTION} </th>
-			<td><form:input path="caption" /></td>
-		</tr>
-		<tr>
-			<th> ${BEGDATE} </th>
-			<td><form:input path="begDate" /></td>
-		</tr>
-		<tr>
-			<th> ${ENDDATE} </th>
-			<td><form:input path="endDate" /></td>
-		</tr>
-		<tr>
-        <td colspan="2" align="center">
-			<a href="#" onclick="doAjaxPost('projectTeam/edit'); " class="btn btn-primary pull-right btn-flat" >${SAVE}</a>
-		<button type="button" class="btn btn-warning" onClick="doAjaxGet('${prevpage}');"> <i class="${CANCEL_ICON}"></i> ${CANCEL} </button> 
-        </td>
-		</tr>
-	</table>
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${PAGETITLE} </h3>
+	</div>
+
+	<form:form class="form-horizontal" method="post" modelAttribute="record" id="f">
+	<input type="hidden" name="nextpage" value="project/show?id=${record.id.projectId}"/>
+
+	<div class="box-body">
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="id.projectId"> ${PROJECT_ID} </label>
+			<div class="col-sm-10">  
+				${record.id.projectId} ${record.project.caption} <form:input type="hidden" path="id.projectId"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="id.teamId"> ${TEAM_ID} </label>
+			<div class="col-sm-10">
+				${record.id.teamId} <form:input type="hidden" path="id.teamId"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="begDate">FORMEN</label>
+			<div class="col-sm-10">
+			<c:choose>
+				<c:when test="${empty id.teamId}">
+					${workerCaption}
+					<input type="hidden" name="workerId" id="workerId" value="${workerId}"/>
+					<a class="btn btn-primary" href="#" onClick="doAjaxGet('worker/selectPerson?memberType=LEAD&parentKey=${record.id.projectId}');"> ${SELECT_EMPLOYEE} </a>
+					<a class="btn btn-primary" href="#" onClick="doAjaxGet('worker/selectWorker?memberType=LEAD&parentKey=${record.id.projectId}');"> ${SELECT_SUBCONTRACTOR} </a>
+				</c:when>
+			</c:choose>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="caption">${CAPTION}</label>
+			<div class="col-sm-10"> 
+				<form:input class="form-control" path="caption"/>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="box-footer">
+		<a href="#" onclick="doAjaxPost('${postlink}');" class="btn btn-primary">${SAVE}</a>
+		<a href="#" onclick="doAjaxGet('${prevpage}');" class="btn btn-warning">${CANCEL}</a>
+	</div>
+
 	</form:form>
 </div>

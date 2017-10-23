@@ -6,7 +6,9 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import com.nauticana.manhour.utils.Labels;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.nauticana.nams.utils.Labels;
 
 @Embeddable
 public class ProjectWbsManhourId implements java.io.Serializable {
@@ -36,7 +38,7 @@ public class ProjectWbsManhourId implements java.io.Serializable {
 		this.teamId = Integer.parseInt(s[2]);
 		this.workerId = Integer.parseInt(s[3]);
 		try {
-			this.activityDate = Labels.ymdDF.parse(s[4]);
+			this.activityDate = Labels.dmyDF.parse(s[4]);
 		} catch (ParseException e) {
 			this.activityDate = new Date(System.currentTimeMillis());
 		}
@@ -79,6 +81,7 @@ public class ProjectWbsManhourId implements java.io.Serializable {
 		this.workerId = workerId;
 	}
 
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	@Column(name = "ACTIVITY_DATE", nullable = false, length = 7)
 	public Date getActivityDate() {
 		return this.activityDate;
@@ -95,11 +98,11 @@ public class ProjectWbsManhourId implements java.io.Serializable {
 		if (!(other instanceof ProjectWbsManhourId)) return false;
 		ProjectWbsManhourId castOther = (ProjectWbsManhourId) other;
 
-		return (this.getProjectId() == castOther.getProjectId()) && (this.getCategoryId() == castOther.getCategoryId())
-				&& (this.getTeamId() == castOther.getTeamId()) && (this.getWorkerId() == castOther.getWorkerId())
-				&& ((this.getActivityDate() == castOther.getActivityDate())
-						|| (this.getActivityDate() != null && castOther.getActivityDate() != null
-								&& this.getActivityDate().equals(castOther.getActivityDate())));
+		return (this.getProjectId() == castOther.getProjectId())
+			&& (this.getCategoryId() == castOther.getCategoryId())
+			&& (this.getTeamId() == castOther.getTeamId())
+			&& (this.getWorkerId() == castOther.getWorkerId())
+			&& ((this.getActivityDate() == castOther.getActivityDate())	|| (this.getActivityDate() != null && castOther.getActivityDate() != null && this.getActivityDate().equals(castOther.getActivityDate())));
 	}
 
 	@Override

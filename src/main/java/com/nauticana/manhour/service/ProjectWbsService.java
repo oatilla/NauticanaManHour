@@ -6,13 +6,19 @@ import org.springframework.stereotype.Service;
 import com.nauticana.manhour.model.ProjectWbs;
 import com.nauticana.manhour.model.ProjectWbsId;
 import com.nauticana.manhour.repository.ProjectRepository;
-import com.nauticana.manhour.utils.Utils;
+import com.nauticana.nams.abstrct.AbstractService;
+import com.nauticana.nams.utils.Utils;
 
 @Service
 public class ProjectWbsService extends AbstractService<ProjectWbs,ProjectWbsId> {
 
 	@Override
-	public String[] getFieldNames() {
+	public String tableName() {
+		return ProjectWbs.tableName;
+	}
+
+	@Override
+	public String[] fieldNames() {
 		// TODO Auto-generated method stub
 		return ProjectWbs.fieldNames;
 	}
@@ -43,6 +49,11 @@ public class ProjectWbsService extends AbstractService<ProjectWbs,ProjectWbsId> 
 		ProjectWbs entity = new ProjectWbs();
 		entity.setId(StrToId(strId));
 		return entity;
+	}
+
+	@Override
+	public String[][] findAllStr() {
+		return null;
 	}
 
 }

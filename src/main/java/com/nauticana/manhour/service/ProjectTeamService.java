@@ -1,7 +1,9 @@
 package com.nauticana.manhour.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,19 +12,25 @@ import com.nauticana.manhour.model.Category;
 import com.nauticana.manhour.model.ProjectTeam;
 import com.nauticana.manhour.model.ProjectTeamId;
 import com.nauticana.manhour.model.ProjectTeamPerson;
-import com.nauticana.manhour.model.ProjectWbs;
 import com.nauticana.manhour.model.ProjectWbsManhour;
 import com.nauticana.manhour.model.ProjectWbsManhourId;
 import com.nauticana.manhour.repository.ProjectRepository;
-import com.nauticana.manhour.utils.Labels;
-import com.nauticana.manhour.utils.Utils;
+import com.nauticana.nams.abstrct.AbstractService;
+import com.nauticana.nams.service.NamsJdbcService;
+import com.nauticana.nams.utils.CategoryComparator;
+import com.nauticana.nams.utils.Labels;
+import com.nauticana.nams.utils.Utils;
 
 @Service
 public class ProjectTeamService extends AbstractService<ProjectTeam,ProjectTeamId> {
 
+	@Override
+	public String tableName() {
+		return ProjectTeam.tableName;
+	}
 
 	@Override
-	public String[] getFieldNames() {
+	public String[] fieldNames() {
 		return ProjectTeam.fieldNames;
 	}
 
@@ -30,7 +38,7 @@ public class ProjectTeamService extends AbstractService<ProjectTeam,ProjectTeamI
 	ProjectRepository parentRep;
 
 	@Autowired
-	UtilService urepRep;
+	NamsJdbcService urepRep;
 
 	@Override
 	public ProjectTeam newEntity(String parentKey) {
@@ -50,12 +58,97 @@ public class ProjectTeamService extends AbstractService<ProjectTeam,ProjectTeamI
 		return new ProjectTeamId(id);
 	}
 
-	public String[][] getWbsManhourByDate(int projectId, int teamId, Date date, ProjectWbsManhourService pwms) {
+	public String[][] getWbsManhourLeadByDate(int projectId, int teamId, int workerId, Date date, ProjectWbsManhourService pwms, List<Category> c, String[] captions) {
+		String[][] s = new String[c.size()+1][7];
+
+		s[0][0] = "ID";
+		s[0][1] = "CODE";
+		s[0][2] = "CAPTION";
+		s[0][3] = "MANHOUR";
+		s[0][4] = "LOCAL MH";
+		s[0][5] = "FOREIGN MH";
+		s[0][6] = "TURK MH";
+		
+		ProjectWbsManhourId id = new ProjectWbsManhourId(projectId, 0, teamId, workerId, date);
+
+		for (int i = 0; i < c.size(); i++) {
+			Category ct = c.get(i);
+			s[i+1][0] = ct.getId()+"";
+			s[i+1][1] = ct.getTreeCode();
+//			s[i+1][2] = ct.getCaption();
+			s[i+1][2] = captions[i];
+			id.setCategoryId(ct.getId());
+			ProjectWbsManhour data = pwms.findById(id);
+			if (data != null) {
+				s[i+1][3] = data.getManhour()+"";
+				s[i+1][4] = data.getLocalMh()+"";
+				s[i+1][5] = data.getForeignMh()+"";
+				s[i+1][6] = data.getTrMh()+"";
+			} else {
+				s[i+1][3] = "";
+				s[i+1][4] = "";
+				s[i+1][5] = "";
+				s[i+1][6] = "";
+			}
+
+		}
+		return s;
+	}
+
+
+	public String[][] getWbsManhourByDate(int projectId, int teamId, Date date, ProjectWbsManhourService pwms, List<Category> c, String[] captions) {
 		ProjectTeam team = r.findOne(new ProjectTeamId(projectId, teamId));
-		ArrayList<ProjectTeamPerson> p = new ArrayList<ProjectTeamPerson>();
+		ArrayList<ProjectTeamPerson> p = new ArrayList<ProjectTeamPerson>(team.getProjectTeamPersonnel());
+
+		String[][] s = new String[p.size()+4][c.size()+2];
+
+		//s[0][0] = Labels.dmyDF.format(date);
+		s[0][0] = "";
+		s[0][1] = "";
+		s[1][1] = team.getCaption();
+		for (int i = 0; i < c.size(); i++) {
+			s[0][i+2] = c.get(i).getId()+"";
+			s[1][i+2] = c.get(i).getTreeCode();
+//			s[2][i+2] = c.get(i).getCaption();
+			s[2][i+2] = captions[i];
+		}
+		int[] totals = new int[c.size()+2];
+		for (int i = 0; i < totals.length; i++) {
+			totals[i] = 0;
+		}
+		
+		ProjectWbsManhourId id = new ProjectWbsManhourId(projectId, 0, teamId, 0, date);
+		for (int i = 0; i < p.size(); i++) {
+			id.setWorkerId(p.get(i).getId().getWorkerId());
+			s[i+3][0] = p.get(i).getWorker().getId()+"";
+			s[i+3][1] = p.get(i).getWorker().getCaption();
+			for (int j = 0; j < c.size(); j++) {
+				id.setCategoryId(c.get(j).getId());
+				ProjectWbsManhour data = pwms.findById(id);
+				if (data != null) {
+					s[i + 3][j + 2] = data.getManhour()+"";
+					totals[j+2] = totals[j+2] + data.getManhour();
+				} else {
+					s[i + 3][j+2] = "";
+				}
+			}
+		}
+		s[p.size()+3][0] = "-1";
+		s[p.size()+3][1] = Labels.TOTAL;
+		for (int i = 2; i < totals.length; i++) {
+			s[p.size()+3][i] = totals[i] + "";
+		}
+		return s;
+	}
+	
+	
+	public String[][] getWbsManhourByDateOvertime(int projectId, int teamId, Date date, ProjectWbsManhourService pwms) {
+		ProjectTeam team = r.findOne(new ProjectTeamId(projectId, teamId));
+		ArrayList<ProjectTeamPerson> p = new ArrayList<ProjectTeamPerson>(team.getProjectTeamPersonnel());
 		ArrayList<Category> c = new ArrayList<Category>();
-		for (ProjectTeamPerson x : team.getProjectTeamPersonnel()) p.add(x);
-		for (ProjectWbs x : team.getProject().getProjectWbses()) c.add(x.getCategory());
+		for (Category x : team.getProjectTeamCategory()) c.add(x);
+		Collections.sort(c, new CategoryComparator());
+
 		
 		String[][] s = new String[p.size()+3][c.size()*2+2];
 
@@ -63,7 +156,7 @@ public class ProjectTeamService extends AbstractService<ProjectTeam,ProjectTeamI
 		s[1][0] = team.getCaption();
 		for (int i = 0; i < c.size(); i++) {
 			s[0][i*2+2] = c.get(i).getId()+"";
-			s[1][i*2+2] = c.get(i).getCaption() + "<br>" + c.get(i).getTreeCode();
+			s[1][i*2+2] = c.get(i).getCaption() + " " + c.get(i).getTreeCode();
 			s[2][i*2+2] = "MH";
 			s[2][i*2+3] = "OT";
 		}
@@ -126,14 +219,15 @@ public class ProjectTeamService extends AbstractService<ProjectTeam,ProjectTeamI
 	
 	public void setWbsManhourByDate(int projectId, int teamId, Date date, ProjectWbsManhourService pwms, String[][] list) {
 		ProjectWbsManhourId id = new ProjectWbsManhourId(projectId, 0, teamId, 0, date);
-		for (int i = 2; i < list.length; i++) {
+		for (int i = 3; i < list.length; i++) {
 			int workerId = Integer.parseInt(list[i][0]);
 			id.setWorkerId(workerId);
-			for (int j = 3; j < list.length; j++) {
+			for (int j = 2; j < list.length/2; j++) {
 				int categoryId = Integer.parseInt(list[i][j]);
 				id.setCategoryId(categoryId);
 				ProjectWbsManhour data = pwms.findById(id);
-				data.setManhour(Short.parseShort(list[i][j]));
+				data.setManhour(Short.parseShort(list[i][j*2]));
+				data.setOvertime(Short.parseShort(list[i][j*2+1]));
 				pwms.save(data);
 			}
 		}
@@ -144,6 +238,11 @@ public class ProjectTeamService extends AbstractService<ProjectTeam,ProjectTeamI
 		ProjectTeam entity = new ProjectTeam();
 		entity.setId(StrToId(strId));
 		return entity;
+	}
+
+	@Override
+	public String[][] findAllStr() {
+		return null;
 	}
 
 

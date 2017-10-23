@@ -3,45 +3,71 @@
 
 ${DATATABLE1}
 ${DATATABLE2}
-${DATATABLE3}
 
-<div align="center">
-	<h3> ${PAGETITLE} </h3>
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${PAGETITLE} </h3>
+	</div>
+	<div class="box-body">
+		<p>${AUTHORITY_GROUP} : ${record.id} ${record.caption}
+		<c:if test="${!empty UPDATE_ALLOWED}">
+			<a class="btn btn-primary" href="#" onClick="doAjaxGet('authorityGroup/edit?id=${record.id}');"> ${EDIT} </a>
+		</c:if>
+		</p>
+	</div>
+</div>
 
-	<p>${AUTHORITY_GROUP} : ${record.id} ${record.caption} <a class="btn btn-primary" href="#" onClick="doAjaxGet('authorityGroup/edit?id=${record.id}');"> <i class="${EDIT_ICON}"></i> ${EDIT} </a></p>
-    
-    <h3>${TABLE_AUTHORIZATION}</h3>
+<div class="nav-tabs-custom">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#tab1" data-toggle="tab">${OBJECT_AUTHORIZATION}</a></li>
+		<li><a href="#tab2" data-toggle="tab">${USER_AUTHORIZATION}</a></li>
+	</ul>
 
-	<a class="btn btn-primary" href="#" onClick="doAjaxGet('tableAuthorization/new?parentKey=${record.id}');"> <i class="${NEW_ICON}"></i> ${NEW} </a>
+	<div class="tab-content">
+		<div class="tab-pane active" id="tab1">
+		
+<div class="box box-info">
+	<div class="box-header with-border">
+		<a class="btn btn-primary" href="#" onClick="doAjaxGet('objectAuthorization/new?parentKey=${record.id}');"> ${NEW} </a>
+	</div>
+	
+	<div class="box-body">
 
     <table id="dataTable1" class="table table-bordered table-hover">
 	  <thead>
       <tr>
-        <th>${TABLENAME}</th>
-        <th>${ALLOW_SELECT}</th>
-        <th>${ALLOW_INSERT}</th>
-        <th>${ALLOW_UPDATE}</th>
-        <th>${ALLOW_DELETE}</th>
+        <th>${OBJECT_TYPE}</th>
+        <th>${ACTION}</th>
+        <th>${KEY_VALUE}</th>
 		<th> &nbsp; </th>
       </tr>
       </thead>
 
-      <c:forEach var="tableAuthorization" items="${record.tableAuthorizations}" varStatus="status">
+      <c:forEach var="objectAuthorization" items="${record.objectAuthorizations}" varStatus="status">
         <tr>
-          <td>${tableAuthorization.id.tablename}</td>
-          <td>${tableAuthorization.allowSelect}</td>
-          <td>${tableAuthorization.allowInsert}</td>
-          <td>${tableAuthorization.allowUpdate}</td>
-          <td>${tableAuthorization.allowDelete}</td>
+          <td>${objectAuthorization.id.objectType}</td>
+          <td>${objectAuthorization.id.action}</td>
+          <td>${objectAuthorization.id.keyValue}</td>
           <td>
-          	<a class="btn btn-primary" href="#" onClick="doAjaxGet('tableAuthorization/edit?id=${tableAuthorization.id.authorityGroup},${tableAuthorization.id.tablename}');"> <i class="${EDIT_ICON}"></i> ${EDIT} </a> &nbsp;
-          	<a class="btn btn-danger" href="#" onClick="doAjaxGet('tableAuthorization/delete?id=${tableAuthorization.id.authorityGroup},${tableAuthorization.id.tablename}');"> <i class="${DELETE_ICON}"></i> ${DELETE} </a>
+			<a class="btn btn-danger" href="#" onClick="doAjaxGet('objectAuthorization/delete?id=${objectAuthorization.id.authorityGroup},${objectAuthorization.id.objectType},${objectAuthorization.id.action},${objectAuthorization.id.keyValue}');"> ${DELETE} </a>
           </td>
         </tr>
       </c:forEach>
     </table>
+
+	</div>
+</div>
+
+		</div>  
+
+		<div class="tab-pane" id="tab2">
     
-    <h3>${USER_AUTHORIZATION}</h3>
+<div class="box box-info">
+	<div class="box-header with-border">
+		&nbsp;
+	</div>
+	
+	<div class="box-body">
 
     <table id="dataTable2" class="table table-bordered table-hover">
 	  <thead>
@@ -58,23 +84,10 @@ ${DATATABLE3}
         </tr>
       </c:forEach>
     </table>
-    
-    <h3>${PAGE_AUTHORIZATION}</h3>
 
-	<table id="dataTable3" class="table table-bordered table-hover">
-		<thead>
-			<tr>
-				<th>${PAGENAME}</th>
-				<th> &nbsp; </th>
-			</tr>
-		</thead>
-		
-		<c:forEach var="pageAuthorization" items="${record.pageAuthorizations}" varStatus="status">
-		<tr>
-			<td>${pageAuthorization.id.pagename}</td>
-			<td><a class="btn btn-danger" href="#" onClick="doAjaxGet('pageAuthorization/delete?id=${pageAuthorization.id.authorityGroup},${pageAuthorization.id.pagename}');"> <i class="${DELETE_ICON}"></i> ${DELETE} </a></td>
-		</tr>
-		</c:forEach>
-	</table>
+	</div>
+</div>
 
+</div>
+</div>
 </div>

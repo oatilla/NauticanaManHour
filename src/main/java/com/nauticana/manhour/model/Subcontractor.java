@@ -19,10 +19,13 @@ public class Subcontractor implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "SUBCONTRACTOR";
-	public static final String[] fieldNames = new String[] { "SUBCONTRACTOR_ID", "CAPTION" };
+	public static final String[] fieldNames = new String[] { "SUBCONTRACTOR_ID", "CAPTION", "EXT_SUBCONTRACTOR" };
+	public static final String rootMapping = "subcontractor";
+
 	private int subcontractorId;
 	private String caption;
 	private Set<Worker> workers = new HashSet<Worker>(0);
+	private String extSubcontractor;
 
 	public Subcontractor() {
 	}
@@ -32,10 +35,11 @@ public class Subcontractor implements java.io.Serializable {
 		this.caption = caption;
 	}
 
-	public Subcontractor(int subcontractorId, String caption, Set<Worker> workers) {
+	public Subcontractor(int subcontractorId, String caption, Set<Worker> workers, String extSubcontractor) {
 		this.subcontractorId = subcontractorId;
 		this.caption = caption;
 		this.workers = workers;
+		this.extSubcontractor = extSubcontractor;
 	}
 
 	@Id
@@ -66,6 +70,16 @@ public class Subcontractor implements java.io.Serializable {
 
 	public void setWorkers(Set<Worker> workers) {
 		this.workers = workers;
+	}
+	
+	
+	@Column(name = "EXT_SUBCONTRACTOR")
+	public String getExtSubcontractor() {
+		return this.extSubcontractor;
+	}
+
+	public void setExtSubcontractor(String extSubcontractor) {
+		this.extSubcontractor = extSubcontractor;
 	}
 
 }

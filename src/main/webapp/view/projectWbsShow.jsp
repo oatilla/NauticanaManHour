@@ -3,8 +3,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 ${DATATABLE1}
-<div align="center">
-	<h3> ${PAGETITLE} </h3>
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${PAGETITLE} </h3>
+	</div>
+	<div class="box-body">
 	<table>
 		<tr>
 			<th> ${PROJECT_ID} </th>
@@ -14,9 +17,20 @@ ${DATATABLE1}
         	<th> ${CATEGORY_ID} </th>
 			<td> ${record.id.CategoryId} ${record.category.caption} <form:input type="hidden" path="id.categoryId" /></td>
 		</tr>
+		<tr>
+        	<th> ${CBS_CODE} </th>
+			<td> ${record.cbs.cbsCode} ${record.cbs.caption} <form:input type="hidden" path="cbs" /></td>
+		</tr>
 	</table>
+	</div>
+</div>
 
-	<p> ${PROJECT_WBS_QUANTITY} </p>
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${PROJECT_WBS_QUANTITY} </h3>
+	</div>
+	
+	<div class="box-body">
 
     <table id="dataTable1" class="table table-bordered table-hover">
 		<thead>
@@ -42,13 +56,12 @@ ${DATATABLE1}
 			<td>${record.pupMetric}</td>
 			<td>${record.pupQuantity}</td>
 			<td>
-			 <a class="btn btn-primary" href="#" onClick="doAjaxGet('projectWbs/edit?id=${record.id.projectId},${record.id.categoryId}');"> <i class="${EDIT_ICON}"> </i> ${EDIT} </a>
-			 <a class="btn btn-danger" href="#" onClick="doAjaxGet('projectWbs/delete?id=${record.id.projectId},${record.id.categoryId}');"> <i class="${DELETE_ICON}"> </i> ${DELETE} </a>
+			 <a class="btn btn-primary" href="#" onClick="doAjaxGet('projectWbs/edit?id=${record.id.projectId},${record.id.categoryId}');"> ${EDIT} </a>
+			 <a class="btn btn-danger" href="#" onClick="doAjaxGet('projectWbs/delete?id=${record.id.projectId},${record.id.categoryId}');"> ${DELETE} </a>
 			</td>
 		</tr>
-		</c:forEach>             
+		</c:forEach>
 	</table>
 
-	<p> ${PROJECT_WBS_MANHOUR} </p>
-
+	</div>
 </div>

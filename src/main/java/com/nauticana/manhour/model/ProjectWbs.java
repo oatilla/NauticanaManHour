@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "PROJECT_WBS")
@@ -21,44 +22,57 @@ public class ProjectWbs implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "PROJECT_WBS";
-	public static final String[] fieldNames = new String[] { "PROJECT_ID", "CATEGORY_ID", "UNIT", "METRIC", "WORKFORCE", "PUP_METRIC", "PUP_WORKFORCE" };
+	public static final String[] fieldNames = new String[] { "PROJECT_ID", "CATEGORY_ID", "CBS_CODE", "UNIT", "METRIC", "QUANTITY", "WORKFORCE", "PUP_METRIC", "PUP_QUANTITY", "PUP_WORKFORCE", "PLANNED_METRIC", "PLANNED_QUANTITY", "PLANNED_WORKFORCE", "CUSTOMER_WBS_CODE", "CUSTOMER_WBS_CAPTION" };
+	public static final String rootMapping = "projectWbs";
+	public static final String[] actions = new String[] { "APPROVE_QUANTITY" };
+
 	private ProjectWbsId id;
 	private Project project;
 	private Category category;
+	private Cbs cbs;
 	private String unit;
 	private float metric;
 	private float quantity;
-	private float pupMetric;
-	private float pupQuantity;
+	private Float pupMetric;
+	private Float pupQuantity;
+	private Float plannedMetric;
+	private Float plannedQuantity;
+	private String customerWbsCode;
+	private String customerWbsCaption;
 
 	private Set<ProjectWbsManhour> projectWbsManhours = new HashSet<ProjectWbsManhour>(0);
-
 	private Set<ProjectWbsQuantity> projectWbsQuantities = new HashSet<ProjectWbsQuantity>(0);
 
 	public ProjectWbs() {
 	}
 
-	public ProjectWbs(ProjectWbsId id, Project project, Category category, String unit, float metric,
+	public ProjectWbs(ProjectWbsId id, Project project, Category category, Cbs cbs, String unit, float metric,
 			float quantity) {
 		this.id = id;
 		this.project = project;
 		this.category = category;
+		this.cbs = cbs;
 		this.unit = unit;
 		this.metric = metric;
 		this.quantity = quantity;
 	}
 
-	public ProjectWbs(ProjectWbsId id, Project project, Category category, String unit, float metric,
-			float quantity, float pupMetric, float pupQuantity,
+	public ProjectWbs(ProjectWbsId id, Project project, Category category, Cbs cbs, String unit, float metric, float quantity,
+			Float pupMetric, Float pupQuantity, Float plannedMetric, Float plannedQuantity, String customerWbsCode, String customerWbsCaption,
 			Set<ProjectWbsManhour> projectWbsManhours, Set<ProjectWbsQuantity> projectWbsQuantities) {
 		this.id = id;
 		this.project = project;
 		this.category = category;
+		this.cbs = cbs;
 		this.unit = unit;
 		this.metric = metric;
 		this.quantity = quantity;
 		this.pupMetric = pupMetric;
 		this.pupQuantity = pupQuantity;
+		this.plannedMetric = plannedMetric;
+		this.plannedQuantity = plannedQuantity;
+		this.customerWbsCode = customerWbsCode;
+		this.customerWbsCaption = customerWbsCaption;
 		this.projectWbsManhours = projectWbsManhours;
 		this.projectWbsQuantities = projectWbsQuantities;
 	}
@@ -95,6 +109,16 @@ public class ProjectWbs implements java.io.Serializable {
 		this.category = category;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CBS_CODE", nullable = true, insertable = true, updatable = true)
+	public Cbs getCbs() {
+		return this.cbs;
+	}
+
+	public void setCbs(Cbs cbs) {
+		this.cbs = cbs;
+	}
+
 	@Column(name = "UNIT", nullable = false, length = 3)
 	public String getUnit() {
 		return this.unit;
@@ -104,7 +128,7 @@ public class ProjectWbs implements java.io.Serializable {
 		this.unit = unit;
 	}
 
-	@Column(name = "METRIC", nullable = false, precision = 6)
+	@Column(name = "METRIC", nullable = false, precision = 8, scale = 2)
 	public float getMetric() {
 		return this.metric;
 	}
@@ -113,7 +137,7 @@ public class ProjectWbs implements java.io.Serializable {
 		this.metric = metric;
 	}
 
-	@Column(name = "QUANTITY", nullable = false, precision = 6)
+	@Column(name = "QUANTITY", nullable = false, precision = 8, scale = 2)
 	public float getQuantity() {
 		return this.quantity;
 	}
@@ -122,22 +146,57 @@ public class ProjectWbs implements java.io.Serializable {
 		this.quantity = quantity;
 	}
 
-	@Column(name = "PUP_METRIC", precision = 6)
-	public float getPupMetric() {
+	@Column(name = "PUP_METRIC", precision = 8, scale = 2)
+	public Float getPupMetric() {
 		return this.pupMetric;
 	}
 
-	public void setPupMetric(float pupMetric) {
+	public void setPupMetric(Float pupMetric) {
 		this.pupMetric = pupMetric;
 	}
 
-	@Column(name = "PUP_QUANTITY", precision = 6)
-	public float getPupQuantity() {
+	@Column(name = "PUP_QUANTITY", precision = 8, scale = 2)
+	public Float getPupQuantity() {
 		return this.pupQuantity;
 	}
 
-	public void setPupQuantity(float pupQuantity) {
+	public void setPupQuantity(Float pupQuantity) {
 		this.pupQuantity = pupQuantity;
+	}
+
+	@Column(name = "PLANNED_METRIC", precision = 8, scale = 2)
+	public Float getPlannedMetric() {
+		return this.plannedMetric;
+	}
+
+	public void setPlannedMetric(Float plannedMetric) {
+		this.plannedMetric = plannedMetric;
+	}
+	
+	@Column(name = "PLANNED_QUANTITY", precision = 8, scale = 2)
+	public Float getPlannedQuantity() {
+		return this.plannedQuantity;
+	}
+
+	public void setPlannedQuantity(Float plannedQuantity) {
+		this.plannedQuantity = plannedQuantity;
+	}
+
+	@Column(name = "CUSTOMER_WBS_CODE")
+	public String getCustomerWbsCode() {
+		return this.customerWbsCode;
+	}
+
+	public void setCustomerWbsCode(String customerWbsCode) {
+		this.customerWbsCode = customerWbsCode;
+	}
+	@Column(name = "CUSTOMER_WBS_CAPTION")
+	public String getCustomerWbsCaption() {
+		return this.customerWbsCaption;
+	}
+
+	public void setCustomerWbsCaption(String customerWbsCaption) {
+		this.customerWbsCaption = customerWbsCaption;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectWbs")
@@ -158,5 +217,24 @@ public class ProjectWbs implements java.io.Serializable {
 	public void setProjectWbsQuantities(Set<ProjectWbsQuantity> projectWbsQuantities) {
 		this.projectWbsQuantities = projectWbsQuantities;
 	}
+
+	@Transient
+	@Column(name = "WORKFORCE", precision = 8, scale = 2)
+	public float getWorkforce() {
+		return quantity * metric;
+	}
+
+	@Transient
+	@Column(name = "PUP_WORKFORCE", precision = 8, scale = 2)
+	public Float getPupWorkforce() {
+		try {return pupQuantity * pupMetric;} catch (Exception e) { return null;}
+	}
+
+	@Transient
+	@Column(name = "PLANNED_WORKFORCE", precision = 8, scale = 2)
+	public Float getPlannedWorkforce() {
+		try {return plannedQuantity * plannedMetric;} catch (Exception e) { return null;}
+	}
+
 
 }

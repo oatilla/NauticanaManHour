@@ -2,27 +2,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 ${DATATABLE1}
-<div align="center">
-	<h3> ${PAGETITLE} </h3>
-	<p> ${PAGENAME} : ${record.id} ${record.caption} ${record.url} <a class="btn btn-primary" href="#" onClick="doAjaxGet('screenPage/edit?id=${record.id}');"> <i class="${EDIT_ICON}"> </i> ${EDIT} </a></p>
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${PAGETITLE} </h3>
+	</div>
+	<div class="box-body">
+		<p> ${PAGENAME} : ${record.id} ${record.caption} ${record.url}
+			<c:if test="${!empty UPDATE_ALLOWED}">
+				<a class="btn btn-primary" href="#" onClick="doAjaxGet('screenPage/edit?id=${record.id}');"> ${EDIT} </a>
+			</c:if>
+		</p>
+	</div>
+</div>
 
-    <h3> ${PAGE_AUTHORIZATION} </h3>
+<div class="box box-info">
+	<div class="box-header with-border">
 
-	<a class="btn btn-primary" href="#" onClick="doAjaxGet('pageAuthorization/new?parentKey=${record.id}');"> <i class="${NEW_ICON}"> </i> ${NEW} </a>
+	</div>
+	
+	<div class="box-body">
 
-    <table id="dataTable1" class="table table-bordered table-hover">
-	  <thead>
-      <tr>
-        <th> ${AUTHORITY_GROUP} </th>
-        <th> &nbsp; </th>
-      </tr>
-      </thead>
-
-      <c:forEach var="pageAuthorization" items="${record.pageAuthorizations}" varStatus="status">
-        <tr>
-          <td>${pageAuthorization.id.authorityGroup}</td>
-          <td><a class="btn btn-danger" href="#" onClick="doAjaxGet('pageAuthorization/delete?id=${pageAuthorization.id.authorityGroup},${pageAuthorization.id.pagename}');"> <i class="${DELETE_ICON}"> </i> ${DELETE} </a></td>
-        </tr>
-      </c:forEach>
-    </table>
+    </div>
 </div>

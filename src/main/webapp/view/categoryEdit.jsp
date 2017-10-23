@@ -2,52 +2,89 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<div align="center">
-	<h3> ${PAGETITLE} </h3>
-    <form:form name="f" method="post" modelAttribute="record">
-    <table class="table table-condensed">
-        <tr>
-        <th><label class="control-label" for="id">${CATEGORY_ID}</label></th>
-        <td><form:input type="text" class="form-control" id="id" path="id" /></td>
-      </tr>
-       <tr>
-        <th>${PARENT_ID}</th>
-        <td><form:input path="parentId" /></td>
-      </tr>
-      <tr>
-        <th>${CAT_INDEX}</th>
-        <td><form:input path="catIndex" /></td>
-      </tr>
-      <tr>
-        <th>${CAPTION}</th>
-        <td><form:input path="caption" id="caption" /></td>
-      </tr>
-      <tr>
-        <th>${DETAILS}</th>
-        <td><form:input path="details" /></td>
-      </tr>
-      <tr>
-        <th>${UNIT}</th>
-        <td><form:input path="unit" /></td>
-      </tr>
-      <tr>
-        <th>${CAT_LEVEL}</th>
-        <td><form:input path="catLevel" /></td>
-      </tr>
-      <tr>
-        <th>${TREE_CODE}</th>
-        <td><form:input path="treeCode" /></td>
-      </tr>
-      <tr>
-        <th>${MAIN_FLAG}</th>
-        <td><form:input path="mainFlag" /></td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-			<a href="#" onclick="doAjaxPost('category/edit'); " class="btn btn-primary pull-right btn-flat" >${SAVE}</a>
-			<a href="#" onclick="doAjaxPost('${prevpage}'); " class="btn btn-primary pull-right btn-flat" >${CANCEL} </a>
-	    </td>
-      </tr>
-    </table>
-    </form:form>
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${PAGETITLE} </h3>
+	</div>
+
+	<form:form class="form-horizontal" method="post" modelAttribute="record" id="f">
+		<input type="hidden" name="nextpage"  id="nextpage" value="${nextpage}">
+	<div class="box-body">
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="id"> ${CATEGORY_ID} </label>
+			<div class="col-sm-10">  
+				${record.id} <form:input type="hidden" path="id"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="parentId">${PARENT_ID}</label>
+			<div class="col-sm-10"> 
+				${record.parentId} <form:input type="hidden" path="parentId"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="catLevel">${CAT_LEVEL}</label>
+			<div class="col-sm-10"> 
+				${record.catLevel} <form:input type="hidden" path="catLevel"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="mainFlag">${MAIN_FLAG}</label>
+			<div class="col-sm-10"> 
+				${record.mainFlag} <form:input type="hidden" path="mainFlag"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="catIndex">${CAT_INDEX}</label>
+			<div class="col-sm-10"> 
+				<form:input class="form-control" path="catIndex"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="caption">${CAPTION}</label>
+			<div class="col-sm-10"> 
+				<form:input class="form-control" path="caption" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="details">${DETAILS}</label>
+			<div class="col-sm-10"> 
+				<form:input class="form-control" path="details"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="unit">${UNIT}</label>
+			<div class="col-sm-10"> 
+				<form:input class="form-control" path="unit"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="cbsCode">${CBS_CODE}</label>
+			<div class="col-sm-10"> 
+				<form:input class="form-control" path="cbsCode"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="projectId">${PROJECT_ID}</label>
+			<div class="col-sm-10"> 
+				${record.projectId} <form:input type="hidden" path="projectId"/>
+			</div>
+		</div>
+	</div>
+
+	<div class="box-footer">
+		<a href="#" onclick="doAjaxPost('${postlink}');" class="btn btn-primary">${SAVE}</a>
+		<a href="#" onclick="doAjaxGet('${prevpage}');" class="btn btn-warning">${CANCEL}</a>
+	
+	</div>
+
+	</form:form>
 </div>

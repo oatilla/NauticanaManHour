@@ -3,12 +3,18 @@ package com.nauticana.manhour.service;
 import org.springframework.stereotype.Service;
 
 import com.nauticana.manhour.model.Subcontractor;
+import com.nauticana.nams.abstrct.AbstractService;
 
 @Service
 public class SubcontractorService extends AbstractService<Subcontractor,Integer > {
 
 	@Override
-	public String[] getFieldNames() {
+	public String tableName() {
+		return Subcontractor.tableName;
+	}
+
+	@Override
+	public String[] fieldNames() {
 		return Subcontractor.fieldNames;
 	}
 
@@ -27,5 +33,10 @@ public class SubcontractorService extends AbstractService<Subcontractor,Integer 
 		Subcontractor entity = new Subcontractor();
 		entity.setId(StrToId(strId));
 		return entity;
+	}
+
+	@Override
+	public String[][] findAllStr() {
+		return null;
 	}
 }

@@ -1,72 +1,80 @@
 package com.nauticana.manhour.controller;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.nauticana.manhour.model.Subcontractor;
 import com.nauticana.manhour.model.Worker;
-import com.nauticana.manhour.utils.DataCache;
-import com.nauticana.manhour.utils.Icons;
-import com.nauticana.manhour.utils.Labels;
-import com.nauticana.manhour.utils.PortalLanguage;
-import com.nauticana.manhour.utils.Utils;
+import com.nauticana.manhour.service.ExternalSubcontractorService;
+import com.nauticana.nams.abstrct.AbstractController;
+
 
 @Controller
-@RequestMapping("/subcontractor")
+@RequestMapping("/" + Subcontractor.rootMapping)
 public class SubcontractorController extends AbstractController<Subcontractor, Integer> {
 
-//	@Autowired
-//	protected SubcontractorService modelService;
+	public static final String[] lookuplists = new String[] {"extSubcontractorList"};
+	public static final String[] detailTables = new String[] {Worker.tableName};
+	public static final String[][] detailFields = new String[][] {Worker.fieldNames};
+	public static final String listView   = Subcontractor.rootMapping + "List";
+	public static final String editView   = Subcontractor.rootMapping + "Edit";
+	public static final String showView   = Subcontractor.rootMapping + "Show";
+	public static final String selectView = Subcontractor.rootMapping + "Select";
 
-	public SubcontractorController() {
-		super(Subcontractor.tableName, "subcontractorList", "subcontractorEdit");
+	private static String[] domainNames = null;
+	private static String[] domainlists = null;
+	@Autowired
+	private ExternalSubcontractorService extSubcontractorService;
+	
+	
+	@Override
+	protected String rootMapping() {return Subcontractor.rootMapping;}
+
+	@Override
+	protected String tableName() {return Subcontractor.tableName;}
+
+	@Override
+	protected String listView() {return listView;}
+
+	@Override
+	protected String editView() {return editView;}
+
+	@Override
+	protected String showView() {return showView;}
+
+	@Override
+	protected String selectView() {return selectView;}
+
+	@Override
+	protected String prevPage(String id) {return rootMapping()+"/list";}
+
+	@Override
+	protected String[] detailTables() {return detailTables;}
+
+	@Override
+	protected String[][] detailFields() {return detailFields;}
+	
+	@Override
+	protected String[] domainNames() {if (domainNames == null) {domainNames=namsJdbcService.tableDomains(Subcontractor.tableName); domainlists = initDomainList(domainNames);} return domainNames;}
+
+	@Override
+	protected String[] domainlists() {return domainlists;}
+
+	@Override
+	protected String[] lookuplists() {return lookuplists;}
+
+	@Override
+	protected String[][] lookupService(int i) {
+		switch (i) {
+			case 0: return extSubcontractorService.findAllStr();
+		}
+		return null;
 	}
 
-	@RequestMapping(value = "/show", method = RequestMethod.GET)
-	public ModelAndView showGet(HttpServletRequest request) throws IOException {
-		
-		// Check for user and read authorization on table
-		HttpSession session = request.getSession(true);
-		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
-		if (!utilService.allowSelect(username, tableName))
-			return new ModelAndView("redirect:/unauthorized");
-		
-		// Read language of session
-		PortalLanguage language = DataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
+	@Override
+	protected String[] actions() {return null;}
 
-		// Read data and assign to model and view object
-		Subcontractor subcontractor = modelService.findById(modelService.StrToId(request.getParameter("id")));
-		
-		ModelAndView model = new ModelAndView("subcontractorShow");
-		model.addObject("record", subcontractor);
-		
-		// Assign text objects from session language
-		model.addObject(Labels.PAGETITLE, language.getText(tableName));
-		model.addObject(Labels.NEW, language.getText(Labels.NEW));
-		model.addObject(Labels.EDIT, language.getText(Labels.EDIT));
-		model.addObject(Labels.CHOOSE, language.getText(Labels.CHOOSE));
-		model.addObject(Labels.DELETE, language.getText(Labels.DELETE));
-		model.addObject(Icons.EDIT, Icons.getIcon(Icons.EDIT));
-		model.addObject(Icons.NEW, Icons.getIcon(Icons.NEW));
-		model.addObject(Icons.DELETE, Icons.getIcon(Icons.DELETE));
-		model.addObject("DATATABLE1", Labels.dataTableSetting1);
-		model.addObject(tableName, language.getText(tableName));
-		for (int i = 0; i < modelService.getFieldNames().length; i++) {
-			model.addObject(modelService.getFieldNames()[i], language.getText(modelService.getFieldNames()[i]));
-		}
-		model.addObject(Worker.tableName, language.getText(Worker.tableName));
-		for (int i = 0; i < Worker.fieldNames.length; i++) {
-			model.addObject(Worker.fieldNames[i], language.getText(Worker.fieldNames[i]));
-		}
-		return model;
-	}
-
+	@Override
+	protected String[][] detailActions() {return null;}
 }

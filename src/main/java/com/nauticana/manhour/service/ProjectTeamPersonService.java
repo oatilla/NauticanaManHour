@@ -7,13 +7,19 @@ import com.nauticana.manhour.model.ProjectTeamId;
 import com.nauticana.manhour.model.ProjectTeamPerson;
 import com.nauticana.manhour.model.ProjectTeamPersonId;
 import com.nauticana.manhour.repository.ProjectTeamRepository;
-import com.nauticana.manhour.utils.Utils;
+import com.nauticana.nams.abstrct.AbstractService;
+import com.nauticana.nams.utils.Utils;
 
 @Service
 public class ProjectTeamPersonService extends AbstractService<ProjectTeamPerson,ProjectTeamPersonId> {
 
 	@Override
-	public String[] getFieldNames() {
+	public String tableName() {
+		return ProjectTeamPerson.tableName;
+	}
+
+	@Override
+	public String[] fieldNames() {
 		return ProjectTeamPerson.fieldNames;
 	}
 
@@ -44,5 +50,10 @@ public class ProjectTeamPersonService extends AbstractService<ProjectTeamPerson,
 		ProjectTeamPerson entity = new ProjectTeamPerson();
 		entity.setId(StrToId(strId));
 		return entity;
+	}
+
+	@Override
+	public String[][] findAllStr() {
+		return null;
 	}
 }

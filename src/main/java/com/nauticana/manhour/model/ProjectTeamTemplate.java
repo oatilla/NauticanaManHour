@@ -18,6 +18,8 @@ public class ProjectTeamTemplate implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "PROJECT_TEAM_TEMPLATE";
 	public static final String[] fieldNames = new String[] { "PROJECT_ID", "CATEGORY_ID", "TEAM_ID" };
+	public static final String rootMapping = "projectTeamTemplate";
+
 	private ProjectTeamTemplateId id;
 	private ProjectTeam projectTeam;
 	private ProjectWbs projectWbs;

@@ -6,7 +6,9 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import com.nauticana.manhour.utils.Labels;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.nauticana.nams.utils.Labels;
 
 @Embeddable
 public class ProjectWbsQuantityId implements java.io.Serializable {
@@ -14,14 +16,16 @@ public class ProjectWbsQuantityId implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private int projectId;
 	private int categoryId;
+	private int teamId;
 	private Date begda;
 
 	public ProjectWbsQuantityId() {
 	}
 
-	public ProjectWbsQuantityId(int projectId, int categoryId, Date begda) {
+	public ProjectWbsQuantityId(int projectId, int categoryId, int teamId, Date begda) {
 		this.projectId = projectId;
 		this.categoryId = categoryId;
+		this.teamId = teamId;
 		this.begda = begda;
 	}
 
@@ -54,6 +58,16 @@ public class ProjectWbsQuantityId implements java.io.Serializable {
 		this.categoryId = categoryId;
 	}
 
+	@Column(name = "TEAM_ID", nullable = false, precision = 8, scale = 0)
+	public int getTeamId() {
+		return this.teamId;
+	}
+
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
+	}
+
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	@Column(name = "BEGDA", nullable = false)
 	public Date getBegda() {
 		return this.begda;
@@ -69,7 +83,7 @@ public class ProjectWbsQuantityId implements java.io.Serializable {
 		if (!(other instanceof ProjectWbsQuantityId)) return false;
 		ProjectWbsQuantityId castOther = (ProjectWbsQuantityId) other;
 
-		return (this.getProjectId() == castOther.getProjectId()) && (this.getCategoryId() == castOther.getCategoryId())
+		return (this.getProjectId() == castOther.getProjectId()) && (this.getCategoryId() == castOther.getCategoryId())  && (this.getTeamId() == castOther.getTeamId())
 				&& (this.getBegda() == castOther.getBegda());
 	}
 
@@ -79,6 +93,7 @@ public class ProjectWbsQuantityId implements java.io.Serializable {
 
 		result = 37 * result + this.getProjectId();
 		result = 37 * result + this.getCategoryId();
+		result = 37 * result + this.getTeamId();
 		result = 37 * result + this.getBegda().hashCode();
 		return result;
 	}

@@ -3,9 +3,15 @@
 
 ${DATATABLE1}
 
-<div align="center">
-	<h3> ${PAGETITLE} </h3>
-    <p><a class="btn btn-primary" href="#" onClick="doAjaxGet('domainName/new');"> <i class="${NEW_ICON}"> ${NEW} </i> </a></p>
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${PAGETITLE} </h3>
+		<c:if test="${!empty INSERT_ALLOWED}">
+			<a class="btn btn-primary" href="#" onClick="doAjaxGet('domainName/new');"> ${NEW} </a>
+		</c:if>
+	</div>
+
+	<div class="box-body">
     
     <table id="dataTable1" class="table table-bordered table-hover">
 	  <thead>
@@ -21,10 +27,15 @@ ${DATATABLE1}
 			<td> <a href="#" onClick="doAjaxGet('domainName/show?id=${record.id}');"> ${record.id} </a> </td>
 			<td>${record.caption}</td>
 			<td>
-				<a class="btn btn-primary" href="#" onClick="doAjaxGet('domainName/edit?id=${record.id}');"> <i class="${EDIT_ICON}"> </i> ${EDIT} </a>
-				<a class="btn btn-danger" href="#" onClick="doAjaxGet('domainName/delete?id=${record.id}');"> <i class="${DELETE_ICON}"> </i> ${DELETE} </a>
+				<c:if test="${empty UPDATE_ALLOWED}">
+				<a class="btn btn-primary" href="#" onClick="doAjaxGet('domainName/edit?id=${record.id}');"> ${EDIT} </a>
+				</c:if>
+				<c:if test="${empty DELETE_ALLOWED}">
+				<a class="btn btn-danger" href="#" onClick="doAjaxGet('domainName/delete?id=${record.id}');"> ${DELETE} </a>
+				</c:if>
 			</td>
 		</tr>
       </c:forEach>             
     </table>
+    </div>
 </div>

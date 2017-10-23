@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-${DATATABLE1}
-<div align="center">
-	<h3> ${PAGETITLE} </h3>
+
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${PAGETITLE} </h3>
+	</div>
+
+	<div class="box-body">
+    
     <table id="dataTable1" class="table table-bordered table-hover">
       <thead>
       <tr>
@@ -38,9 +44,13 @@ ${DATATABLE1}
           <td>${record.endda}</td>
           <td>${record.lastQuantity}</td>
           <td>
-			<a href="#" onClick="doAjaxGet('projectWbsQuantity/new?id=${record.id.projectId},${record.id.categoryId},${record.nextTermYear},${record.termType},${record.nextTermId}');" class="btn btn-primary"> <i class="${NEW_ICON}"></i> ${NEW} </a>
+            <fmt:formatDate value="${record.begda}" var="begda" pattern="dd-MM-yyyy"/>
+            <fmt:formatDate value="${record.nextBegda}" var="nextBegda" pattern="dd-MM-yyyy"/>
+			<a href="#" onClick="doAjaxGet('projectWbsQuantity/edit?id=${record.id.projectId},${record.id.categoryId},${begda}');" class="btn btn-info"> ${EDIT} </a>
+			<a href="#" onClick="doAjaxGet('projectWbsQuantity/new?id=${record.id.projectId},${record.id.categoryId},${nextBegda}');" class="btn btn-primary"> ${NEW} </a>
 		  </td>
         </tr>
-      </c:forEach>             
+      </c:forEach>
     </table>
+    </div>
 </div>

@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
@@ -22,23 +23,26 @@ public class ProjectTeamPerson implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "PROJECT_TEAM_PERSON";
 	public static final String[] fieldNames = new String[] { "PROJECT_ID", "TEAM_ID", "WORKER_ID", "TEAM_LEAD" };
+	public static final String rootMapping = "projectTeamPerson";
+	public static final String[] actions = new String[] { "ADD_EMPLOYEE", "ADD_SUBCONTRACTOR" };
+
 	private ProjectTeamPersonId id;
 	private Worker worker;
 	private ProjectTeam projectTeam;
-	private char teamLead;
+	private byte teamLead;
 	private Set<ProjectWbsManhour> projectWbsManhours = new HashSet<ProjectWbsManhour>(0);
 
 	public ProjectTeamPerson() {
 	}
 
-	public ProjectTeamPerson(ProjectTeamPersonId id, Worker worker, ProjectTeam projectTeam, char teamLead) {
+	public ProjectTeamPerson(ProjectTeamPersonId id, Worker worker, ProjectTeam projectTeam, byte teamLead) {
 		this.id = id;
 		this.worker = worker;
 		this.projectTeam = projectTeam;
 		this.teamLead = teamLead;
 	}
 
-	public ProjectTeamPerson(ProjectTeamPersonId id, Worker worker, ProjectTeam projectTeam, char teamLead, Set<ProjectWbsManhour> projectWbsManhours) {
+	public ProjectTeamPerson(ProjectTeamPersonId id, Worker worker, ProjectTeam projectTeam, byte teamLead, Set<ProjectWbsManhour> projectWbsManhours) {
 		this.id = id;
 		this.worker = worker;
 		this.projectTeam = projectTeam;
@@ -82,12 +86,13 @@ public class ProjectTeamPerson implements java.io.Serializable {
 		this.projectTeam = projectTeam;
 	}
 
+	@OrderBy("TEAM_LEAD DESC")
 	@Column(name = "TEAM_LEAD", nullable = false, length = 1)
-	public char getTeamLead() {
+	public byte getTeamLead() {
 		return this.teamLead;
 	}
 
-	public void setTeamLead(char teamLead) {
+	public void setTeamLead(byte teamLead) {
 		this.teamLead = teamLead;
 	}
 

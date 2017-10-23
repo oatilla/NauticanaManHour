@@ -22,11 +22,14 @@ public class Worker implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "WORKER";
-	public static final String[] fieldNames = new String[] { "WORKER_ID", "CAPTION", "PERSON_ID", "SUBCONTRACTOR_ID" };
+	public static final String[] fieldNames = new String[] { "WORKER_ID", "CAPTION", "PERSON_ID", "SUBCONTRACTOR_ID", "CITIZENSHIP" };
+	public static final String rootMapping = "worker";
+
 	private int workerId;
 	private Subcontractor subcontractor;
 	private String caption;
 	private Integer personId;
+	private String citizenShip;
 	private Set<ProjectTeamPerson> projectTeamPersons = new HashSet<ProjectTeamPerson>(0);
 
 	public Worker() {
@@ -37,11 +40,12 @@ public class Worker implements java.io.Serializable {
 		this.caption = caption;
 	}
 
-	public Worker(int workerId, Subcontractor subcontractor, String caption, Integer personId, Set<ProjectTeamPerson> projectTeamPersons) {
+	public Worker(int workerId, Subcontractor subcontractor, String caption, Integer personId, String citizenShip, Set<ProjectTeamPerson> projectTeamPersons) {
 		this.workerId = workerId;
 		this.subcontractor = subcontractor;
 		this.caption = caption;
 		this.personId = personId;
+		this.citizenShip = citizenShip;
 		this.projectTeamPersons = projectTeamPersons;
 	}
 
@@ -84,6 +88,15 @@ public class Worker implements java.io.Serializable {
 
 	public void setPersonId(Integer personId) {
 		this.personId = personId;
+	}
+
+	@Column(name = "CITIZENSHIP", length = 2)
+	public String getCitizenShip() {
+		return this.citizenShip;
+	}
+
+	public void setCitizenShip(String citizenShip) {
+		this.citizenShip = citizenShip;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "worker")

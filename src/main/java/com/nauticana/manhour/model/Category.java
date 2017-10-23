@@ -14,14 +14,15 @@ import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@SuppressWarnings("unused")
 @Entity
 @Table(name = "CATEGORY")
 public class Category implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "CATEGORY";
-	public static final String[] fieldNames = new String[] {"CATEGORY_ID","PARENT_ID","CAPTION","CAT_INDEX","DETAILS","UNIT","CAT_LEVEL","TREE_CODE","MAIN_FLAG"};
+	public static final String[] fieldNames = new String[] {"CATEGORY_ID","PARENT_ID","CAPTION","CAT_INDEX","DETAILS","UNIT","CAT_LEVEL","TREE_CODE","MAIN_FLAG","PROJECT_ID"};
+	public static final String rootMapping = "category";
+
 	private int categoryId;
 	private Integer parentId;
 	private String caption;
@@ -30,7 +31,11 @@ public class Category implements java.io.Serializable {
 	private String unit;
 	private byte catLevel;
 	private String treeCode;
+	private String cbsCode;
 	private char mainFlag;
+	private Integer projectId;
+	
+
 	private Set<ProjectWbs> projectWbses = new HashSet<ProjectWbs>(0);
 
 	public Category() {
@@ -40,7 +45,7 @@ public class Category implements java.io.Serializable {
 		this.categoryId = categoryId;
 	}
 
-	public Category(int categoryId, Integer parentId, String caption, String catIndex, String details, String unit, byte catLevel, String treeCode, char mainFlag, Set<ProjectWbs> projectWbses) {
+	public Category(int categoryId, Integer parentId, String caption, String catIndex, String details, String unit, byte catLevel, String treeCode, String cbsCode, char mainFlag, Integer projectId, Set<ProjectWbs> projectWbses) {
        this.categoryId = categoryId;
        this.parentId = parentId;
        this.caption = caption;
@@ -49,7 +54,9 @@ public class Category implements java.io.Serializable {
        this.unit = unit;
        this.catLevel = catLevel;
        this.treeCode = treeCode;
+       this.cbsCode = cbsCode;
        this.mainFlag = mainFlag;
+       this.projectId= projectId;
        this.projectWbses = projectWbses;
     }
 
@@ -129,6 +136,15 @@ public class Category implements java.io.Serializable {
 		this.treeCode = treeCode;
 	}
 
+	@Column(name = "CBS_CODE", length = 20)
+	public String getCbsCode() {
+		return this.cbsCode;
+	}
+
+	public void setCbsCode(String cbsCode) {
+		this.cbsCode = cbsCode;
+	}
+
 	@Column(name="MAIN_FLAG", length=1)
     public char getMainFlag() {
         return this.mainFlag;
@@ -146,9 +162,13 @@ public class Category implements java.io.Serializable {
 	public void setProjectWbses(Set<ProjectWbs> projectWbses) {
 		this.projectWbses = projectWbses;
 	}
-	
-	
-	
-	
+	@Column(name="PROJECT_ID")
+	public Integer getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
 
 }

@@ -17,7 +17,9 @@ public class ProjectWbsManhour implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "PROJECT_WBS_MANHOUR";
-	public static final String[] fieldNames = new String[] { "PROJECT_ID", "CATEGORY_ID", "TEAM_ID", "WORKER_ID", "ACTIVITY_DATE", "MANHOUR", "OVERTIME", "LOCAL_MH", "FOREIGN_MH", "TR_MH" };
+	public static final String[] fieldNames = new String[] { "PROJECT_ID", "CATEGORY_ID", "TEAM_ID", "WORKER_ID", "ACTIVITY_DATE", "MANHOUR", "OVERTIME", "LOCAL_MH", "FOREIGN_MH", "TR_MH", "STATUS" };
+	public static final String rootMapping = "projectWbsManhour";
+
 	private ProjectWbsManhourId id;
 	private ProjectTeamPerson projectTeamPerson;
 	private ProjectWbs projectWbs;
@@ -26,6 +28,7 @@ public class ProjectWbsManhour implements java.io.Serializable {
 	private short localMh;
 	private short foreignMh;
 	private short trMh;
+	private String status;
 
 	public ProjectWbsManhour() {
 	}
@@ -38,7 +41,7 @@ public class ProjectWbsManhour implements java.io.Serializable {
 	}
 
 	public ProjectWbsManhour(ProjectWbsManhourId id, ProjectTeamPerson projectTeamPerson, ProjectWbs projectWbs,
-			short manhour, short overtime, short localMh, short foreignMh, short trMh) {
+			short manhour, short overtime, short localMh, short foreignMh, short trMh, String status) {
 		this.id = id;
 		this.projectTeamPerson = projectTeamPerson;
 		this.projectWbs = projectWbs;
@@ -47,10 +50,10 @@ public class ProjectWbsManhour implements java.io.Serializable {
 		this.localMh = localMh;
 		this.foreignMh = foreignMh;
 		this.trMh = trMh;
+		this.status = status;
 	}
 
 	@EmbeddedId
-
 	@AttributeOverrides({
 			@AttributeOverride(name = "projectId", column = @Column(name = "PROJECT_ID", nullable = false, precision = 8, scale = 0)),
 			@AttributeOverride(name = "categoryId", column = @Column(name = "CATEGORY_ID", nullable = false, precision = 8, scale = 0)),
@@ -135,4 +138,12 @@ public class ProjectWbsManhour implements java.io.Serializable {
 		this.trMh = trMh;
 	}
 
+	@Column(name = "STATUS", nullable = false, length = 20)
+	public String getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

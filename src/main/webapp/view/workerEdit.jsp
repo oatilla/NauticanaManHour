@@ -2,29 +2,63 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<div align="center">
-	<h3> ${PAGETITLE} </h3>
-    <form:form name="f" method="post" modelAttribute="record" id="f">
-    <input type=hidden name=nextpage value="/subcontractor/show?id=${record.subcontractor.id}">
-	<table class="table table-condensed">
-		<tr>
-			<th> ${SUBCONTRACTOR_ID} </th>
-			<td>${record.subcontractor.id} ${record.subcontractor.caption} <form:input type="hidden" path="subcontractor.id"  /></td>
-		</tr>
-		<tr>
-			<th> ${WORKER_ID} </th>
-			<td>${record.id} <form:input type="hidden" path="id"  /></td>
-		</tr>
-		<tr>
-			<th> ${CAPTION} </th>
-			<td><form:input path="caption" /></td>
-		</tr>
-		<tr>
-        <td colspan="2" align="center">
-			<a href="#" onclick="doAjaxPost('worker/edit'); " class="btn btn-primary pull-right btn-flat" >${SAVE}</a>
-		<button type="button" class="btn btn-warning" onClick="doAjaxGet('${prevpage}');"> <i class="${CANCEL_ICON}"></i> ${CANCEL} </button> 
-        </td>
-		</tr>
-	</table>
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $(".select2").select2();
+
+ 	//Date picker
+    $('#startDate').datepicker({
+      autoclose: true
+    });
+  });
+</script>
+
+
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${PAGETITLE} </h3>
+	</div>
+
+	<form:form class="form-horizontal" method="post" modelAttribute="record" id="f">
+	<input type="hidden" name="nextpage" value="subcontractor/show?id=${record.subcontractor.id}"/>
+
+	<div class="box-body">
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="id"> ${SUBCONRACTOR_ID} </label>
+			<div class="col-sm-10">  
+				${record.subcontractor.id}
+				<form:input type="hidden" path="subcontractor.id"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="id"> ${WORKER_ID} </label>
+			<div class="col-sm-10">  
+				${record.id}
+				<form:input type="hidden" path="id"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="caption">${CAPTION}</label>
+			<div class="col-sm-10"> 
+				<form:input class="form-control" path="caption"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="citizenShip">${CITIZENSHIP}</label>
+			<div class="col-sm-10">
+				<form:select name="citizenShip" path="citizenShip"  class="form-control select2" items="${COUNTRY_LIST}"/>
+			</div>
+		</div>
+	</div>
+
+	<div class="box-footer">
+		<a href="#" onclick="doAjaxPost('${postlink}');" class="btn btn-primary">${SAVE}</a>
+		<a href="#" onclick="doAjaxGet('subcontractor/show?id=${record.subcontractor.id}');" class="btn btn-warning">${CANCEL}</a>
+	</div>
+
 	</form:form>
 </div>

@@ -3,14 +3,26 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 ${DATATABLE1}
-<div align="center">
-  
-	<h3> ${PAGETITLE} </h3>
-	<p>${MENU} : ${record.id} ${record.caption} <a class="btn btn-primary" href="#" onClick="doAjaxGet('mainMenu/edit?id=${record.id}');"> <i class="${EDIT_ICON}"></i> ${EDIT} </a></p>
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${PAGETITLE} </h3>
+	</div>
+	<div class="box-body">
+		<p> ${MAIN_MENU} : ${record.id} ${record.caption}
+		<c:if test="${!empty UPDATE_ALLOWED}">
+			<a class="btn btn-primary" href="#" onClick="doAjaxGet('mainMenu/edit?id=${record.id}');"> ${EDIT} </a>
+		</c:if>
+		</p>
+	</div>
+</div>
   	
-  	<h3> ${SCREEN_PAGE} </h3>
-  
-	<p><a class="btn btn-primary" href="#" onClick="doAjaxGet('screenPage/new?parentKey=${record.id}');"> <i class="${NEW_ICON}"></i> ${NEW} </a></p>
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title"> ${SCREEN_PAGE} </h3>
+		<a class="btn btn-primary" href="#" onClick="doAjaxGet('screenPage/new?parentKey=${record.id}');"> ${NEW} </a>
+	</div>
+	
+	<div class="box-body">
 
     <table id="dataTable1" class="table table-bordered table-hover">
 		<thead>
@@ -26,7 +38,7 @@ ${DATATABLE1}
 		
 		<c:forEach var="screenPage" items="${record.screenPages}" varStatus="status">
 		<tr>
-			<td> <a href="/screenPage/show?id=${screenPage.id}"> ${screenPage.id} </a> </td>
+			<td> <a href="#" onClick="doAjaxGet('/screenPage/show?id=${screenPage.id}');"> ${screenPage.id} </a> </td>
 			<td>${screenPage.caption}</td>
 			<td>${screenPage.icon}</td>
 			<td>${screenPage.url}</td>
@@ -38,4 +50,5 @@ ${DATATABLE1}
 		</tr>
 		</c:forEach>             
 	</table>
+	</div>
 </div>

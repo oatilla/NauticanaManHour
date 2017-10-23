@@ -1,6 +1,5 @@
 package com.nauticana.manhour.model;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,8 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "PROJECT_TEAM")
@@ -26,16 +23,17 @@ public class ProjectTeam implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "PROJECT_TEAM";
-	public static final String[] fieldNames = new String[] { "PROJECT_ID", "TEAM_ID", "CAPTION", "BEG_DATE", "END_DATE" };
+	public static final String[] fieldNames = new String[] { "PROJECT_ID", "TEAM_ID", "CAPTION" };
+	public static final String rootMapping = "projectTeam";
+	public static final String[] actions = new String[] { "APPROVE_MANHOUR" };
+
 	private ProjectTeamId id;
 	private Project project;
 	private String caption;
-	private Date begDate;
-	private Date endDate;
 	
 	private Set<ProjectTeamPerson> projectTeamPersonnel = new HashSet<ProjectTeamPerson>(0);
-
 	private Set<Category> projectTeamCategory = new HashSet<Category>(0);
+	private Set<ProjectWbsQuantity> projectWbsQuantities = new HashSet<ProjectWbsQuantity>(0);
 	
 	public ProjectTeam() {
 	}
@@ -46,12 +44,10 @@ public class ProjectTeam implements java.io.Serializable {
 		this.caption = caption;
 	}
 
-	public ProjectTeam(ProjectTeamId id, Project project, String caption, Date begDate, Date endDate, Set<ProjectTeamPerson> projectTeamPersonnel) {
+	public ProjectTeam(ProjectTeamId id, Project project, String caption, Set<ProjectTeamPerson> projectTeamPersonnel) {
 		this.id = id;
 		this.project = project;
 		this.caption = caption;
-		this.begDate = begDate;
-		this.endDate = endDate;
 		this.projectTeamPersonnel = projectTeamPersonnel;
 	}
 
@@ -87,28 +83,8 @@ public class ProjectTeam implements java.io.Serializable {
 		this.caption = caption;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "BEG_DATE", length = 7)
-	public Date getBegDate() {
-		return this.begDate;
-	}
-
-	public void setBegDate(Date begDate) {
-		this.begDate = begDate;
-	}
-
-	@Temporal(TemporalType.DATE)
-	@Column(name = "END_DATE", length = 7)
-	public Date getEndDate() {
-		return this.endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectTeam")
-	@OrderBy("TEAM_LEAD")
+	@OrderBy("TEAM_LEAD DESC")
 	public Set<ProjectTeamPerson> getProjectTeamPersonnel() {
 		return this.projectTeamPersonnel;
 	}
@@ -130,6 +106,16 @@ public class ProjectTeam implements java.io.Serializable {
 
 	public void setProjectTeamCategory(Set<Category> projectTeamCategory) {
 		this.projectTeamCategory = projectTeamCategory;
+	}
+
+	@OrderBy("BEGDA DESC")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectTeam")
+	public Set<ProjectWbsQuantity> getProjectWbsQuantities() {
+		return this.projectWbsQuantities;
+	}
+
+	public void setProjectWbsQuantities(Set<ProjectWbsQuantity> projectWbsQuantities) {
+		this.projectWbsQuantities = projectWbsQuantities;
 	}
 
 	

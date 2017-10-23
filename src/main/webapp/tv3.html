@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Treeview</title>
+        
+        <link type="text/css" rel="stylesheet" href="s/tree.css" />
+    </head>
+
+    <body>
+
+<p>Another version of the treeview without checkbox support is available on <a href="css3-treeview.html" target="_blank">this page</a>.</p>
+             
+<div class="tv3">
+    <ul>
+        <li>
+            <input type="checkbox" id="node-0" checked="checked" /><label><input type="checkbox" /><span></span></label><label for="node-0">Libraries</label> <a href="#" onClick=""> link </a>
+            <ul>
+                <li>
+                    <input type="checkbox" id="node-0-0" checked="checked" /><label><input type="checkbox" /><span></span></label><label for="node-0-0">Documents</label>  <a href="#" onClick=""> link </a>
+                    <ul>
+                        <li>
+                            <input type="checkbox" id="node-0-0-0" checked="checked" /><label><input type="checkbox" /><span></span></label><label for="node-0-0-0">My Documents</label>  <a href="#" onClick=""> link </a>
+                            <ul>
+                                <li>
+                                    <label><input type="checkbox" /><span></span></label><label> &nbsp; &nbsp; Downloads</label> <a href="#" onClick=""> link </a>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="node-0-0-0-1" /><label><input type="checkbox" /><span></span></label><label for="node-0-0-0-1">Projects</label> <a href="#" onClick=""> link </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" id="node-0-1" /><label><input type="checkbox" /><span></span></label><label for="node-0-1">Music</label> <a href="#" onClick=""> link </a>
+                    <ul>
+                        <li>
+                            <input type="checkbox" id="node-0-1-0" /><label><input type="checkbox" /><span></span></label><label for="node-0-1-0">My Music</label> <a href="#" onClick=""> link </a>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="node-0-1-1" /><label><input type="checkbox" /><span></span></label><label for="node-0-1-1">Public Music</label> <a href="#" onClick=""> link </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" id="node-0-2" /><label><input type="checkbox" /><span></span></label><label for="node-0-2">Pictures</label> <a href="#" onClick=""> link </a>
+                    <ul>
+                        <li>
+                            <input type="checkbox" id="node-0-2-0" /><label><input type="checkbox" /><span></span></label><label for="node-0-2-0">My Pictures</label> <a href="#" onClick=""> link </a>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="node-0-2-1" /><label><input type="checkbox" /><span></span></label><label for="node-0-2-1">Public Pictures</label> <a href="#" onClick=""> link </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" id="node-0-3" checked="checked" /><label><input type="checkbox" checked="checked" /><span></span></label><label for="node-0-3">Video</label> <a href="#" onClick=""> link </a>
+                    <ul>
+                        <li>
+                            <input type="checkbox" id="node-0-3-0" /><label><input type="checkbox" checked="checked" /><span></span></label><label for="node-0-3-0">My Videos</label> <a href="#" onClick=""> link </a>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="node-0-3-1" /><label><input type="checkbox" checked="checked" /><span></span></label><label for="node-0-3-1">Public Videos</label> <a href="#" onClick=""> link </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<p> the end </p>
+
+<script>
+$(".tv3").delegate("label input:checkbox", "change", function() {
+    var
+        checkbox = $(this),
+        nestedList = checkbox.parent().next().next(),
+        selectNestedListCheckbox = nestedList.find("label:not([for]) input:checkbox");
+ 
+    if(checkbox.is(":checked")) {
+        return selectNestedListCheckbox.prop("checked", true);
+    }
+    selectNestedListCheckbox.prop("checked", false);
+});
+</script>
+
+</body>
+</html>
