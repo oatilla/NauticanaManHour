@@ -77,7 +77,7 @@ ${menu}
 		</section>
 
 		<section class = "content">
-			<div id="content"> <img src="../flag-icon/Construction_.jpg" height="100%" width="100%"/></div>
+			<div id="content"> </div>
 		</section>
 	</div>
 </div>

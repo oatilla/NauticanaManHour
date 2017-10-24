@@ -15,14 +15,6 @@
 			$('[href="' + lastTab + '"]').tab('show');
 		}
 	});
-
-	$(document).ready(function() {
-	    $('#dataTable2').DataTable( {
-	        scrollY:        '50vh',
-	        paging:         false
-	    } );
-	} );
-	
 </script>
 
 

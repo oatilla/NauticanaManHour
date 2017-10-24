@@ -35,13 +35,14 @@ ${DATATABLE1}
 	<table id="dataTable1" class="table table-bordered table-hover">
 		<thead>
 		<tr>
- 			<th> &nbsp; </th>
 			<th>${PROJECT_ID}</th>
 			<th>${CAPTION}</th>
 			<th>${STATUS}</th>
 			<th>${CUSTOMER}</th>
 			<th>${COUNTRY}</th>
 			<th>${LOCATION}</th>
+ 			<th> &nbsp; </th>
+<!-- 
 			<th>${CONTRACT_DATE}</th>
 			<th>${AREA_HANDOVER}</th>
 			<th>${DURATION}</th>
@@ -56,11 +57,18 @@ ${DATATABLE1}
 			<th>${LETTER_OF_ADVANCE}</th>
 			<th>${LETTER_OF_WARRANTY}</th>
 			<th>${ORGANIZATION_ID}</th>
-		</tr>
+ -->
+ 		</tr>
 		</thead>
 
       <c:forEach var="record" items="${records}" varStatus="status">
 		<tr>
+			<td>${record.id}</td>
+			<td><a href="#" onClick="doAjaxGet('project/show?id=${record.id}');">${record.caption}</a></td>
+			<td>${record.status}</td>
+			<td>${record.customer}</td>
+			<td>${record.country}</td>
+			<td>${record.location}</td>
 			<td>
 				<a class="btn btn-primary" href="#" onClick="doAjaxGet('project/edit?id=${record.id}');"> ${EDIT} </a>
 				<a class="btn btn-danger" href="#"  id="delete_${record.id}"> ${DELETE} </a>
@@ -69,12 +77,7 @@ ${DATATABLE1}
 				<a href="#" onClick="doAjaxGet('project/projectWbs/list?projectId=${record.id}');"> ${PROJECT_WBS} </a>
 				<a href="#" onClick="doAjaxGet('project/projectTeam/list?projectId=${record.id}');"> ${PROJECT_TEAM} </a>
 			</td>
-			<td>${record.id}</td>
-			<td><a href="#" onClick="doAjaxGet('project/show?id=${record.id}');">${record.caption}</a></td>
-			<td>${record.status}</td>
-			<td>${record.customer}</td>
-			<td>${record.country}</td>
-			<td>${record.location}</td>
+<!-- 
 			<td>${record.contractDate}</td>
 			<td>${record.areaHandover}</td>
 			<td>${record.duration}</td>
@@ -89,7 +92,8 @@ ${DATATABLE1}
 			<td>${record.letterOfAdvance}</td>
 			<td>${record.letterOfWarranty}</td>
 			<td>${record.organizationId}</td>
-		</tr>
+ -->
+ 		</tr>
       </c:forEach>
     </table>
     </div>
