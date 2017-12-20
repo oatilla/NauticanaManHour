@@ -28,7 +28,7 @@
 				</c:forEach>
 				</select>
 				</th>
-				<th> ${TEAM} </th>
+				<th colspan=2> ${TEAM} </th>
 				<th> <input type="date" name="date" id="date" value="${date}"> </th>
 			</tr>
 		</thead>
@@ -39,6 +39,11 @@
 				<tr>
 					<td> ${project.caption} </td>
 					<td> ${projectTeam.caption} </td>
+					<c:forEach var="worker" items="${projectTeam.projectTeamPersonnel}">
+					<c:if test="${worker.teamLead > 0}">
+					<td> ${worker.worker.caption} </td>
+					</c:if>
+					</c:forEach>
 					<td>
 						<a class="btn btn-primary" href="#" onClick="doAjaxGet('projectWbsManhour/editTeam?id=${projectTeam.id.projectId},${projectTeam.id.teamId},' + document.f.date.value);"> ${PROJECT_MANHOUR_1} </a>
 						<a class="btn btn-primary" href="#" onClick="doAjaxGet('projectWbsManhour/editTeamLead?id=${projectTeam.id.projectId},${projectTeam.id.teamId},' + document.f.date.value);"> ${PROJECT_MANHOUR_N} </a>

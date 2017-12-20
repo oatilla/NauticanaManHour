@@ -18,7 +18,7 @@ $('.table tr:nth-child(3) th:first').text($('.table tr:nth-child(3) th:first').t
 
 $('.editable-text').bind({
     keyup:function(){ 
-    	  $(".table tr:not(:first, last) td:last-child").text(function () {
+    	  $(".table tr:not(:first, last) td:last-child").css( "color","blue" ).text(function () {
               var totalVal = 0;
               $(this).parent().find("td.editable-text").each(function () {
                   totalVal += parseInt($(this).text()) || 0;
@@ -27,9 +27,9 @@ $('.editable-text').bind({
               return totalVal;
           });
 
-
+    	
         
-        $(".table tr:last td").text(function (i) {
+        $(".table tr:last td").css( "color","blue" ).text(function (i) {
             var totalVal = 0;
             $(this).parent().prevAll().find("td.editable-text:nth-child(" + (i+2) + ")").each(function () {
                 totalVal += parseInt($(this).text()) || 0;
@@ -44,9 +44,8 @@ $('.editable-text').bind({
 			var trs=parseInt($('tr:eq('+i+')').find('td:last').text());
 			count+=trs;
 		}
-		$(".table tr:last td:last").text(count)
-
-        
+		$(".table tr:last td:last").text(count).css({color: "red" } )
+       
       }
 
 
@@ -133,3 +132,16 @@ ${DATATABLE1}
 		</form>
 	</div>
 </div>
+
+<style>
+table th {
+    border-top: 2px solid #000000; 
+    border-bottom: 2px solid #000000;
+    border-left: 2px solid #000000;
+    border-right: 2px solid #000000;}    
+table td {
+    border-top: 2px solid #000000; 
+    border-bottom: 2px solid #000000;
+    border-left: 2px solid #000000;
+    border-right: 2px solid #000000;}
+</style>

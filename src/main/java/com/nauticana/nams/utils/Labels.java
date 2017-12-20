@@ -52,6 +52,9 @@ public class Labels {
 	public static final String UPDATE_ALLOWED    = "UPDATE_ALLOWED";
 	public static final String DELETE_ALLOWED    = "DELETE_ALLOWED";
 	
+	public static final String CODE              = "CODE";
+	public static final String CAPTION           = "CAPTION";
+	public static final String DATE              = "DATE";
 	public static final String REPORTS           = "REPORTS";
 	public static final String PERSONNEL         = "PERSONNEL";
 	public static final String SUBCONTRACTOR     = "SUBCONTRACTOR";
@@ -75,6 +78,9 @@ public class Labels {
 	public static final String PLANNED           = "PLANNED";
 	public static final String REALISED          = "REALISED";
 	public static final String LANGUAGE_DIRECTION= "LANGUAGE_DIRECTION";
+	public static final String PERIOD            = "PERIOD";
+	public static final String PROJECT_EXECUTION_PLAN = "PROJECT_EXECUTION_PLAN";
+	public static final String CHANGE_PASSWORD   = "CHANGE_PASSWORD";
 
 	public static final String INITIAL           = "INITIAL";
 	public static final String APPROVE           = "APPROVE";
@@ -84,9 +90,11 @@ public class Labels {
 	public static final String APPROVE_WITHDRAW  = "APPROVE_WITHDRAW";
 	public static final String APPROVE_QUANTITY  = "APPROVE_QUANTITY";
 	public static final String APPROVE_MANHOUR   = "APPROVE_MANHOUR";
+	public static final String APPROVE_PROGRESS  = "APPROVE_PROGRESS";
 	public static final String APPROVED          = "APPROVED";
 	public static final String TO_APPROVE        = "TO_APPROVE";
-
+	public static final String REQUIRED 		 = "REQUIRED";
+							   							
 	public static final String ERR_UNAUTHORIZED      = "ERR_UNAUTHORIZED";
 	public static final String ERR_WRONGDATA         = "ERR_WRONGDATA";
 	public static final String ERR_PARAMETER_MISSING = "ERR_PARAMETER_MISSING";
@@ -96,6 +104,7 @@ public class Labels {
 	public static final String ERR_RECORDNOTFOUND    = "ERR_RECORDNOTFOUND";
 	public static final String ERR_BINDING           = "ERR_BINDING";
 	public static final String ERR_ALREADY_APPROVED  = "ERR_ALREADY_APPROVED";
+	public static final String ERR_DATABASE_ERROR    = "DATABASE_ERROR";
 	
 	
 	public static final String dmyDFStr          = "dd-MM-yyyy";
@@ -104,21 +113,19 @@ public class Labels {
 	public static final SimpleDateFormat ymdDF   = new SimpleDateFormat(ymdDFStr);
 
 	public static final String dataTableSetting1 =
-			"<script> $(function () { $('#dataTable1').DataTable({'paging':false, 'lengthChange':false, 'searching':true, 'ordering':true, 'info':true, 'autoWidth': false }) }) </script>";
+			"<script> $(function () { $('#dataTable1').DataTable({'paging':false, 'scrollY': '50vh', 'lengthChange':false, 'searching':true, 'ordering':true, 'info':true, 'autoWidth': true, 'responsive': true, 'scrollCollapse': true }) }) </script>";
 	
 	public static final String dataTableSetting2 =
-			"<script> $(function () { $('#dataTable2').DataTable({'paging':false, 'lengthChange':false, 'searching':true, 'ordering':true, 'info':true, 'autoWidth': false }) }) </script>";
+			"<script> $(function () { $('#dataTable2').DataTable({'paging':false, 'scrollY': '50vh', 'lengthChange':false, 'searching':true, 'ordering':true, 'info':true, 'autoWidth': true, 'responsive': true, 'scrollCollapse': true }) }) </script>";
 	
 	public static final String dataTableSetting3 =
-			"<script> $(function () { $('#dataTable3').DataTable({'paging':false, 'lengthChange':false, 'searching':true, 'ordering':true, 'info':true, 'autoWidth': false }) }) </script>";
+			"<script> $(function () { $('#dataTable3').DataTable({'paging':false, 'scrollY': '50vh', 'lengthChange':false, 'searching':true, 'ordering':true, 'info':true, 'autoWidth': true, 'responsive': true, 'scrollCollapse': true }) }) </script>";
 	
 	public static final String dataTableSetting4 =
-			"<script> $(function () { $('#dataTable4').DataTable({'paging':false, 'lengthChange':false, 'searching':true, 'ordering':true, 'info':true, 'autoWidth': false }) }) </script>";
-
+			"<script> $(function () { $('#dataTable4').DataTable({'paging':false, 'scrollY': '50vh', 'lengthChange':false, 'searching':true, 'ordering':true, 'info':true, 'autoWidth': true, 'responsive': true, 'scrollCollapse': true }) }) </script>";
 	
 	public static final String[] dataTableNames    = new String[] {"DATATABLE1","DATATABLE2","DATATABLE3","DATATABLE4"};
 	public static final String[] dataTableSettings = new String[] {dataTableSetting1, dataTableSetting2, dataTableSetting3, dataTableSetting4};
-
 
 
 

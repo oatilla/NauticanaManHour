@@ -12,21 +12,31 @@
 	<input type="hidden" name="nextpage" value="projectWbs/show?id=${record.id.projectId},${record.id.categoryId}"/>
 
 	<div class="box-body">
-		<table>
-			<tr>
-				<th> ${PROJECT_ID} </th>
-				<td> ${record.id.projectId} ${record.projectWbs.project.caption} <form:input type="hidden" path="id.projectId"  /></td>
-			</tr>
-			<tr>
-        		<th> ${CATEGORY_ID} </th>
-				<td> ${record.id.categoryId} ${record.projectWbs.category.treeCode} ${record.projectWbs.category.caption} <form:input type="hidden" path="id.categoryId" /></td>
-			</tr>
-		</table>
-		
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="id.projectId">${PROJECT_ID}</label>
+			<div class="col-sm-10"> 
+				<form:input type=hidden path="id.projectId" /> ${record.project.caption}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="id.categoryId">${CATEGORY_ID}</label>
+			<div class="col-sm-10"> 
+				<form:input type=hidden path="id.categoryId" /> ${record.category.caption}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="id.teamId">${TEAM_ID}</label>
+			<div class="col-sm-10"> 
+				<form:input type=hidden path="id.teamId" /> ${record.projectTeam.caption}
+			</div>
+		</div>
+
 		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="id.begda">${BEGDA}</label>
 			<div class="col-sm-10"> 
-				<form:input class="form-control" path="id.begda" type="date"/>
+				<form:input type=hidden class="form-control" path="id.begda" /> ${record.id.begda}
 			</div>
 		</div>
 
@@ -45,9 +55,9 @@
 		</div>
 
 		<div class="form-group">
-			<label  class="col-sm-2 control-label" for="isSubcontractor">${IS_SUBCONTRACTOR}</label>
+			<label  class="col-sm-2 control-label" for="status">${STATUS}</label>
 			<div class="col-sm-10"> 
-				<form:select class="form-control" path="isSubcontractor" items="${YESNO_LIST}"/>
+				<form:input type=hidden path="status" /> record.status
 			</div>
 		</div>
 	</div>

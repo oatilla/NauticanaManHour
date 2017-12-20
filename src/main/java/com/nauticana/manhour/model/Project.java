@@ -22,7 +22,7 @@ public class Project implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "PROJECT";
-	public static final String[] fieldNames = new String[] { "PROJECT_ID", "CAPTION", "STATUS", "CUSTOMER", "COUNTRY", "LOCATION", "CONTRACT_DATE", "AREA_HANDOVER", "DURATION", "REVIZED_DURATION", "REVIZED_COMPLETION", "EXPECTED_COMPLETION", "END_OF_WARRANTY", "CONTRACTED_AMOUNT", "CONTRACT_EXCHANGE", "EXPECTED_COST", "ADVANCE_PERCENT", "LETTER_OF_ADVANCE", "LETTER_OF_WARRANTY", "ORGANIZATION_ID" };
+	public static final String[] fieldNames = new String[] { "LOCAL", "CODE", "PROJECT_ID", "CAPTION", "STATUS", "CUSTOMER", "COUNTRY", "LOCATION", "CONTRACT_DATE", "AREA_HANDOVER", "DURATION", "REVIZED_DURATION", "DURATION_TYPE", "REVIZED_COMPLETION", "EXPECTED_COMPLETION", "END_OF_WARRANTY", "CONTRACTED_AMOUNT", "CONTRACT_EXCHANGE", "EXPECTED_COST", "ADVANCE_PERCENT", "LETTER_OF_ADVANCE", "LETTER_OF_WARRANTY", "ORGANIZATION_ID" };
 	public static final String rootMapping = "project";
 	public static final String[] actions = new String[] { "APPROVE_FINAL", "APPROVE_WBS", "APPROVE_WITHDRAW" };
 
@@ -36,6 +36,7 @@ public class Project implements java.io.Serializable {
 	private Date    areaHandover;
 	private Integer duration;
 	private Integer revizedDuration;
+	private char    durationType;
 	private Date    revizedCompletion;
 	private Date    expectedCompletion;
 	private Date    endOfWarranty;
@@ -53,10 +54,11 @@ public class Project implements java.io.Serializable {
 
 	public Project() {
 		status = "INITIAL";
+		durationType = 'D';
 	}
 
 	public Project(int projectId, String caption, String status, String customer, String country, String location,
-			Date contractDate, Date areaHandover, Integer duration, Integer revizedDuration, Date revizedCompletion,
+			Date contractDate, Date areaHandover, Integer duration, Integer revizedDuration, char durationType, Date revizedCompletion,
 			Date expectedCompletion, Date endOfWarranty, Long contractedAmount, String contractExchange,
 			Long expectedCost, Short advancePercent, Short letterOfAdvance, Short letterOfWarranty,
 			Integer organizationId) {
@@ -71,6 +73,7 @@ public class Project implements java.io.Serializable {
 		this.areaHandover = areaHandover;
 		this.duration = duration;
 		this.revizedDuration = revizedDuration;
+		this.durationType = durationType;
 		this.revizedCompletion = revizedCompletion;
 		this.expectedCompletion = expectedCompletion;
 		this.endOfWarranty = endOfWarranty;
@@ -87,7 +90,7 @@ public class Project implements java.io.Serializable {
 
 
 	public Project(int projectId, String caption, String status, String customer, String country, String location,
-			Date contractDate, Date areaHandover, Integer duration, Integer revizedDuration, Date revizedCompletion,
+			Date contractDate, Date areaHandover, Integer duration, Integer revizedDuration, char durationType, Date revizedCompletion,
 			Date expectedCompletion, Date endOfWarranty, Long contractedAmount, String contractExchange,
 			Long expectedCost, Short AdvancePercent, Short letterOfAdvance, Short letterOfWarranty,
 			Integer organizationId, Set<ProjectTeam> projectTeams, Set<ProjectWbs> projectWbses) {
@@ -102,6 +105,7 @@ public class Project implements java.io.Serializable {
 		this.areaHandover = areaHandover;
 		this.duration = duration;
 		this.revizedDuration = revizedDuration;
+		this.durationType = durationType;
 		this.revizedCompletion = revizedCompletion;
 		this.expectedCompletion = expectedCompletion;
 		this.endOfWarranty = endOfWarranty;
@@ -240,6 +244,15 @@ public class Project implements java.io.Serializable {
 		this.revizedDuration = revizedDuration;
 	}
 
+	@Column(name = "DURATION_TYPE")
+	public char getDurationType() {
+		return durationType;
+	}
+
+	public void setDurationType(char durationType) {
+		this.durationType = durationType;
+	}
+
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "REVIZED_COMPLETION")
 	public Date getRevizedCompletion() {
@@ -270,7 +283,7 @@ public class Project implements java.io.Serializable {
 		this.endOfWarranty = endOfWarranty;
 	}
 
-	@Column(name = "CONTRACTED_AMOUNT", precision = 12, scale = 0)
+	@Column(name = "CONTRACTED_AMOUNT", precision = 10, scale = 2)
 	public Long getContractedAmount() {
 		return contractedAmount;
 	}

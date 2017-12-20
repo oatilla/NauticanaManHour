@@ -39,7 +39,7 @@ public class CategoryService extends AbstractService<Category,Integer> {
 		return entity;
 	}
 
-	public Category create(Category entity) {
+	public Category create(Category entity) throws Exception {
 		if (entity.getParentId() != null) {
 			Category parent = r.getOne(entity.getParentId());
 			entity.setCatLevel((byte) (parent.getCatLevel()+1));
@@ -48,11 +48,11 @@ public class CategoryService extends AbstractService<Category,Integer> {
 		return super.create(entity);
 	}
 	
-	public void save(Category entity) {
+	public void save(Category entity) throws Exception {
 		if (entity.getParentId() != null) {
 			Category parent = r.getOne(entity.getParentId());
 			entity.setTreeCode(parent.getTreeCode()+"-"+entity.getCatIndex());
-		}
+		}else entity.setTreeCode(entity.getCatIndex());
 		super.create(entity);
 	}
 	

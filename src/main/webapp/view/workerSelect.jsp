@@ -2,22 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<script type="text/javascript">
-function findSelected(cname) {
-	var c = document.getElementsByName(cname);
-	var x = "";
-	for (var i in c) {
-		if (c[i].checked)
-			x = x + "," + c[i].value;
-	}
-	document.f.workerIds.value = x;
-}
-
-$("#checkAll").click(function () {
-    $('input:checkbox').not(this).prop('checked', this.checked);
-});
-</script>
-
 <div class="box box-primary">
     <form name="f" id="f" method="post">
 	<div class="box-header with-border">
@@ -29,9 +13,9 @@ $("#checkAll").click(function () {
 		<input type=hidden name=workerIds value="">
 
 		<div class="form-group">
-			<label  class="col-sm-2 control-label" for="nationalityId">${SUBCONTRACTOR}</label>
+			<label  class="col-sm-2 control-label" for="subcontractorId">${SUBCONTRACTOR}</label>
 			<div class="col-sm-10">
-				<select name=subcontractorId class="form-control select2" onChange="doAjaxGet('worker/selectWorker?memberType=${memberType}&parentKey=${parentKey}&subcontractorId=' + document.f.subcontractorId.value);">
+				<select name=subcontractorId id=subcontractorId class="select2 form-control" onChange="doAjaxGet('worker/selectWorker?memberType=${memberType}&parentKey=${parentKey}&subcontractorId=' + document.f.subcontractorId.value);">
 			    <c:forEach var="subcontractor" items="${subcontractors}" varStatus="status">
 				<c:choose>
 					<c:when test="${subcontractorId == subcontractor.id}">
@@ -52,24 +36,59 @@ $("#checkAll").click(function () {
 		<c:choose>
 			<c:when test="${empty workers}">
 			</c:when>
-			<c:otherwise>
-			<table class="table table-bordered table-hover">
-			<tr>
-				<th>${CAPTION} </th>
-				<th><input type=checkbox id="checkAll" name="checkAll"/></th>
-			</tr>
+			<c:when test="${empty memberType}">
+				<table class="table table-bordered table-hover">
+				<tr>
+					<th>${CAPTION} </th>
+					<th><input type=checkbox id="checkAll" name="checkAll"/></th>
+				</tr>
 
-	 		<c:forEach var="worker" items="${workers}" varStatus="status">
-			<tr>
-				<td>${worker.caption}</td>
-				<td><input type=checkbox name="WORKER_ID" value="${worker.id}" /></td>
-			</tr>
-			</c:forEach>             
-			</table>
+		 		<c:forEach var="worker" items="${workers}" varStatus="status">
+				<tr>
+					<td>${worker.caption}</td>
+					<td><input type=checkbox name="WORKER_ID" value="${worker.id}" /></td>
+				</tr>
+				</c:forEach>
+				</table>
+				<a href="#" class="btn btn-primary" onClick="findSelected('WORKER_ID');doAjaxPost('${postlink}');"> ${OK} </a> 
+			</c:when>
+			<c:otherwise>
+				<table class="table table-bordered table-hover">
+				<tr>
+					<th>${CAPTION} </th>
+				</tr>
+
+		 		<c:forEach var="worker" items="${workers}" varStatus="status">
+				<tr>
+					<td> <a href="#" onClick="document.f.workerIds.value=',${worker.id}';doAjaxPost('${postlink}');"> ${worker.caption} </a> </td>
+				</tr>
+				</c:forEach>
+				</table>
 			</c:otherwise>
 		</c:choose>
-		<a href="#" class="btn btn-primary" onClick="findSelected('WORKER_ID');doAjaxPost('worker/selectWorker');"> ${OK} </a> 
 		<a href="#" class="btn btn-warning" onClick="doAjaxGet('${prevpage}');"> ${CANCEL} </a> 
     </div>
    	</form>
 </div>
+
+<script type="text/javascript">
+//Find selected
+function findSelected(cname) {
+	var c = document.getElementsByName(cname);
+	var x = "";
+	for (var i in c) {
+		if (c[i].checked)
+			x = x + "," + c[i].value;
+	}
+	document.f.workerIds.value = x;
+}
+//Check All
+	$("#checkAll").click(function () {
+	    $('input:checkbox').not(this).prop('checked', this.checked);
+	});
+//Select2 initializer
+	$(function () {
+	    //Initialize Select2 Elements
+	    $(".select2").select2();
+	});
+</script>

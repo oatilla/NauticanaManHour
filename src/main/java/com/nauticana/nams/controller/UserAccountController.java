@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,7 @@ import com.nauticana.nams.model.UserAuthorization;
 import com.nauticana.nams.service.LanguageService;
 import com.nauticana.nams.utils.Labels;
 import com.nauticana.nams.utils.PortalLanguage;
+import com.nauticana.nams.utils.Utils;
 
 @Controller
 @RequestMapping("/" + UserAccount.rootMapping)
@@ -86,20 +88,60 @@ public class UserAccountController extends AbstractController<UserAccount, Strin
 	protected String[][] detailActions() {return null;}
 
 	@RequestMapping(value="/login",method=RequestMethod.GET)
-	public ModelAndView displayLogin(HttpServletRequest request) throws IOException{
+	public ModelAndView loginGet(HttpServletRequest request) throws IOException{
 		ModelAndView model = new ModelAndView("login");
 		LoginBean loginBean = new LoginBean();
+		PortalLanguage language = dataCache.getLanguage(request.getLocale().getCountry().toUpperCase());
+		if (language == null) {
+			loginBean.setLanguage("EN");
+			language = dataCache.getLanguage("EN");
+		} else
+			loginBean.setLanguage(language.code);
         model.addObject("loginBean", loginBean);
 		model.addObject(lookuplists[0], getLookupValues(0));
+		model.addObject(Labels.APPLICATION_TITLE, language.getText(Labels.APPLICATION_TITLE));
 		return model;
 	}
 
 	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public ModelAndView executeLogin(HttpServletRequest request, @ModelAttribute("loginBean")LoginBean loginBean) {
+	public ModelAndView loginPost(HttpServletRequest request, @ModelAttribute("loginBean")LoginBean loginBean) {
 		String uname = loginBean.getUsername();
-//		System.out.println("Got username " + uname);
 		UserAccount userAccount = modelService.findById(uname);
-		if (userAccount.checkPassword(loginBean.getPassword())) {
+		boolean ok = true;
+		String message = "";
+
+		if (userAccount == null) {
+//			message = "User not found!";
+			message = "Invalid credentials!";
+			ok = false;
+		} else {
+			ok = userAccount.checkPassword(loginBean.getPassword());
+			if (!ok)
+				message = "Invalid credentials!";
+			else {
+				switch (userAccount.getStatus()) {
+				case 'A':
+					break;
+				case 'I':
+					break;
+				case 'E':
+					break;
+				case 'L':
+					ok = false;
+					message = "User is locked!";
+					break;
+				case 'S':
+					ok = false;
+					message = "User is locked by system administrator!";
+					break;
+
+				default:
+					break;
+				}
+			}
+		}
+		
+		if (ok) {
 			// Set session variables
 			HttpSession session = request.getSession(true);
 			session.setAttribute(Labels.USERNAME, loginBean.getUsername());
@@ -114,13 +156,15 @@ public class UserAccountController extends AbstractController<UserAccount, Strin
 			System.out.println(menu);
 			session.setAttribute(Labels.MENU, menu);
 			System.out.println("User Login Successful : " + uname);
+			if (userAccount.getStatus() == 'I' || userAccount.getStatus() == 'E')
+				return new ModelAndView("redirect:setPassword?mode=I");
 			return new ModelAndView("redirect:/");
 		} else {
 			ModelAndView model = new ModelAndView("login");
 			model.addObject("loginBean", loginBean);
-			model.addObject("languageList");
-			model.addObject("message", "Invalid credentials!!");
-			System.out.println("User Login Error : ");//+loginBean.getUsername()+"/"+loginBean.getPassword()+ " <> " + userAccount.getId()+"/"+userAccount.getPassword());
+			model.addObject(lookuplists[0], getLookupValues(0));
+			model.addObject("message", message);
+			System.out.println("User Login Error : " + message);
 	        return model;
 	    }
 	}
@@ -132,6 +176,70 @@ public class UserAccountController extends AbstractController<UserAccount, Strin
 		session.removeAttribute(Labels.USERNAME);
 		session.removeAttribute(Labels.LANGUAGE);
 		session.removeAttribute(Labels.MENU);
+		return new ModelAndView("redirect:/");
+	}
+
+	@Override
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public ModelAndView editPost(@ModelAttribute UserAccount record, BindingResult result, HttpServletRequest request) {
+		if (Utils.emptyStr(record.getPassword())) {
+			UserAccount original = modelService.findById(record.getId());
+			record.setPassword(original.getPassword());
+		}
+		return super.editPost(record, result, request);
+	}
+
+	@RequestMapping(value = "/setPassword", method = RequestMethod.GET)
+	public ModelAndView setPasswordGet(HttpServletRequest request) {
+		// Check for user and insert authorization on table
+		HttpSession session = request.getSession(true);
+		String username = (String) session.getAttribute(Labels.USERNAME);
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
+		
+		// Read language of session
+		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
+
+		String prevpage = "/";
+		String mode = (String) request.getParameter("mode");
+		if ("I".equals(mode))
+			prevpage = "login";
+			
+		ModelAndView model = new ModelAndView("setPassword");
+		model.addObject("userAccountName", username);
+		model.addObject(Labels.PAGETITLE, language.getText(Labels.CHANGE_PASSWORD));
+		model.addObject(Labels.SAVE, language.getIconText(Labels.SAVE));
+		model.addObject(Labels.CANCEL, language.getIconText(Labels.CANCEL));
+		model.addObject(Labels.POSTLINK, rootMapping()+"/setPassword");
+		model.addObject(Labels.PREVPAGE, prevpage);
+		model.addObject(Labels.APPLICATION_TITLE, language.getText(Labels.APPLICATION_TITLE));
+		for (int i = 0; i < modelService.fieldNames().length; i++) {
+			model.addObject(modelService.fieldNames()[i], language.getText(modelService.fieldNames()[i]));
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/setPassword", method = RequestMethod.POST)
+	public ModelAndView setPasswordPost(HttpServletRequest request) {
+		// Check for user and insert authorization on table
+		HttpSession session = request.getSession(true);
+		String username = (String) session.getAttribute(Labels.USERNAME);
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
+		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
+		
+		String userAccountName = request.getParameter("userAccountName");
+		String passText        = request.getParameter("passText");
+		
+		if (Utils.emptyStr(passText) || !username.equals(userAccountName)) return new ModelAndView("redirect:/");
+
+		UserAccount entity = modelService.findById(userAccountName);
+		if (entity == null) return new ModelAndView("redirect:/");
+		entity.setPassword(passText);
+		entity.setStatus('A');
+		try {
+			modelService.save(entity);
+		} catch(Exception e) {
+			return errorPage(language, Labels.ERR_DATABASE_ERROR, e.getMessage());
+		}
 		return new ModelAndView("redirect:/");
 	}
 }

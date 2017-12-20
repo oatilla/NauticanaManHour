@@ -1,5 +1,7 @@
 package com.nauticana.manhour.model;
 
+import java.util.ArrayList;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -23,16 +25,12 @@ public class ViewWbsQuantity {
 	private float  pupQuantity;
 	private float  sumQuantity;
 	private int    sumManhour;
-//	private Date   begda;
-//	private Date   endda;
-//	private float  lastQuantity;
-//	private Date   nextBegda;
+	private int    parentId;
 	
 	// transient values
 	private float workforce;
 	private float pupWorkforce;
 	private float sumMetric;
-	
 	private float progress;
 	private float earnedManhour;
 	private float performans;
@@ -40,17 +38,14 @@ public class ViewWbsQuantity {
 	private float estimatedCompMH;
 	private float remainingMH;
 	private float deviation;
+	private ArrayList<ViewWbsQuantity> children;
+	private ViewWbsQuantity parent;
 	
-
-
-
-	
-
-	public ViewWbsQuantity(ViewWbsQuantityId id, String prjCaption, String treeCode, String catCaption, String unit,
-			float metric, float quantity, float pupMetric, float pupQuantity, float sumQuantity, int sumManhour) {//, Date begda, Date endda, float lastQuantity) {
+	public ViewWbsQuantity(ViewWbsQuantityId id, String prjCaption, Integer parentId, String treeCode, String catCaption, String unit, float metric, float quantity, float pupMetric, float pupQuantity, float sumQuantity, int sumManhour) {
 		super();
 		this.id = id;
 		this.prjCaption = prjCaption;
+		try {this.parentId = parentId;}catch (Exception e) {this.parentId = -1;}
 		this.treeCode = treeCode;
 		this.catCaption = catCaption;
 		this.unit = unit;
@@ -60,32 +55,15 @@ public class ViewWbsQuantity {
 		this.pupQuantity = pupQuantity;
 		this.sumQuantity = sumQuantity;
 		this.sumManhour = sumManhour;
-//		this.begda = begda;
-//		this.endda = endda;
-//		this.lastQuantity = lastQuantity;
-//		Calendar c = Calendar.getInstance();
-//		if (endda == null)
-//			c.setTimeInMillis(System.currentTimeMillis());
-//		else
-//			c.setTimeInMillis(endda.getTime());
-//		c.add(Calendar.DATE, 1);
-//		this.nextBegda = c.getTime();
 
 	
-		if (metric == 0)
-			this.workforce = 0;
-		else
-			this.workforce = quantity/metric;
+		this.workforce = quantity* metric;
+		this.pupWorkforce = pupQuantity * pupMetric;
 		
-		if (pupMetric == 0)
-			this.pupWorkforce = 0;
-		else
-			this.pupWorkforce = pupQuantity/pupMetric;
-		
-		if (sumManhour == 0)
+		if (sumQuantity == 0)
 			sumMetric = 0;
 		else
-			sumMetric = sumQuantity/sumManhour;
+			sumMetric = sumManhour/sumQuantity;
 	
 		if(quantity == 0 )  this.progress=0;
 		else this.progress= (sumQuantity/quantity)*100;
@@ -104,7 +82,8 @@ public class ViewWbsQuantity {
 		
 		if (this.workforce == 0) this.deviation = 0;
 		else this.deviation = 1 - this.remainingMH / this.workforce;
-	
+		this.children = new ArrayList<ViewWbsQuantity>();
+		this.parent = null;
 	}
 
 	@EmbeddedId
@@ -117,6 +96,15 @@ public class ViewWbsQuantity {
 
 	public void setId(ViewWbsQuantityId id) {
 		this.id = id;
+	}
+
+	@Column(name="PARENT_ID")
+	public int getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
 	}
 
 	@Column(name="TREE_CODE")
@@ -253,8 +241,6 @@ public class ViewWbsQuantity {
 		return this.sumMetric;
 	}
 	
-	
-	
 	@Transient
 	public float getProgress() {
 		return progress;
@@ -285,18 +271,31 @@ public class ViewWbsQuantity {
 	public float getDeviation() {
 		return deviation;
 	}
-//	@DateTimeFormat(pattern = "dd-MM-yyyy")
-//	@Column(name="NEXT_BEGDA")
-//	public Date getNextBegda() {
-//		return nextBegda;
-//	}
-//
-//	public void setNextBegda(Date nextBegda) {
-//		this.nextBegda = nextBegda;
-//	}
+	@Transient
+	public ArrayList<ViewWbsQuantity> getChildren() {
+		return children;
+	}
+	public void addChild(ViewWbsQuantity child) {
+		this.children.add(child);
+	}
+	@Transient
+	public ViewWbsQuantity getParent() {
+		return parent;
+	}
+	public void setParent(ViewWbsQuantity parent) {
+		this.parent = parent;
+	}
 
 	@Override
 	public String toString() {
 		return id.getProjectId() + "," + id.getCategoryId() + "," + prjCaption + "," + treeCode + "," + catCaption + "," + unit  + "," + metric  + "," + quantity  + "," + sumQuantity + "," + sumManhour;// + "," + begda + "," + endda + "," + lastQuantity + "," + nextBegda;
+	}
+
+	public void setPupWorkforce(float pupWorkforce) {
+		this.pupWorkforce = pupWorkforce;
+	}
+
+	public void setWorkforce(float workforce) {
+		this.workforce = workforce;
 	}
 }

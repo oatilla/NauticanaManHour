@@ -7,7 +7,7 @@
 		<h3 class="box-title"> ${PAGETITLE} </h3>
 	</div>
 
-	<form:form class="form-horizontal" method="post" modelAttribute="record" id="f">
+	<form:form class="form-horizontal" method="post" modelAttribute="record" id="f" name="f">
 
 	<div class="box-body">
 		<div class="form-group">
@@ -25,9 +25,23 @@
 		</div>
 
 		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="emailAddress">${EMAIL_ADDRESS}</label>
+			<div class="col-sm-10"> 
+				<form:input class="form-control" path="emailAddress"/>
+			</div>
+		</div>
+
+		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="password">${PASSWORD}</label>
 			<div class="col-sm-10"> 
 				<form:password class="form-control" path="password"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="repeatPassword">${PASSWORD}</label>
+			<div class="col-sm-10"> 
+				<input type=password id="repeatPassword" name="repeatPassword" class="form-control" />
 			</div>
 		</div>
 
@@ -40,7 +54,7 @@
 	</div>
 
 	<div class="box-footer">
-		<a href="#" onclick="doAjaxPost('${postlink}');" class="btn btn-primary">${SAVE}</a>
+		<a href="#" onclick="if (document.f.password.value == document.f.repeatPassword.value) {doAjaxPost('${postlink}');} else {alert('passwords not equal');}" class="btn btn-primary">${SAVE}</a>
 		<a href="#" onclick="doAjaxGet('${prevpage}');" class="btn btn-warning">${CANCEL}</a>
 	</div>
 

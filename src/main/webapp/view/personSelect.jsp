@@ -74,6 +74,7 @@ $(function () {
 			<label  class="col-sm-2 control-label" for="nationalityId">${NATIONALITY_ID}</label>
 			<div class="col-sm-10">
 				<select class="form-control select2" name="NATIONALITY_ID" id="NATIONALITY_ID">
+					<option value=""> - </option>
 					<c:forEach var="c" items="${COUNTRY_LIST}" varStatus="status">
 						<c:choose>
 							<c:when test="${nationalityId == c.key}">
@@ -117,16 +118,20 @@ $(function () {
 		</div>
 
 		<div class="form-group">
-			<label  class="col-sm-2 control-label" for="organizationId">${ORGANIZATION_ID}</label>
-			<div class="col-sm-10">
-				<form:input class="form-control" path="organizationId" />
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label  class="col-sm-2 control-label" for="organization">${ORGANIZATION}</label>
-			<div class="col-sm-10">
-				<form:input class="form-control" path="organization" />
+			<label  class="col-sm-2 control-label" for="ORGANIZATION_ID">${ORGANIZATION}</label>
+			<div class="col-sm-10"> 
+			<select class="form-control select2" name="ORGANIZATION_ID" id="ORGANIZATION_ID">
+				<c:forEach var="c" items="${organizationList}" varStatus="status">
+				<c:choose>
+					<c:when test="${organizationId == c.key}">
+						<option value="${c.key}" selected> ${c.value} </option>
+					</c:when>
+					<c:otherwise>
+						<option value="${c.key}"> ${c.value} </option>
+					</c:otherwise>
+				</c:choose>
+				</c:forEach>
+			</select>
 			</div>
 		</div>
 

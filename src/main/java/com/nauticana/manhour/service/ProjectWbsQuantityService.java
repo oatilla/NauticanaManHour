@@ -1,11 +1,13 @@
 package com.nauticana.manhour.service;
 
 import java.text.ParseException;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nauticana.manhour.model.ProjectTeamId;
+import com.nauticana.manhour.model.ProjectWbs;
 import com.nauticana.manhour.model.ProjectWbsId;
 import com.nauticana.manhour.model.ProjectWbsQuantity;
 import com.nauticana.manhour.model.ProjectWbsQuantityId;
@@ -76,6 +78,38 @@ public class ProjectWbsQuantityService extends AbstractService<ProjectWbsQuantit
 	@Override
 	public String[][] findAllStr() {
 		return null;
+	}
+	
+	public void approve(int projectId, int categoryId, int teamId, Date begda, Date endda) throws Exception {
+		ProjectWbsId pwId = new ProjectWbsId(projectId, categoryId);
+		ProjectWbs pw = pwRep.findOne(pwId);
+		for (ProjectWbsQuantity pwq : pw.getProjectWbsQuantities()) {
+			if (pwq.getId().getTeamId() == teamId &&
+				pwq.getStatus().equals(Labels.INITIAL) &&
+				(begda == null || 
+				 (endda == null && pwq.getId().getBegda().getTime() == begda.getTime()) ||
+				 (pwq.getId().getBegda().getTime() >= begda.getTime() && pwq.getEndda().getTime() <= endda.getTime())
+				))	{
+				pwq.setStatus(Labels.APPROVED);
+				save(pwq);
+			}
+		}
+	}
+
+	public void withdrawApprove(int projectId, int categoryId, int teamId, Date begda, Date endda) throws Exception {
+		ProjectWbsId pwId = new ProjectWbsId(projectId, categoryId);
+		ProjectWbs pw = pwRep.findOne(pwId);
+		for (ProjectWbsQuantity pwq : pw.getProjectWbsQuantities()) {
+			if (pwq.getId().getTeamId() == teamId &&
+					pwq.getStatus().equals(Labels.APPROVED) &&
+					(begda == null || 
+					 (endda == null && pwq.getId().getBegda().getTime() == begda.getTime()) ||
+					 (pwq.getId().getBegda().getTime() >= begda.getTime() && pwq.getEndda().getTime() <= endda.getTime())
+					))	{
+					pwq.setStatus(Labels.INITIAL);
+					save(pwq);
+				}
+		}
 	}
 
 }

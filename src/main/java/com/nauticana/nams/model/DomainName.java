@@ -16,12 +16,13 @@ public class DomainName implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "DOMAIN_NAME";
-	public static final String[] fieldNames = new String[] { "DOMAIN", "KEYSIZE", "CAPTION" };
+	public static final String[] fieldNames = new String[] { "DOMAIN", "KEYSIZE", "CAPTION", "SORT_BY" };
 	public static final String rootMapping = "domainName";
 
 	private String domain;
 	private short keysize;
 	private String caption;
+	private String sortBy;
 
 	private Set<DomainValue> domainValues = new HashSet<DomainValue>(0);
 	private Set<DomainLookup> domainLookups = new HashSet<DomainLookup>(0);
@@ -29,10 +30,11 @@ public class DomainName implements java.io.Serializable {
 	public DomainName() {
 	}
 
-	public DomainName(String domain, short keysize, String caption) {
+	public DomainName(String domain, short keysize, String caption, String sortBy) {
 		this.domain = domain;
 		this.keysize = keysize;
 		this.caption = caption;
+		this.sortBy = sortBy;
 	}
 
 	public DomainName(String domain, short keysize, String caption, Set<DomainValue> domainValues) {
@@ -68,6 +70,15 @@ public class DomainName implements java.io.Serializable {
 
 	public void setCaption(String caption) {
 		this.caption = caption;
+	}
+
+	@Column(name = "SORT_BY", nullable = false, length = 1)
+	public String getSortBy() {
+		return this.sortBy;
+	}
+
+	public void setSortBy(String sortBy) {
+		this.sortBy = sortBy;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "domainName")

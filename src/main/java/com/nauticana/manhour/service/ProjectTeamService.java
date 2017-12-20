@@ -16,7 +16,6 @@ import com.nauticana.manhour.model.ProjectWbsManhour;
 import com.nauticana.manhour.model.ProjectWbsManhourId;
 import com.nauticana.manhour.repository.ProjectRepository;
 import com.nauticana.nams.abstrct.AbstractService;
-import com.nauticana.nams.service.NamsJdbcService;
 import com.nauticana.nams.utils.CategoryComparator;
 import com.nauticana.nams.utils.Labels;
 import com.nauticana.nams.utils.Utils;
@@ -38,7 +37,7 @@ public class ProjectTeamService extends AbstractService<ProjectTeam,ProjectTeamI
 	ProjectRepository parentRep;
 
 	@Autowired
-	NamsJdbcService urepRep;
+	ManhourJdbcService urepRep;
 
 	@Override
 	public ProjectTeam newEntity(String parentKey) {
@@ -217,7 +216,7 @@ public class ProjectTeamService extends AbstractService<ProjectTeam,ProjectTeamI
 //			s[i + 2][c.size() + 5] = trmh+"";
 //			s[i + 2][c.size() + 6] = "";
 	
-	public void setWbsManhourByDate(int projectId, int teamId, Date date, ProjectWbsManhourService pwms, String[][] list) {
+	public void setWbsManhourByDate(int projectId, int teamId, Date date, ProjectWbsManhourService pwms, String[][] list) throws Exception {
 		ProjectWbsManhourId id = new ProjectWbsManhourId(projectId, 0, teamId, 0, date);
 		for (int i = 3; i < list.length; i++) {
 			int workerId = Integer.parseInt(list[i][0]);

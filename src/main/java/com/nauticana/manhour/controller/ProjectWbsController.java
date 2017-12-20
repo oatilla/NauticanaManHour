@@ -20,6 +20,7 @@ import com.nauticana.manhour.model.ProjectWbsManhour;
 import com.nauticana.manhour.model.ProjectWbsQuantity;
 import com.nauticana.manhour.service.CategoryService;
 import com.nauticana.manhour.service.CbsService;
+import com.nauticana.manhour.service.ManhourJdbcService;
 import com.nauticana.manhour.service.ProjectService;
 import com.nauticana.nams.abstrct.AbstractController;
 import com.nauticana.nams.utils.Labels;
@@ -32,10 +33,15 @@ public class ProjectWbsController extends AbstractController<ProjectWbs, Project
 
 	@Autowired
 	private CategoryService categoryService;
+
 	@Autowired
 	private ProjectService ps;
+
 	@Autowired
 	private CbsService cbsService;
+
+	@Autowired
+	private ManhourJdbcService manhourJdbcService;
 
 	public static final String[] lookuplists = new String[] {"cbsList"};
 	public static final String[] detailTables = new String[] {ProjectWbsManhour.tableName, ProjectWbsQuantity.tableName};
@@ -104,7 +110,7 @@ public class ProjectWbsController extends AbstractController<ProjectWbs, Project
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -144,7 +150,7 @@ public class ProjectWbsController extends AbstractController<ProjectWbs, Project
 		String[] links = new String[] {"category/new?projectId=" + projectId + "&parentKey="};
 		String[] caps  = new String[] {"<i class=\"fa fa-angle-double-right\"></i>" +  language.getIconText(Labels.NEW), language.getIconText(Labels.EDIT), language.getIconText(Labels.DELETE)};
 		
-		String wbshtml = namsJdbcService.findAllCategoryHtml(projectId, projectFilter, "tv3", links, caps);
+		String wbshtml = manhourJdbcService.findAllCategoryHtml(projectId, projectFilter, "tv3", links, caps, language.code);
 		String prevpage = "project/show?id="+ projectId;
 		System.out.println(wbshtml);
 		model.addObject("wbshtml", wbshtml);
@@ -181,7 +187,7 @@ public class ProjectWbsController extends AbstractController<ProjectWbs, Project
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -218,7 +224,12 @@ public class ProjectWbsController extends AbstractController<ProjectWbs, Project
 						pw.setUnit("m");
 					else
 						pw.setUnit(u.substring(0,Math.min(3,u.length())));
-					modelService.create(pw);
+					try {
+						modelService.create(pw);
+					} catch(Exception e) {
+						return errorPage(language, Labels.ERR_DATABASE_ERROR, e.getMessage());
+					}
+
 				}
 			}
 		}

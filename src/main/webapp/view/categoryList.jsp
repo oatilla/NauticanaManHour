@@ -39,7 +39,7 @@ ${DATATABLE1}
 	<div class="box-header with-border">
 		<h3 class="box-title"> ${PAGETITLE} </h3>
 	
-		<a class="btn btn-primary" href="#" onClick="doAjaxGet('category/new');"> ${NEW} </a>
+ 		<a class="btn btn-primary" href="#" onClick="doAjaxGet('category/new');"> ${NEW} </a>
 		<form name="f" id="f">
 			${CAPTION_FILTER}
 			<input type="text" />

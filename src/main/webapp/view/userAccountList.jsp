@@ -17,6 +17,7 @@ ${DATATABLE1}
       <tr>
         <th>${USERNAME} </th>
         <th>${CAPTION} </th>
+        <th>${EMAIL_ADDRESS} </th>
         <th>${STATUS} </th>
         <th> &nbsp; </th>
       </tr>
@@ -26,6 +27,7 @@ ${DATATABLE1}
         <tr>
           <td><a href="#" onClick="doAjaxGet('userAccount/show?id=${record.id}');"> ${record.id} </a> </td>
           <td>${record.caption}</td>
+          <td>${record.emailAddress}</td>
           <td>${record.status}</td>
 			<td>
 				<c:if test="${!empty UPDATE_ALLOWED}">

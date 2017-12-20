@@ -23,6 +23,7 @@ import com.nauticana.manhour.model.ProjectTeamPerson;
 import com.nauticana.manhour.model.ProjectTeamPersonId;
 import com.nauticana.manhour.model.ProjectTeamTemplate;
 import com.nauticana.manhour.model.Worker;
+import com.nauticana.manhour.service.ManhourJdbcService;
 import com.nauticana.manhour.service.ProjectTeamPersonService;
 import com.nauticana.manhour.service.WorkerService;
 import com.nauticana.nams.abstrct.AbstractController;
@@ -97,6 +98,9 @@ public class ProjectTeamController extends AbstractController<ProjectTeam, Proje
 	private WorkerService workerService;
 	
 	@Autowired
+	private ManhourJdbcService manhourJdbcService;
+	
+	@Autowired
 	private ProjectTeamPersonService projectTeamPersonService;
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -116,7 +120,7 @@ public class ProjectTeamController extends AbstractController<ProjectTeam, Proje
 		if (!Utils.emptyStr(strPersonId)) {
 			int personId = Integer.parseInt(strPersonId);
 			w = workerService.findByPersonId(personId);
-			if (w == null) w = workerService.getLocalPerson(namsJdbcService.localPersonnel(personId));
+			if (w == null) w = workerService.getLocalPerson(manhourJdbcService.localPersonnel(personId));
 			model.addObject("personId", personId);
 		}
 		if (w == null) {
@@ -136,7 +140,7 @@ public class ProjectTeamController extends AbstractController<ProjectTeam, Proje
 	public ModelAndView newPost(@ModelAttribute ProjectTeam record, BindingResult result, HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -158,30 +162,34 @@ public class ProjectTeamController extends AbstractController<ProjectTeam, Proje
 			Worker w = workerService.findById(Integer.parseInt(strWorkerId));
 			if (w == null)
 				return errorPage(language, Labels.ERR_RECORDNOTFOUND, " Worker Id : " + strWorkerId);
-			ProjectTeam pt = modelService.create(record);
-			ProjectTeamPersonId ptpId = new ProjectTeamPersonId(pt.getId().getProjectId(), pt.getId().getTeamId(), w.getId());
-			ProjectTeamPerson ptp = new ProjectTeamPerson(ptpId,w,pt,(byte) 1);
-			projectTeamPersonService.create(ptp);
-
-			//if addSublings selected, team leads personnel added to team
-			if ("1".equals(request.getParameter("addSublings")) && w.getPersonId() > 0) {
-				ArrayList<String> filter = new ArrayList<String>();
-				filter.add("SUPERVISOR" + "," + w.getPersonId());
-				List<ExternalPerson> siblings = namsJdbcService.localPersonnel(filter);
-				for (ExternalPerson lp : siblings) {
-					Worker sbl = workerService.findByPersonId(lp.getPersonId());
-					if (sbl == null) sbl = workerService.getLocalPerson(lp);
-					if (sbl != null) {
-						ProjectTeamPersonId memberId = new ProjectTeamPersonId(pt.getId().getProjectId(), pt.getId().getTeamId(), sbl.getId());
-						ProjectTeamPerson teamMember = projectTeamPersonService.findById(memberId);
-						if (teamMember == null) {
-							teamMember = new ProjectTeamPerson(memberId, sbl, pt, (byte) 0);
-							teamMember = projectTeamPersonService.create(teamMember);
+			try {
+				ProjectTeam pt = modelService.create(record);
+				ProjectTeamPersonId ptpId = new ProjectTeamPersonId(pt.getId().getProjectId(), pt.getId().getTeamId(), w.getId());
+				ProjectTeamPerson ptp = new ProjectTeamPerson(ptpId,w,pt,(byte) 1);
+				projectTeamPersonService.create(ptp);
+				//if addSublings selected, team leads personnel added to team
+				if ("1".equals(request.getParameter("addSublings")) && w.getPersonId() > 0) {
+					ArrayList<String> filter = new ArrayList<String>();
+					filter.add("SUPERVISOR" + "," + w.getPersonId());
+					List<ExternalPerson> siblings = manhourJdbcService.localPersonnel(filter);
+					for (ExternalPerson lp : siblings) {
+						Worker sbl = workerService.findByPersonId(lp.getPersonId());
+						if (sbl == null) sbl = workerService.getLocalPerson(lp);
+						if (sbl != null) {
+							ProjectTeamPersonId memberId = new ProjectTeamPersonId(pt.getId().getProjectId(), pt.getId().getTeamId(), sbl.getId());
+							ProjectTeamPerson teamMember = projectTeamPersonService.findById(memberId);
+							if (teamMember == null) {
+								teamMember = new ProjectTeamPerson(memberId, sbl, pt, (byte) 0);
+								teamMember = projectTeamPersonService.create(teamMember);
+							}
 						}
 					}
 				}
+				nextpage = "projectTeam/show?id=" + pt.getId().toString();
+			} catch(Exception e) {
+				return errorPage(language, Labels.ERR_DATABASE_ERROR, e.getMessage());
 			}
-			nextpage = "projectTeam/show?id=" + pt.getId().toString();
+
 		}
 
 		if (Utils.emptyStr(nextpage))

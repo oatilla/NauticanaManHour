@@ -1,18 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<script src="../../plugins/datepicker/bootstrap-datepicker.js"></script>
-<script>
-  $(function () {
-    //Initialize Select2 Elements
-    $(".select2").select2();
-    //Date picker
-    $('.date').datepicker({
-      autoclose: true
-    });
 
-  });
-</script>
 
 <div class="box box-primary">
 	<div class="box-header with-border">
@@ -22,24 +11,27 @@
 	<form:form class="form-horizontal" method="post" modelAttribute="record" id="f">
 
 	<div class="box-body">
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="id"> ${PROJECT_ID} </label>
-			<div class="col-sm-10">
-				<label class="control-label">${id}</label>
-				<form:input type="hidden" path="id"/>
+		<!-- 
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="id"> ${PROJECT_ID} </label>
+				<div class="col-sm-10">
+					<label class="control-label">${id}</label>
+					<form:input type="hidden" path="id"/>
+				</div>
 			</div>
-		</div>
-
+ 		-->
+ 		<form:input type="hidden" path="id"/>
 		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="caption">${CAPTION}</label>
 			<div class="col-sm-10"> 
-				<form:input class="form-control" path="caption"/>
+				<form:input class="form-control required" path="caption"/>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="status"> ${STATUS} </label>
-			<div class="col-sm-10"> 
+			<div class="col-sm-10">
+				 ${record.status}
 			</div>
 		</div>
 		<div class="form-group">
@@ -50,7 +42,7 @@
 		</div>
 
 			<div class="form-group">
-				<label  class="col-sm-2 control-label" for="country"> ${COUNTRY} </label>
+				<label  class="col-sm-2 control-label required" for="country"> ${COUNTRY} </label>
 				<div class="col-sm-10"> 
 					<form:select name="country" path="country"  class="form-control select2" items="${COUNTRY_LIST}"/>
 				</div>
@@ -91,10 +83,11 @@
 				<form:input  type="text" class="form-control" path="areaHandover"/>
 			</div>
 		</div>
-		<div class="form-group">
+		<%-- 24.11.2017 tarihli kullanıcı testi sonucunda alanların kapatılması talep edildi -->
+		<%-- <div class="form-group"> 
 			<label  class="col-sm-2 control-label" for="duration"> ${DURATION}  </label>
 			<div class="col-sm-10"> 
-				<form:input class="form-control" path="duration"/>
+				<form:input type="number" class="form-control" path="duration"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -129,11 +122,11 @@
                   </div>
 				<form:input class="form-control" path="endOfWarranty"/>
 			</div>
-		</div>
+		</div> --%>
 		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="contractedAmount"> ${CONTRACTED_AMOUNT}  </label>
 			<div class="col-sm-10"> 
-				<form:input class="form-control" path="contractedAmount"/>
+				<form:input type="text" class="currency form-control" path="contractedAmount"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -145,16 +138,16 @@
 		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="expectedCost"> ${EXPECTED_COST}  </label>
 			<div class="col-sm-10"> 
-				<form:input class="form-control" path="expectedCost"/>
+				<form:input  class="currency form-control" path="expectedCost"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="advancePercent"> ${ADVANCE_PERCENT} % </label>
 			<div class="col-sm-10"> 
-				<form:input class="form-control" path="advancePercent"/>
+				<form:input class="form-control percentage" path="advancePercent"/>
 			</div>
 		</div>
-		<div class="form-group">
+		<%-- <div class="form-group">
 			<label  class="col-sm-2 control-label" for="letterOfAdvance"> ${LETTER_OF_ADVANCE} % </label>
 			<div class="col-sm-10"> 
 				<form:input class="form-control" path="letterOfAdvance"/>
@@ -165,7 +158,7 @@
 			<div class="col-sm-10"> 
 				<form:input class="form-control" path="letterOfWarranty"/>
 			</div>
-		</div>
+		</div> --%>
 		
 		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="organizationId">${ORGANIZATION_ID}</label>
@@ -185,3 +178,45 @@
 	</form:form>
 
 </div>
+
+<!-- script type="text/javascript" src="/jquery/jquery.maskMoney.min.js"></script> -->
+
+<script>
+   $('document').ready(function() {
+
+	//mask money
+//	    $('.currency').maskMoney({precision:0, thousands:' '}).maskMoney( "mask" );
+
+	//Initialize Select2 Elements
+	    $(".select2").select2();
+
+	//Date picker
+	    $('.date').datepicker({
+	      autoclose: true,
+	      format: 'dd/mm/yyyy'
+	    });
+	    
+	});
+</script>
+ <script>
+	console.log(navigator.userAgent);
+	$(".currency").inputmask( {
+		alias: 'decimal',		
+		groupSeparator: ' ',
+	    autoGroup: true, 
+		digits: 2, 
+		digitsOptional: true,
+		rightAlign: false
+	});
+	$(".percentage").inputmask( {
+		alias: 'numeric',		
+	    autoGroup: false, 
+	    integerDigits:3,
+		digits: 2, 
+		min: 0,
+		max:100,
+		digitsOptional: true,
+		rightAlign: false
+	});
+</script>
+

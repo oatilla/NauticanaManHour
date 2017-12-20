@@ -28,9 +28,8 @@ public class ViewProjectWbsQtyApprove {
 	private String unit;
 	private float  metric;
 	private float  quantity;
-	private float  workforce;
 	private float  approvedQuantity;
-	private Date endda;
+	private Date   endda;
 	private float  quantityToApprove;
 	
 	public ViewProjectWbsQtyApprove() {
@@ -47,10 +46,6 @@ public class ViewProjectWbsQtyApprove {
 		this.unit = unit;
 		this.metric = metric;
 		this.quantity = quantity;
-		if (metric > 0)
-			this.workforce = quantity/metric;
-		else
-			this.workforce = 0;
 		this.approvedQuantity = approvedQuantity;
 		this.endda = endda;
 		this.quantityToApprove = quantitytoApprove;
@@ -136,11 +131,7 @@ public class ViewProjectWbsQtyApprove {
 	@Transient
 	@Column(name="WORKFORCE")
 	public float getWorkforce() {
-		return workforce;
-	}
-
-	public void setWorkforce(float workforce) {
-		this.workforce = workforce;
+		return quantity * metric;
 	}
 
 	@Column(name="APPROVED_QUANTITY")
@@ -170,6 +161,4 @@ public class ViewProjectWbsQtyApprove {
 	public void setQuantityToApprove(float quantityToApprove) {
 		this.quantityToApprove = quantityToApprove;
 	}
-
-	
 }

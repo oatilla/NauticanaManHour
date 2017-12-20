@@ -25,6 +25,13 @@
 		</div>
 
 		<div class="form-group">
+			<label  class="col-sm-2 control-label" for="icon">${ICON}</label>
+			<div class="col-sm-10"> 
+				<form:input class="form-control" path="icon"/>
+			</div>
+		</div>
+
+		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="displayOrder">${DISPLAY_ORDER}</label>
 			<div class="col-sm-10"> 
 				<form:input class="form-control" path="displayOrder"/>

@@ -43,7 +43,7 @@ public class AuthorityGroupService extends AbstractService<AuthorityGroup, Strin
 	@Override
 	public String[][] findAllStr() {
 		List<AuthorityGroup> list = findAll();
-		String[][] items = new String[list.size()+1][2];
+		String[][] items = new String[list.size()][2];
 		int i = -1;
 		for(AuthorityGroup x : list) {
 			i++;

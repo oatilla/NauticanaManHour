@@ -16,23 +16,25 @@ public class UserAccount implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "USER_ACCOUNT";
-	public static final String[] fieldNames = new String[] { "USERNAME", "PASSWORD", "CAPTION", "STATUS" };
+	public static final String[] fieldNames = new String[] { "USERNAME", "PASSWORD", "CAPTION", "STATUS", "EMAIL_ADDRESS" };
 	public static final String rootMapping = "userAccount";
 
 	private String id;
 	private String password;
 	private String caption;
 	private char status;
+	private String emailAddress;
 
 	private Set<UserAuthorization> userAuthorizations = new HashSet<UserAuthorization>(0);
 
 	public UserAccount() {
 	}
 
-	public UserAccount(String username, String password, String caption, char status) {
+	public UserAccount(String username, String password, String caption, String emailAddress, char status) {
 		this.id = username;
 		this.password = password;
 		this.caption = caption;
+		this.emailAddress = emailAddress;
 		this.status = status;
 	}
 
@@ -62,6 +64,15 @@ public class UserAccount implements java.io.Serializable {
 
 	public void setCaption(String caption) {
 		this.caption = caption;
+	}
+
+	@Column(name = "EMAIL_ADDRESS", nullable = false, length = 80)
+	public String getEmailAddress() {
+		return this.emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 
 	@Column(name = "STATUS", nullable = false, length = 1)

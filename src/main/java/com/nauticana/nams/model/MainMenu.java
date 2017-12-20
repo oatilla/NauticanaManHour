@@ -17,7 +17,7 @@ public class MainMenu implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "MAIN_MENU";
-	public static final String[] fieldNames = new String[] { "MENU", "CAPTION", "DISPLAY_ORDER" };
+	public static final String[] fieldNames = new String[] { "MENU", "CAPTION", "ICON", "DISPLAY_ORDER" };
 	public static final String rootMapping = "mainMenu";
 
 	private String menu;

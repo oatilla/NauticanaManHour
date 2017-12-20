@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.nauticana.manhour.exception.RecordNotFound;
 import com.nauticana.nams.service.NamsJdbcService;
 import com.nauticana.nams.utils.DataCache;
 import com.nauticana.nams.utils.Labels;
@@ -74,7 +73,7 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -87,18 +86,19 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 		ModelAndView model = new ModelAndView(listView());
 		model.addObject(Labels.dataTableNames[0], Labels.dataTableSettings[0]);
 		model.addObject("records", records);
-		if (!namsJdbcService.authorityChk(username, Labels.TABLE, Labels.INSERT, tableName()))
+		if (namsJdbcService.authorityChk(username, Labels.TABLE, Labels.INSERT, tableName()))
 			model.addObject(Labels.INSERT_ALLOWED, "X");
-		if (!namsJdbcService.authorityChk(username, Labels.TABLE, Labels.UPDATE, tableName()))
+		if (namsJdbcService.authorityChk(username, Labels.TABLE, Labels.UPDATE, tableName()))
 			model.addObject(Labels.UPDATE_ALLOWED, "X");
-		if (!namsJdbcService.authorityChk(username, Labels.TABLE, Labels.DELETE, tableName()))
+		if (namsJdbcService.authorityChk(username, Labels.TABLE, Labels.DELETE, tableName()))
 			model.addObject(Labels.DELETE_ALLOWED, "X");
 		
 		// Assign text objects from session language
 		model.addObject(Labels.PAGETITLE, language.getText(tableName()));
 		model.addObject(Labels.NEW, language.getIconText(Labels.NEW));
-		model.addObject(Labels.EDIT, language.getIconText(Labels.EDIT));
-		model.addObject(Labels.DELETE, language.getIconText(Labels.DELETE));
+		model.addObject(Labels.EDIT, language.getIcon(Labels.EDIT));
+		model.addObject(Labels.DELETE, language.getIcon(Labels.DELETE));
+		model.addObject(Labels.CANCEL, language.getIconText(Labels.CANCEL));
 		for (int i = 0; i < modelService.fieldNames().length; i++) {
 			model.addObject(modelService.fieldNames()[i], language.getText(modelService.fieldNames()[i]));
 		}
@@ -112,7 +112,7 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 		// Check for user and insert authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 		
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -159,7 +159,7 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 	public ModelAndView newPost(@ModelAttribute ModelBean record, BindingResult result, HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -174,7 +174,11 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 			}
 			return errorPage(language, Labels.ERR_BINDING, msgText);
 		}
-		modelService.save(record);
+		try {
+			modelService.save(record);
+		} catch(Exception e) {
+			return errorPage(language, Labels.ERR_DATABASE_ERROR, e.getMessage());
+		}
 		String nextpage = request.getParameter(Labels.NEXTPAGE);
 		if (Utils.emptyStr(nextpage))
 			return new ModelAndView("redirect:list");
@@ -188,7 +192,7 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 		// Check for user and update authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -211,6 +215,7 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 		model.addObject(Labels.CANCEL, language.getIconText(Labels.CANCEL));
 		model.addObject(Labels.PREVPAGE, prevPage(id));
 		model.addObject(Labels.POSTLINK, rootMapping()+"/edit");
+		model.addObject(Labels.REQUIRED, language.getText(Labels.REQUIRED));
 		for (int i = 0; i < modelService.fieldNames().length; i++) {
 			model.addObject(modelService.fieldNames()[i], language.getText(modelService.fieldNames()[i]));
 		}
@@ -231,7 +236,7 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 		// Check for user and insert/update authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -248,7 +253,11 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 		}
 
 		// Update record in database
-		modelService.save(record);
+		try {
+			modelService.save(record);
+		} catch(Exception e) {
+			return errorPage(language, Labels.ERR_DATABASE_ERROR, e.getMessage());
+		}
 		String nextpage = request.getParameter(Labels.NEXTPAGE);
 		if (Utils.emptyStr(nextpage))
 			return new ModelAndView("redirect:/" + rootMapping() + "/list");
@@ -262,7 +271,7 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 		// Check for user and delete authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -271,18 +280,17 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 			return errorPage(language, Labels.ERR_UNAUTHORIZED, Labels.TABLE + "-" + Labels.DELETE + " ON " + tableName());
 
 		// Delete record from database
-		String id = "";
+		String id = request.getParameter("id");
 		try {
-			id = request.getParameter("id");
 			modelService.remove(modelService.StrToId(id));
-			String nextpage = request.getParameter(Labels.NEXTPAGE);
-			if (Utils.emptyStr(nextpage))
-				return new ModelAndView("redirect:/" + prevPage(id));
-			else
-				return new ModelAndView("redirect:/" + nextpage);
-		} catch (RecordNotFound e) {
-			return errorPage(language, Labels.ERR_RECORDNOTFOUND, tableName() + " WITH ID : " + id);
+		} catch(Exception e) {
+			return errorPage(language, Labels.ERR_DATABASE_ERROR, e.getMessage());
 		}
+		String nextpage = request.getParameter(Labels.NEXTPAGE);
+		if (Utils.emptyStr(nextpage))
+			return new ModelAndView("redirect:/" + prevPage(id));
+		else
+			return new ModelAndView("redirect:/" + nextpage);
 	}
 
 
@@ -292,7 +300,7 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -312,9 +320,9 @@ public abstract class AbstractController<ModelBean, ModelId extends Serializable
 		// Assign text objects from session language
 		model.addObject(Labels.PAGETITLE, language.getText(tableName()));
 		model.addObject(Labels.NEW, language.getIconText(Labels.NEW));
-		model.addObject(Labels.EDIT, language.getIconText(Labels.EDIT));
+		model.addObject(Labels.EDIT, language.getIcon(Labels.EDIT));
 		model.addObject(Labels.CHOOSE, language.getIconText(Labels.CHOOSE));
-		model.addObject(Labels.DELETE, language.getIconText(Labels.DELETE));
+		model.addObject(Labels.DELETE, language.getIcon(Labels.DELETE));
 		model.addObject(Labels.CANCEL, language.getIconText(Labels.CANCEL));
 		model.addObject(Labels.PREVPAGE, prevPage(id));
 		model.addObject(tableName(), language.getText(tableName()));

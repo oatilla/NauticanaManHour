@@ -19,13 +19,13 @@ public class ViewWbsTeamStatus {
 	
 	private ViewWbsTeamStatusId id;
 	private String prjCaption;
+	private int parentId;
 	private String treeCode;
 	private String catCaption;
 	private String teamCaption;
 	private String unit;
 	private float  metric;
 	private float  quantity;
-	private float  workforce;
 	private float  sumQuantity;
 	private int    sumManhour;
 	private Date   begda;
@@ -35,21 +35,18 @@ public class ViewWbsTeamStatus {
 
 
 
-	public ViewWbsTeamStatus(ViewWbsTeamStatusId id, String prjCaption, String treeCode, String catCaption, String teamCaption, String unit,
+	public ViewWbsTeamStatus(ViewWbsTeamStatusId id, String prjCaption, int parentId, String treeCode, String catCaption, String teamCaption, String unit,
 			float metric, float quantity, float sumQuantity, int sumManhour, Date begda, Date endda, float lastQuantity) {
 		super();
 		this.id = id;
 		this.prjCaption = prjCaption;
+		this.parentId = parentId;
 		this.treeCode = treeCode;
 		this.catCaption = catCaption;
 		this.teamCaption = teamCaption;
 		this.unit = unit;
 		this.metric = metric;
 		this.quantity = quantity;
-		if (metric > 0)
-			this.workforce = quantity/metric;
-		else
-			this.workforce = 0;
 		this.sumQuantity = sumQuantity;
 		this.sumManhour = sumManhour;
 		this.begda = begda;
@@ -75,6 +72,15 @@ public class ViewWbsTeamStatus {
 
 	public void setId(ViewWbsTeamStatusId id) {
 		this.id = id;
+	}
+
+	@Column(name="PARENT_ID")
+	public int getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
 	}
 
 	@Column(name="TREE_CODE")
@@ -143,11 +149,7 @@ public class ViewWbsTeamStatus {
 	@Transient
 	@Column(name="WORKFORCE")
 	public float getWorkforce() {
-		return workforce;
-	}
-
-	public void setWorkforce(float workforce) {
-		this.workforce = workforce;
+		return this.quantity * this.metric;
 	}
 
 	@Column(name="SUM_QUANTITY")
@@ -209,6 +211,6 @@ public class ViewWbsTeamStatus {
 
 	@Override
 	public String toString() {
-		return id.getProjectId() + "," + id.getCategoryId() + "," + id.getTeamId() + "," + prjCaption + "," + treeCode + "," + catCaption + "," + teamCaption + "," + unit  + "," + metric  + "," + quantity  + "," + workforce  + "," + sumQuantity + "," + sumManhour + "," + begda + "," + endda + "," + lastQuantity + "," + nextBegda;
+		return id.getProjectId() + "," + id.getCategoryId() + "," + id.getTeamId() + "," + prjCaption + "," + treeCode + "," + catCaption + "," + teamCaption + "," + unit  + "," + metric  + "," + quantity  + "," + getWorkforce()  + "," + sumQuantity + "," + sumManhour + "," + begda + "," + endda + "," + lastQuantity + "," + nextBegda;
 	}
 }

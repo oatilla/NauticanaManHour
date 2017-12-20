@@ -19,10 +19,12 @@
 	<div class="box-body">
 
 		<table>
-			<tr>
+			<!--  <tr>
 				<th> ${PROJECT_ID} </th>
-				<td> ${record.id.projectId} ${record.project.caption} <form:input type="hidden" path="id.projectId"  /></td>
+				<td> ${record.id.projectId} ${record.project.caption} </td>
 			</tr>
+			-->
+			<form:input type="hidden" path="id.projectId"  />
 			<tr>
         		<th> ${CATEGORY_ID} </th>
 				<td> ${record.id.categoryId} ${record.category.caption} <form:input type="hidden" path="id.categoryId" /></td>
@@ -56,35 +58,35 @@
 		<div class="form-group">
 			<label class="col-sm-2 control-label" for="unit"> ${UNIT} </label>
 			<div class="col-sm-10">
-				<form:select class="form-control" path="unit" items="${MEASUREMENT_UNIT_LIST}"/>
+				<form:select class="form-control" name="unit" path="unit" items="${MEASUREMENT_UNIT_LIST}"/>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="metric">${METRIC}</label>
 			<div class="col-sm-10"> 
-				<form:input class="form-control" path="metric"/>
+				<form:input class="form-control decimal" path="metric"/>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="quantity">${QUANTITY}</label>
 			<div class="col-sm-10"> 
-				<form:input class="form-control" path="quantity"/>
+				<form:input class="form-control decimal"  path="quantity"/>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="pupMetric">${PUP_METRIC}</label>
 			<div class="col-sm-10"> 
-				<form:input class="form-control" path="pupMetric"/>
+				<form:input class="form-control decimal" path="pupMetric"/>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label  class="col-sm-2 control-label" for="pupQuantity">${PUP_QUANTITY}</label>
 			<div class="col-sm-10"> 
-				<form:input class="form-control" path="pupQuantity"/>
+				<form:input class="form-control decimal" path="pupQuantity"/>
 			</div>
 		</div>
 		
@@ -175,3 +177,34 @@
 
 	</form:form>
 </div>
+
+<!-- 
+<script type="text/javascript" src="/jquery/jquery.maskMoney.min.js"></script>
+
+<script>
+ //mask money
+   $('document').ready(function() {
+	    $('.decimal').maskMoney({precision:2, thousands:' '}).maskMoney( "mask" );
+	    $('.number').maskMoney({precision:0, thousands:' '}).maskMoney( "mask" );
+	    
+	    //$('.currency').maskMoney('mask');
+	});
+	
+
+
+</script>
+ -->
+ <script>
+	console.log(navigator.userAgent);
+	$(".decimal").inputmask( {
+		alias: 'decimal',		
+		groupSeparator: ' ',
+	    autoGroup: true, 
+		digits: 2, 
+		digitsOptional: true,
+		rightAlign: false
+	});
+</script>
+ 
+ 
+ 

@@ -17,7 +17,7 @@ function captureData() {
 $('.editable-text').bind({
     keyup:function(){ 
  //total calculation
-            $(".table tr:not(:first, last) td:last-child").text(function () {
+            $(".table tr:not(:first, last) td:last-child").css( "color","blue" ).text(function () {
                 var totalVal = 0;
                 $(this).parent().find("td.editable-text").each(function () {
                     totalVal += parseInt($(this).text()) || 0;
@@ -26,7 +26,7 @@ $('.editable-text').bind({
                 return totalVal;
             });
 
-            $(".table tr:last td").text(function (i) {
+            $(".table tr:last td").css( "color","blue" ).text(function (i) {
                 var totalVal = 0;
                 $(this).parent().prevAll().find("td.editable-text:nth-child(" + (i+4) + ")").each(function () {
                     totalVal += parseInt($(this).text()) || 0;
@@ -42,7 +42,7 @@ $('.editable-text').bind({
 				var trs=parseInt($('tr:eq('+i+')').find('td:last').text())
 				count+=trs
 			}
-			$(".table tr:last td:last").text(count)
+			$(".table tr:last td:last").css( "color","red" ).text(count)
          
     }
 });
@@ -87,9 +87,8 @@ ${DATATABLE1}
         </tr>
       </c:forEach>     
       <tr>
-      <th ></th>
-      <th ></th>
-      <th ></th>
+      <th colspan=3></th>
+
       <td class="total"></td>
       <td class="total"></td>
       <td class="total"></td>
@@ -106,8 +105,35 @@ ${DATATABLE1}
 			<input type=hidden name=workerId value="${workerId}">
 			<input type=hidden name=date value="${date}">
 			<input type=hidden name=data value="">
-			<a href="#" class="btn btn-primary" onClick="captureData();doAjaxPost('projectWbsManhour/editTeamLead');"> ${SAVE} </a>
+			<a href="#" class="btn btn-primary" onClick="captureData();control();"> ${SAVE} </a>
 			<a href="#" class="btn btn-warning" onClick="doAjaxGet('${prevpage}');"> ${CANCEL} </a> 
 		</form>
 	</div>
 </div>
+
+
+<script>
+function control(){
+	 var error = 0;
+	 
+    $(".table tr:not(:first, last)").each(function () {
+	   	var totalVal = 0;
+	   	var firstVal = 0;
+
+		$(this).find("td.editable-text").each(function(index){
+				if (index == 0){
+					firstVal= parseInt($(this).text())
+				}else{totalVal += parseInt($(this).text()) || 0;
+				};
+	           });
+		if(firstVal != totalVal){
+			$(this).css('background-color', 'red')
+			error = 1;
+		}
+		    
+	    });
+	    if (error == 0 ){doAjaxPost('projectWbsManhour/editTeamLead');}
+	    else{alert("Total ManHour does not match!");}
+	}
+
+</script>

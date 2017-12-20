@@ -28,6 +28,7 @@ public class PortalLanguage {
 		this.caption = caption;
 		this.translations = new Hashtable<String, String>(); 
 		this.iconText = new Hashtable<String, String>(); 
+		this.icon = new Hashtable<String, String>(); 
 		if (writer == null)
 		writer = new PrintWriter(new FileWriter(new File("MissingTranslations_" + code + ".log")));
 	}
@@ -46,6 +47,7 @@ public class PortalLanguage {
 			rs1 = stmt1.executeQuery(sql);
 			translations.clear();
 			iconText.clear();
+			icon.clear();
 
 			while (rs1.next()) {
 				String baslik = rs1.getString(1);
@@ -55,13 +57,8 @@ public class PortalLanguage {
 				String icon = Icons.getIcon(nb);
 				System.out.println("ICON for " + nb + " is " + icon);
 				if (icon != null) {
-					String ic;
-					if (showIconText)
-						ic = "<i class=\"" + icon + "\"> " + text + " </i>";
-					else
-						ic = "<i class=\"" + icon + "\"></i>";
-					iconText.put(baslik, ic);
-					System.out.println("ICON TEXT for " + nb + " is " + ic);
+					this.iconText.put(baslik, "<i class=\"" + icon + "\"> " + text + " </i>");
+					this.icon.put(baslik, "<i class=\"" + icon + "\"></i>");
 				}
 			}
 			rs1.close();

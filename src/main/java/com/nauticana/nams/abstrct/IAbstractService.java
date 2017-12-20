@@ -2,14 +2,12 @@ package com.nauticana.nams.abstrct;
 
 import java.util.List;
 
-import com.nauticana.manhour.exception.RecordNotFound;
-
 public interface IAbstractService <ModelBean,ModelId> {
 
 	ModelBean findById(ModelId id);
-	ModelBean create(ModelBean entity);
-	void save(ModelBean entity);
-	void remove(ModelId id) throws RecordNotFound;
+	ModelBean create(ModelBean entity) throws Exception;
+	void save(ModelBean entity) throws Exception;
+	void remove(ModelId id) throws Exception;
 	List<ModelBean> findAll();
 	ModelBean newEntity(String parentKey);
 	ModelBean newEntityWithId(String strId);

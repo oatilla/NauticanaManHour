@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.nauticana.manhour.exception.RecordNotFound;
 
 public abstract class AbstractService<ModelBean, ModelId extends Serializable> implements IAbstractService<ModelBean, ModelId> {
 	
@@ -20,18 +19,36 @@ public abstract class AbstractService<ModelBean, ModelId extends Serializable> i
 	}
 
 	@Override
-	public ModelBean create(ModelBean entity) {
-		return r.save(entity);
+	public ModelBean create(ModelBean entity) throws Exception {
+		try {
+			return r.save(entity);
+		} catch(DataAccessException e) {
+			throw new Exception(e.getRootCause().getMessage());
+		} catch(Exception e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 
 	@Override
-	public void save(ModelBean entity) {
-		r.save(entity);
+	public void save(ModelBean entity) throws Exception {
+		try {
+			r.save(entity);
+		} catch(DataAccessException e) {
+			throw new Exception(e.getRootCause().getMessage());
+		} catch(Exception e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 
 	@Override
-	public void remove(ModelId id) throws RecordNotFound {
-		r.delete(id);
+	public void remove(ModelId id) throws Exception {
+		try {
+			r.delete(id);
+		} catch(DataAccessException e) {
+			throw new Exception(e.getRootCause().getMessage());
+		} catch(Exception e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 
 	@Override
@@ -49,7 +66,6 @@ public abstract class AbstractService<ModelBean, ModelId extends Serializable> i
 			ModelBean entity = r.findOne(id);
 			entities.add(entity);
 		}
-
 		return entities;
 	}
 	

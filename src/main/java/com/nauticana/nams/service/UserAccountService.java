@@ -22,7 +22,9 @@ public class UserAccountService extends AbstractService<UserAccount, String> {
 
 	@Override
 	public UserAccount newEntity(String parentKey) {
-		return new UserAccount();
+		UserAccount entity = new UserAccount();
+		entity.setStatus('I');
+		return entity;
 	}
 
 	@Override
@@ -34,6 +36,7 @@ public class UserAccountService extends AbstractService<UserAccount, String> {
 	public UserAccount newEntityWithId(String strId) {
 		UserAccount entity = new UserAccount();
 		entity.setId(StrToId(strId));
+		entity.setStatus('I');
 		return entity;
 	}
 

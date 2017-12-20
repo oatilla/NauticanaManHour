@@ -7,7 +7,7 @@ ${DATATABLE1}
 		<h3 class="box-title"> ${PAGETITLE} </h3>
 	</div>
 	<div class="box-body">
-		<p> ${USERNAME} : ${record.id} ${record.caption}
+		<p> ${USERNAME} : ${record.id} ${record.caption}  ${record.emailAddress}
 		<c:if test="${!empty UPDATE_ALLOWED}">
 			<a class="btn btn-primary" href="#" onClick="doAjaxGet('userAccount/edit?id=${record.id}');"> ${EDIT} </a>
 		</c:if>

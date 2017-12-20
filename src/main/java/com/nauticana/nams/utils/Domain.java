@@ -3,6 +3,7 @@ package com.nauticana.nams.utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -11,16 +12,18 @@ public class Domain {
 	private String id;
 	private String caption;
 	private int size;
+	private String sortBy;
 	Map<String, String> options = new HashMap<String, String>();
 	Map<String, Map<String, String>> langOptions = new HashMap<String, Map<String, String>>();
 	
 	
-	public Domain(String id, String caption, int size) {
+	public Domain(String id, String caption, int size, String sortBy) {
 		super();
 		this.id = id;
 		this.caption = caption;
 		this.size = size;
-		options.put("", " - ");
+		this.sortBy = sortBy;
+//		options.put("", " - ");
 	}
 
 	public String getId() {
@@ -29,6 +32,10 @@ public class Domain {
 
 	public String getCaption() {
 		return caption;
+	}
+
+	public String getSortBy() {
+		return sortBy;
 	}
 
 	public int size() {
@@ -46,12 +53,16 @@ public class Domain {
 	public Map<String, String> getOptions(PortalLanguage l) {
 		Map<String, String> o = langOptions.get(l.code);
 		if (o != null) return o;
-		o = new HashMap<String, String>();
+		o = new LinkedHashMap<String, String>();
+//		o.put(" ", " ");
 		for (String key : options.keySet()) {
 			o.put(key, l.getText(options.get(key)));
 		}
 		List<Entry<String, String>> ol = new ArrayList<Entry<String, String>>(o.entrySet());
-		Collections.sort(ol, new MapComparator());
+		if ("K".equals(this.sortBy))
+			Collections.sort(ol, new MapKeyComparator());
+		else
+			Collections.sort(ol, new MapValueComparator());
 		o.clear();
 		for (Entry<String, String> entry : ol) {
 			o.put(entry.getKey(), entry.getValue());

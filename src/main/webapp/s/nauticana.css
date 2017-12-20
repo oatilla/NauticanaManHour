@@ -8,4 +8,25 @@
     box-shadow: 1px 1px 1px 0 lightgray inset;  
     font: -moz-field;
     font: -webkit-small-control;
- }
+}
+
+.tab-content {
+  padding:10px;
+  border-left:1px solid #DDD;
+  border-bottom:1px solid #DDD;
+  border-right:1px solid #DDD;
+}
+
+
+ table.dataTable tbody th, table.dataTable tbody td {
+    border-top: 1px solid #696565; 
+    border-bottom: 1px solid #696565;
+    border-left: 1px solid #696565;
+    border-right: 1px solid #696565;}
+    
+    
+th, td {
+    border-top: 1px solid #696565; 
+    border-bottom: 1px solid #696565;
+    border-left: 1px solid #696565;
+    border-right: 1px solid #696565;}

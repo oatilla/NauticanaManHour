@@ -20,6 +20,8 @@ import com.nauticana.manhour.model.ProjectTeamPerson;
 import com.nauticana.manhour.model.ProjectTeamPersonId;
 import com.nauticana.manhour.model.Subcontractor;
 import com.nauticana.manhour.model.Worker;
+import com.nauticana.manhour.service.ExternalOrganizationService;
+import com.nauticana.manhour.service.ManhourJdbcService;
 import com.nauticana.manhour.service.ProjectTeamPersonService;
 import com.nauticana.manhour.service.ProjectTeamService;
 import com.nauticana.manhour.service.SubcontractorService;
@@ -33,7 +35,7 @@ import com.nauticana.nams.utils.Utils;
 @RequestMapping("/" + Worker.rootMapping)
 public class WorkerController  extends AbstractController<Worker,Integer> {
 
-	public static final String[] lookuplists = null;
+	public static final String[] lookuplists = new String[] {"organizationList"};
 	public static final String[] detailTables = null;
 	public static final String[][] detailFields = null;
 	public static final String listView = Worker.rootMapping + "List";
@@ -82,7 +84,12 @@ public class WorkerController  extends AbstractController<Worker,Integer> {
 
 	@Override
 	protected String[][] lookupService(int i) {
+		switch (i) {
+			case 0: return organizationService.findAllStr();
+			case 1: return null;
+		}
 		return null;
+
 	}
 
 	@Override
@@ -91,6 +98,10 @@ public class WorkerController  extends AbstractController<Worker,Integer> {
 	@Override
 	protected String[][] detailActions() {return null;}
 
+	
+	@Autowired
+	private ExternalOrganizationService organizationService;
+	
 	@Autowired
 	private ProjectTeamPersonService projectTeamPersonService;
 
@@ -100,13 +111,16 @@ public class WorkerController  extends AbstractController<Worker,Integer> {
 	@Autowired
 	private SubcontractorService subcontractorService;
 
+	@Autowired
+	private ManhourJdbcService manhourJdbcService;
+
 	@RequestMapping(value = "/selectPerson")
 	public ModelAndView selectPersonnel(HttpServletRequest request) throws IOException {
 		
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 		if (!namsJdbcService.authorityChk(username, Labels.TABLE, Labels.SELECT, tableName()))
 			return new ModelAndView("redirect:/unauthorized");
 		
@@ -116,7 +130,11 @@ public class WorkerController  extends AbstractController<Worker,Integer> {
 
 		String operation = request.getParameter("operation");
 		String nextpage = request.getParameter(Labels.NEXTPAGE);
+		if (Utils.emptyStr(nextpage)) {
+			nextpage = "project/show?id="+ parentKey;
+		}
 		String prevpage = nextpage;
+//		System.out.println(" Next/prev page : " + nextpage);
 		
 		if (Labels.CHOOSE.equals(operation)) {
 			String personIds = request.getParameter("personIds");
@@ -126,13 +144,17 @@ public class WorkerController  extends AbstractController<Worker,Integer> {
 				for (int i = 1; i < p.length; i++) {
 					int personId = Integer.parseInt(p[i]);
 					Worker w = ((WorkerService) modelService).findByPersonId(personId);
-					if (w == null) w = ((WorkerService) modelService).getLocalPerson(namsJdbcService.localPersonnel(personId));
+					if (w == null) w = ((WorkerService) modelService).getLocalPerson(manhourJdbcService.localPersonnel(personId));
 					if (w != null) {
 						ProjectTeamPersonId id = new ProjectTeamPersonId(pt.getId().getProjectId(), pt.getId().getTeamId(), w.getId());
 						ProjectTeamPerson ptp = projectTeamPersonService.findById(id);
 						if (ptp == null) {
 							ptp = new ProjectTeamPerson(id, w, pt, (byte) 0);
-							ptp = projectTeamPersonService.create(ptp);
+							try {
+								ptp = projectTeamPersonService.create(ptp);
+							} catch(Exception e) {
+								return errorPage(language, Labels.ERR_DATABASE_ERROR, e.getMessage());
+							}
 						}
 					}
 				}
@@ -162,7 +184,7 @@ public class WorkerController  extends AbstractController<Worker,Integer> {
 			model.addObject(ExternalPerson.fieldAttrs[i], s);
 		}
 		if (Labels.SEARCH.equals(operation)) {
-			List<ExternalPerson> records = namsJdbcService.localPersonnel(filter);
+			List<ExternalPerson> records = manhourJdbcService.localPersonnel(filter);
 			model.addObject("records", records);
 		}
 		// if add siblings clicked
@@ -197,7 +219,7 @@ public class WorkerController  extends AbstractController<Worker,Integer> {
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -217,7 +239,7 @@ public class WorkerController  extends AbstractController<Worker,Integer> {
 
 		List<Worker> workers = ((WorkerService)modelService).findBySubcontractor(subcontractorService.findById(Integer.parseInt(s)));
 		model.addObject("workers", workers);
-
+		String postlink = "worker/selectWorker";
 		String parentKey = request.getParameter(Labels.PARENTKEY);
 		String memberType = request.getParameter("memberType");
 		String nextpage = request.getParameter(Labels.NEXTPAGE);
@@ -234,6 +256,7 @@ public class WorkerController  extends AbstractController<Worker,Integer> {
 		model.addObject(Labels.SELECT, language.getIconText(Labels.SELECT));
 		model.addObject(Labels.OK, language.getIconText(Labels.OK));
 		model.addObject(Labels.CANCEL, language.getIconText(Labels.CANCEL));
+		model.addObject(Labels.POSTLINK	, postlink);
 		model.addObject(Labels.NEXTPAGE, nextpage);
 		model.addObject(Labels.PREVPAGE, prevpage);
 		model.addObject(Labels.SUBCONTRACTOR, language.getIconText(Labels.SUBCONTRACTOR));
@@ -255,7 +278,8 @@ public class WorkerController  extends AbstractController<Worker,Integer> {
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
+		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
 
 		String memberType = request.getParameter("memberType");
 		String parentKey = request.getParameter(Labels.PARENTKEY);
@@ -281,7 +305,11 @@ public class WorkerController  extends AbstractController<Worker,Integer> {
 					ProjectTeamPerson ptp = projectTeamPersonService.findById(id);
 					if (ptp == null) {
 						ptp = new ProjectTeamPerson(id, w, pt, (byte) 0);
-						ptp = projectTeamPersonService.create(ptp);
+						try {
+							ptp = projectTeamPersonService.create(ptp);
+						} catch(Exception e) {
+							return errorPage(language, Labels.ERR_DATABASE_ERROR, e.getMessage());
+						}
 					}
 				}
 			}
@@ -289,6 +317,6 @@ public class WorkerController  extends AbstractController<Worker,Integer> {
 		if (Utils.emptyStr(nextpage))
 			return new ModelAndView("redirect:list");
 		else
-			return new ModelAndView("redirect:" + nextpage);
+			return new ModelAndView("redirect:/" + nextpage);
 	}
 }

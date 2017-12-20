@@ -27,6 +27,7 @@ import com.nauticana.manhour.model.ProjectWbsManhour;
 import com.nauticana.manhour.model.ProjectWbsManhourId;
 import com.nauticana.manhour.model.ViewProjectWbsMhApprove;
 import com.nauticana.manhour.service.CategoryService;
+import com.nauticana.manhour.service.ManhourJdbcService;
 import com.nauticana.manhour.service.ProjectService;
 import com.nauticana.manhour.service.ProjectTeamService;
 import com.nauticana.manhour.service.ProjectWbsManhourService;
@@ -54,6 +55,9 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 	@Autowired
 	protected ProjectWbsService pws;
 	
+	@Autowired
+	private ManhourJdbcService manhourJdbcService;
+
 	public static final String[] lookuplists = null;
 	public static final String[] detailTables = null;
 	public static final String[][] detailFields = null;
@@ -123,7 +127,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -136,7 +140,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 		String strId = request.getParameter("projectId");
 		if (!Utils.emptyStr(strId))
 			projectId = Integer.parseInt(strId);
-		List<ViewProjectWbsMhApprove> records = namsJdbcService.getProjectWbsMhApprove(projectId);
+		List<ViewProjectWbsMhApprove> records = manhourJdbcService.getProjectWbsMhApprove(projectId, language.code);
 		ModelAndView model = new ModelAndView("projectWbsManhourApprove");
 		model.addObject("projects", projects);
 		model.addObject("projectId", projectId);
@@ -166,7 +170,8 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
+		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
 			
 		// Read POSTED request variables
 		String strProjectId = request.getParameter("projectId");
@@ -176,23 +181,14 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 		
 		System.out.println("Submitted projectId " + strProjectId + " categoryId " + strCategoryId + " teamId " + strTeamId + " activityDateId " + strActivityDate);
 			
-		int projectId = Integer.parseInt(strProjectId);
-		int categoryId = Integer.parseInt(strCategoryId);
-		int teamId = Integer.parseInt(strTeamId);
 		Date activityDate;
+		try {activityDate = Labels.ymdDF.parse(strActivityDate);} catch (Exception e) {activityDate = null;}
 		try {
-			activityDate = Labels.ymdDF.parse(strActivityDate);
-		} catch (Exception e) {
-			activityDate = null;
+			((ProjectWbsManhourService)modelService).approve(Integer.parseInt(strProjectId), Integer.parseInt(strCategoryId), Integer.parseInt(strTeamId), activityDate, null);
+		} catch(Exception e) {
+			return errorPage(language, Labels.ERR_DATABASE_ERROR, e.getMessage());
 		}
-		ProjectWbsId pwId = new ProjectWbsId(projectId, categoryId);
-		ProjectWbs pw = pws.findById(pwId);
-		for (ProjectWbsManhour pwm : pw.getProjectWbsManhours())
-			if (pwm.getId().getTeamId() == teamId && pwm.getStatus().equals(Labels.INITIAL) && (activityDate == null || pwm.getId().getActivityDate().getTime() == activityDate.getTime())) {
-					pwm.setStatus(Labels.APPROVE_MANHOUR);
-					modelService.save(pwm);
-				}
-		return new ModelAndView("redirect:/" + rootMapping() + "/approve?projectId="+projectId);
+		return new ModelAndView("redirect:/" + rootMapping() + "/approve?projectId="+strProjectId);
 	}
 	
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
@@ -201,7 +197,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -250,7 +246,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -280,7 +276,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 			ProjectTeam team = pts.findById(new ProjectTeamId(projectId, teamId));
 //			ArrayList<ProjectTeamPerson> p = new ArrayList<ProjectTeamPerson>(team.getProjectTeamPersonnel());
 //			List<Category> c = new ArrayList<Category>(team.getProjectTeamCategory());
-			List<String>   lc = new ArrayList<String>(namsJdbcService.getProjectTeamTemplate(projectId, teamId, date));
+			List<String>   lc = new ArrayList<String>(manhourJdbcService.getProjectTeamTemplate(projectId, teamId, date));
 			List<Category> c = cs.findByIds(lc);
 			Collections.sort(c, new CategoryComparator());
 			String[] captions = new String[c.size()];
@@ -319,7 +315,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 			model.addObject(Labels.SEARCH, language.getIconText(Labels.SEARCH));
 			model.addObject(Labels.SAVE, language.getIconText(Labels.SAVE));
 			model.addObject(Labels.CANCEL, language.getIconText(Labels.CANCEL));
-			model.addObject(Labels.PREVPAGE, rootMapping()+"/select?projectId=" + projectId);
+			model.addObject(Labels.PREVPAGE, rootMapping()+"/select?projectId=" + projectId + "&date=" + s[2]);
 			model.addObject("DATATABLE1", Labels.dataTableSetting1);
 			model.addObject(tableName(), language.getText(tableName()));
 
@@ -337,7 +333,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -423,11 +419,15 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 					}
 					entity.setManhour(mh);
 					entity.setOvertime(ot);
-					modelService.save(entity);
+					try {
+						modelService.save(entity);
+					} catch(Exception e) {
+						return errorPage(language, Labels.ERR_DATABASE_ERROR, e.getMessage());
+					}
 				}
 			}
 		}
-		return new ModelAndView("redirect:/projectWbsManhour/select?projectId=" + projectId);
+		return new ModelAndView("redirect:/projectWbsManhour/select?projectId=" + projectId + "&date=" + strDate);
 	}
 	
 	
@@ -438,7 +438,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -462,6 +462,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 				projectId = Integer.parseInt(s[0]);
 				teamId = Integer.parseInt(s[1]);
 				date = Labels.ymdDF.parse(s[2]);
+				dateStr = Labels.ymdDF.format(date);
 			} catch (Exception e) {
 				return errorPage(language, Labels.ERR_WRONG_PARAMETER, tableName() + " : " + id + " for projectId,teamId,date for ");
 			}
@@ -501,7 +502,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 			model.addObject(Labels.SEARCH, language.getIconText(Labels.SEARCH));
 			model.addObject(Labels.SAVE, language.getIconText(Labels.SAVE));
 			model.addObject(Labels.CANCEL, language.getIconText(Labels.CANCEL));
-			model.addObject(Labels.PREVPAGE, rootMapping()+"/select?projectId=" + projectId);
+			model.addObject(Labels.PREVPAGE, rootMapping()+"/select?projectId=" + projectId + "&date=" + dateStr);
 			model.addObject("DATATABLE1", Labels.dataTableSetting1);
 			model.addObject(tableName(), language.getText(tableName()));
 			for (int i = 0; i < modelService.fieldNames().length; i++) {
@@ -509,7 +510,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 			}
 			return model;
 		}
-		return new ModelAndView("redirect:/projectWbsManhour/select");
+		return new ModelAndView("redirect:/projectWbsManhour/select?" + "date=" + dateStr);
 	}
 
 	@RequestMapping(value = "/editTeamLead", method = RequestMethod.POST)
@@ -518,7 +519,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -556,7 +557,7 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 		}
 		if (p == null)
 			return errorPage(language, Labels.ERR_TEAMLEADNOTFOUND, "projectId,teamId,workerId : " + projectId + "," + teamId + "," + workerId);
-		for (int i = 1; i < lines.length; i++) {
+		for (int i = 1; i < lines.length-1; i++) {
 			String[] cols = lines[i].split(",");
 			int catId = Integer.parseInt(cols[0].trim());
 			short mh=0, lh=0, fh=0, th=0;
@@ -579,17 +580,21 @@ public class ProjectWbsManhourController extends AbstractController<ProjectWbsMa
 							w = x;
 					}
 					entity.setProjectWbs(w);
-					entity.setManhour(mh);
+				}
+				entity.setManhour(mh);
 //					entity.setOvertime(ot);
-					entity.setLocalMh(lh);
-					entity.setForeignMh(fh);
-					entity.setTrMh(th);
-					entity.setStatus(Labels.INITIAL);
+				entity.setLocalMh(lh);
+				entity.setForeignMh(fh);
+				entity.setTrMh(th);
+				entity.setStatus(Labels.INITIAL);
+				try {
 					modelService.save(entity);
+				} catch(Exception e) {
+					return errorPage(language, Labels.ERR_DATABASE_ERROR, e.getMessage());
 				}
 			}
 		}
-		return new ModelAndView("redirect:/projectWbsManhour/select?projectId=" + projectId);
+		return new ModelAndView("redirect:/projectWbsManhour/select?projectId=" + projectId + "&date=" + strDate);
 	}
 	
 }

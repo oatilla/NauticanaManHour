@@ -19,6 +19,7 @@ public class LanguageController extends AbstractController<Language, String> {
 	public static final String[] lookuplists = null;
 	public static final String[] detailTables = new String[] {CaptionTranslation.tableName};
 	public static final String[][] detailFields = new String[][] {CaptionTranslation.fieldNames};
+	public static final String[] actionlists = new String[] {"RELOAD_TRANSLATION"};
 	public static final String listView   = Language.rootMapping + "List";
 	public static final String editView   = Language.rootMapping + "Edit";
 	public static final String showView   = Language.rootMapping + "Show";
@@ -69,7 +70,7 @@ public class LanguageController extends AbstractController<Language, String> {
 	}
 
 	@Override
-	protected String[] actions() {return null;}
+	protected String[] actions() {return actionlists;}
 
 	@Override
 	protected String[][] detailActions() {return null;}

@@ -10,16 +10,18 @@
 <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
 <link rel="stylesheet" href="../dist/css/skins/skin-blue.min.css">
 </head>
+
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="http://www.gama.com.tr"><b> GAMA Holding </b></a>
+    <b> ${MANHOUR_APPLICATION} </b>
   </div>
 
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
+    <p> <b> ${message}</b> </p>
 
-    <form:form id="loginForm" method="post" action="login" modelAttribute="loginBean" >
+    <form:form id="loginForm" method="post" modelAttribute="loginBean" >
       <div class="form-group has-feedback">
         <form:input type="username" placeholder="UserName" id="username" name="username" path="username" class="form-control"/>
        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -40,14 +42,5 @@
   </div>
 </div>
 
-<script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
-    });
-  });
-</script>
 </body>
 </html>

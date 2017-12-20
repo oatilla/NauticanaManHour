@@ -45,6 +45,13 @@ function downloadCSV(csv, filename) {
     downloadLink.click();
 }
 
+function exportExcel(table_id){
+    var blob = new Blob([document.getElementById(table_id).innerHTML], {
+        type: "text/plain;charset=utf-8;"
+    });
+    saveAs(blob, "tableExport.xls");
+}
+
 function showMenu() {
   if (  document.getElementById("accordion").style.display == "block") {
     document.getElementById("accordion").style.display = "none";
@@ -66,14 +73,26 @@ function doAjaxGet(target) {
 }
 
 function doAjaxPost(target) {
-  $.ajax({
-     type: "POST",
-     url : target,
-     data: $("#f").serialize(),
-     success : function( response ) {
-        $("#content").html( response );
-     }
-  });
+	var stop = 0;
+	$('input.required').each(function(){
+		
+		if($(this).val() == ''){
+			$(this).css({'border-color':'red'});
+			stop=1;
+		}else $(this).css({'border-color':''});
+		
+	});
+
+	if(stop == 0){
+		$.ajax({
+	     type: "POST",
+	     url : target,
+	     data: $("#f").serialize(),
+	     success : function( response ) {
+	        $("#content").html( response );
+	     }
+		});
+	};
 }
 
 function selectAll(cname) {

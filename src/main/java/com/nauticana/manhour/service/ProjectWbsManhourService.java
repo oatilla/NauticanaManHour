@@ -7,15 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nauticana.manhour.model.ProjectTeamPersonId;
+import com.nauticana.manhour.model.ProjectWbs;
+import com.nauticana.manhour.model.ProjectWbsId;
 import com.nauticana.manhour.model.ProjectWbsManhour;
 import com.nauticana.manhour.model.ProjectWbsManhourId;
 import com.nauticana.manhour.repository.ProjectTeamPersonRepository;
+import com.nauticana.manhour.repository.ProjectWbsRepository;
 import com.nauticana.nams.abstrct.AbstractService;
 import com.nauticana.nams.utils.Labels;
 import com.nauticana.nams.utils.Utils;
 
 @Service
 public class ProjectWbsManhourService extends AbstractService<ProjectWbsManhour,ProjectWbsManhourId> {
+
+	@Autowired
+	ProjectWbsRepository pwRep;
 
 	@Override
 	public String tableName() {
@@ -24,7 +30,6 @@ public class ProjectWbsManhourService extends AbstractService<ProjectWbsManhour,
 
 	@Override
 	public String[] fieldNames() {
-		// TODO Auto-generated method stub
 		return ProjectWbsManhour.fieldNames;
 	}
 
@@ -69,6 +74,36 @@ public class ProjectWbsManhourService extends AbstractService<ProjectWbsManhour,
 	@Override
 	public String[][] findAllStr() {
 		return null;
+	}
+
+	public void approve(int projectId, int categoryId, int teamId, Date begda, Date endda) throws Exception {
+		ProjectWbsId pwId = new ProjectWbsId(projectId, categoryId);
+		ProjectWbs pw = pwRep.findOne(pwId);
+		for (ProjectWbsManhour pwm : pw.getProjectWbsManhours())
+			if (pwm.getId().getTeamId() == teamId &&
+				pwm.getStatus().equals(Labels.INITIAL) &&
+				(begda == null || 
+				 (endda == null && pwm.getId().getActivityDate().getTime() == begda.getTime()) ||
+				 (pwm.getId().getActivityDate().getTime() >= begda.getTime() && pwm.getId().getActivityDate().getTime() <= endda.getTime())
+				))	{
+					pwm.setStatus(Labels.APPROVED);
+					save(pwm);
+				}	
+	}
+	
+	public void withdrawApprove(int projectId, int categoryId, int teamId, Date begda, Date endda) throws Exception {
+		ProjectWbsId pwId = new ProjectWbsId(projectId, categoryId);
+		ProjectWbs pw = pwRep.findOne(pwId);
+		for (ProjectWbsManhour pwm : pw.getProjectWbsManhours())
+			if (pwm.getId().getTeamId() == teamId &&
+			pwm.getStatus().equals(Labels.APPROVED) &&
+			(begda == null || 
+			 (endda == null && pwm.getId().getActivityDate().getTime() == begda.getTime()) ||
+			 (pwm.getId().getActivityDate().getTime() >= begda.getTime() && pwm.getId().getActivityDate().getTime() <= endda.getTime())
+			))	{
+				pwm.setStatus(Labels.INITIAL);
+				save(pwm);
+			}
 	}
 
 }

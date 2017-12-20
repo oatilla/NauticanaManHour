@@ -25,7 +25,7 @@
 
 	<div class="box-body">
 		<div class="form-group">
-			<label class="col-sm-2 control-label" for="id"> ${SUBCONRACTOR_ID} </label>
+			<label class="col-sm-2 control-label" for="id"> ${SUBCONTRACTOR_ID} </label>
 			<div class="col-sm-10">  
 				${record.subcontractor.id}
 				<form:input type="hidden" path="subcontractor.id"/>

@@ -46,16 +46,9 @@ public class DataCache {
 			domains.clear();
 		List<DomainName> dl = domainNameService.findAll();
 		for(DomainName dn : dl) {
-			domains.put(dn.getId(), new Domain(dn.getId(), dn.getCaption(), dn.getKeysize()));
+			domains.put(dn.getId(), new Domain(dn.getId(), dn.getCaption(), dn.getKeysize(), dn.getSortBy()));
 			loadDomainValues(dn);
 		}
-//		
-//		List<DomainValue> dvl = domainValueService.findAll();
-//		
-//		for (DomainValue dv : dvl) {
-//			domains.get(dv.getId().getDomain()).addOption(dv.getId().getRefvalue(), dv.getCaption());
-//		}
-//		
 	}
 	
 	public void loadTranslations(Language language) {
@@ -86,18 +79,6 @@ public class DataCache {
 				e.printStackTrace();
 			}
 		}
-		
-//		List<CaptionTranslation> ct = captionTranslationService.findAll();
-//		
-//		for (CaptionTranslation t : ct) {
-//			PortalLanguage l = languages.get(t.getLanguage().getId());
-//			String caption = t.getId().getCaption();
-//			l.translations.put(caption, t.getLabellower());
-//			String icon = Icons.getIcon(caption + "_ICON");
-//			if (icon != null) {
-//				l.iconText.put(caption, "<i class=\"" + icon + "\"> " + t.getLabellower() + " </i>");
-//			}
-//		}
 		return languages;
 	}
 	

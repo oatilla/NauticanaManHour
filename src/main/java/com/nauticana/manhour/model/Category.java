@@ -20,7 +20,7 @@ public class Category implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "CATEGORY";
-	public static final String[] fieldNames = new String[] {"CATEGORY_ID","PARENT_ID","CAPTION","CAT_INDEX","DETAILS","UNIT","CAT_LEVEL","TREE_CODE","MAIN_FLAG","PROJECT_ID"};
+	public static final String[] fieldNames = new String[] {"CATEGORY_ID","PARENT_ID","CAPTION","CAT_INDEX","DETAILS","UNIT","UNIT2","CAT_LEVEL","TREE_CODE","MAIN_FLAG","PROJECT_ID"};
 	public static final String rootMapping = "category";
 
 	private int categoryId;
@@ -29,6 +29,7 @@ public class Category implements java.io.Serializable {
 	private String catIndex;
 	private String details;
 	private String unit;
+	private String unit2;
 	private byte catLevel;
 	private String treeCode;
 	private String cbsCode;
@@ -37,6 +38,7 @@ public class Category implements java.io.Serializable {
 	
 
 	private Set<ProjectWbs> projectWbses = new HashSet<ProjectWbs>(0);
+	private Set<CategoryText> categoryTexts = new HashSet<CategoryText>(0);
 
 	public Category() {
 	}
@@ -81,7 +83,7 @@ public class Category implements java.io.Serializable {
 		this.parentId = parentId;
 	}
 
-	@Column(name="CAPTION", length=250)
+	@Column(name="CAPTION", length=250, nullable = false)
     public String getCaption() {
         return this.caption;
     }
@@ -90,7 +92,7 @@ public class Category implements java.io.Serializable {
         this.caption = caption;
     }
 
-	@Column(name = "CAT_INDEX", length = 20)
+	@Column(name = "CAT_INDEX", length = 20, nullable = false)
 	public String getCatIndex() {
 		return this.catIndex;
 	}
@@ -108,7 +110,7 @@ public class Category implements java.io.Serializable {
         this.details = details;
     }
 
-	@Column(name="UNIT", length=10)
+	@Column(name="UNIT", length=3)
     public String getUnit() {
         return this.unit;
     }
@@ -117,7 +119,16 @@ public class Category implements java.io.Serializable {
         this.unit = unit;
     }
 
-	@Column(name = "CAT_LEVEL")
+	@Column(name="UNIT2", length=3)
+    public String getUnit2() {
+        return this.unit2;
+    }
+
+	public void setUnit2(String unit2) {
+        this.unit2 = unit2;
+    }
+
+	@Column(name = "CAT_LEVEL", nullable = false)
 	public byte getCatLevel() {
 		return this.catLevel;
 	}
@@ -127,7 +138,7 @@ public class Category implements java.io.Serializable {
 	}
 
 	@OrderBy("TREE_CODE")
-	@Column(name = "TREE_CODE", length = 20)
+	@Column(name = "TREE_CODE", length = 20, nullable = false)
 	public String getTreeCode() {
 		return this.treeCode;
 	}
@@ -154,6 +165,15 @@ public class Category implements java.io.Serializable {
         this.mainFlag = mainFlag;
     }
 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
+	public Set<CategoryText> getCategoryTexts() {
+		return this.categoryTexts;
+	}
+
+	public void setCategoryTexts(Set<CategoryText> categoryTexts) {
+		this.categoryTexts = categoryTexts;
+	}
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
 	public Set<ProjectWbs> getProjectWbses() {
 		return this.projectWbses;
@@ -162,6 +182,7 @@ public class Category implements java.io.Serializable {
 	public void setProjectWbses(Set<ProjectWbs> projectWbses) {
 		this.projectWbses = projectWbses;
 	}
+
 	@Column(name="PROJECT_ID")
 	public Integer getProjectId() {
 		return projectId;

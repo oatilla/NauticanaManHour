@@ -8,8 +8,11 @@
 	<div class="box-header with-border">
 		<h3 class="box-title"> ${PAGETITLE} </h3>
 		<input type=hidden name=operation value="SEARCH">
+		<input type=hidden name="begda" id="begda" value="${begda}">
+		<input type=hidden name="endda" id="endda" value="${endda}">
+		<input type=hidden name="nextpage" id="nextpage" value="projectWbsQuantity/select?projectId=${projectId}&year=${year}&month=${month}">
 
-		<select name=projectId id=projectId onChange="doAjaxGet('projectWbsQuantity/select?projectId=' + document.f.projectId.value + '&begda=' + document.f.begda.value + '&endda=' + document.f.endda.value);">
+		<select name=projectId id=projectId onChange="doAjaxGet('projectWbsQuantity/select?projectId=' + document.f.projectId.value + '&year=' + document.f.year.value + '&month=' + document.f.month.value);">
 	    <c:forEach var="project" items="${projects}" varStatus="status">
 		<c:choose>
 			<c:when test="${projectId == project.id}">
@@ -31,25 +34,35 @@
         <th rowspan=2 align="center">${TEAM_CAPTION}</th>
         <th rowspan=2 align="center">${CAT_CAPTION}</th>
         <th rowspan=2>${UNIT}</th>
-        <th colspan=3 align="center">${CONTRACT}</th>
-        <th colspan=3 align="center">${TOTAL}</th>
-        <th colspan=3 align="center">${LAST}</th>
-        <th colspan=3 align="center">${NEW} *default dates</th>
-        
+<!--    <th colspan=3 align="center">${TENDER}</th>  -->
+        <th colspan=3 align="center">${REALISED}</th>
+        <th colspan=2 align="center">${LAST}</th>
+        <th align="center">${NEW} ${QUANTITY}</th>
       </tr>
       <tr>
-        <th>${METRIC}</th>
+<!--    <th>${METRIC}</th>
         <th>${QUANTITY}</th>
-        <th>${WORKFORCE}</th>
+        <th>${WORKFORCE}</th>  -->
         <th>${METRIC}</th>
         <th>${QUANTITY}</th>
         <th>${MANHOUR}</th>
-        <th>${BEGDA}</th>
-        <th>${ENDDA}</th>
+        <th>${DATE}</th>
         <th>${LAST_QUANTITY}</th>
-		<th>${BEGDA}<input type="date" name="begda" id="begda" value="${begda}"> </th>
-		<th>${ENDDA}<input type="date" name="endda" id="endda" value="${endda}"> </th>
-		<th>${QUANTITY}</th>
+		<th><input type="text" name="year" id="year" value="${year}" size=4 onChange="doAjaxGet('projectWbsQuantity/select?projectId=' + document.f.projectId.value + '&year=' + document.f.year.value + '&month=' + document.f.month.value);">
+			<select id="month" name="month" id="month" onChange="doAjaxGet('projectWbsQuantity/select?projectId=' + document.f.projectId.value + '&year=' + document.f.year.value + '&month=' + document.f.month.value);">
+			<c:forEach var="m" items="${MONTHS_LIST}">
+				<c:choose>
+					<c:when test="${month == m.key}">
+					<option value="${m.key}" selected> ${m.value} </option>
+					<c:set var="MONTH_NAME" value="${m.value}"></c:set>
+					</c:when>
+					<c:otherwise>
+					<option value="${m.key}"> ${m.value} </option>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			</select>
+		</th>
       </tr>
       </thead>
 
@@ -58,17 +71,18 @@
           <th>${record.teamCaption} <input type="hidden" name="teamId${status.index}" id="teamId${status.index}" value="${record.id.teamId}"> </th>
           <th>${record.treeCode} ${record.catCaption} <input type="hidden" name="categoryId${status.index}" id="categoryId${status.index}" value="${record.id.categoryId}"> </th>
           <th>${record.unit}</th>
-          <th>${record.metric}</th>
-          <th>${record.quantity}</th>
-          <th>${record.workforce}</th>
-          <th><fmt:formatNumber value="${record.sumManhour/record.sumQuantity}" maxFractionDigits="2"/></th>
-          <th>${record.sumQuantity}</th>
-          <th>${record.sumManhour}</th>
-		  <th><fmt:formatDate value="${record.begda}" pattern="dd-MM-yyyy"/></th>
-          <th><fmt:formatDate value="${record.endda}" pattern="dd-MM-yyyy"/><input type="hidden" name="lastEndda${status.index}" id="lastEndda${status.index}" value="${record.endda}"></th>
-          <th>${record.lastQuantity}</th>
-          <td> <input type="date" name="begda${status.index}" id="begda${status.index}"> </td>
-          <td> <input type="date" name="endda${status.index}" id="endda${status.index}"> </td>
+<!--      <th> <c:if test="${record.metric != 0}">       ${record.metric} </c:if> </th>
+          <th> <c:if test="${record.quantity != 0}">     ${record.quantity} </c:if> </th>
+          <th> <c:if test="${record.workforce != 0}">    ${record.workforce} </c:if> </th>  -->
+          <th><c:if test="${record.sumQuantity != 0}">   <fmt:formatNumber value="${record.sumManhour/record.sumQuantity}" maxFractionDigits="2"/> </c:if> </th>
+          <th> <c:if test="${record.sumQuantity != 0}">  ${record.sumQuantity} </c:if> </th>
+          <th> <c:if test="${record.sumManhour != 0}">   ${record.sumManhour} </c:if> </th>
+		  <th> <fmt:formatDate value="${record.begda}" pattern="MM-yyyy"/><input type="hidden" name="lastEndda${status.index}" id="lastEndda${status.index}" value="${record.endda}"></th>
+          <th>	<c:if test="${record.lastQuantity != 0}">
+          		 ${record.lastQuantity}
+          		 <a href="#" onClick="doAjaxGet('projectWbsQuantity/delete?id=${projectId},${record.id.categoryId},${record.id.teamId},<fmt:formatDate value="${record.begda}" pattern="dd-MM-yyyy"/>&nextpage='+document.f.nextpage.value);"> ${DELETE} </a>
+          		</c:if>
+          </th>
           <td> <input type="text" name="quantity${status.index}" id="quantity${status.index}"> </td>
         </tr>
       </c:forEach>

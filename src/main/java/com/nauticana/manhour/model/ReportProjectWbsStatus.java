@@ -8,11 +8,13 @@ import javax.persistence.Transient;
 @Entity
 public class ReportProjectWbsStatus {
 
-	public static final String[] fieldNames = new String[] {"CATEGORY_ID", "TREE_CODE", "CAT_CAPTION", "CBS_CODE", "CBS_CAPTION", "UNIT", "METRIC", "QUANTITY", "WORKFORCE", "PUP_METRIC", "PUP_QUANTITY", "PUP_WORKFORCE", "PLANNED_METRIC", "PLANNED_QUANTITY", "PLANNED_WORKFORCE", "SUM_METRIC", "SUM_QUANTITY", "SUM_WORKFORCE", "TERM_METRIC", "TERM_QUANTITY", "TERM_WORKFORCE"};
+	public static final String[] fieldNames = new String[] { "LOCAL", "CODE", "CAPTION", "CUSTOMER", "CATEGORY_ID", "TREE_CODE", "CAT_CAPTION", "CUSTOMER_WBS_CODE", "CUSTOMER_WBS_CAPTION", "CBS_CODE", "CBS_CAPTION", "UNIT", "METRIC", "QUANTITY", "WORKFORCE", "PUP_METRIC", "PUP_QUANTITY", "PUP_WORKFORCE", "PLANNED_METRIC", "PLANNED_QUANTITY", "PLANNED_WORKFORCE", "SUM_METRIC", "SUM_QUANTITY", "SUM_WORKFORCE", "TERM_METRIC", "TERM_QUANTITY", "TERM_WORKFORCE"};
 
 	private int    categoryId;
 	private String treeCode;
 	private String catCaption;
+	private String customerWbsCode;
+	private String customerWbsCaption;
 	private String cbsCode;
 	private String cbsCaption;
 	private String unit;
@@ -32,13 +34,15 @@ public class ReportProjectWbsStatus {
 	private float  termQuantity;
 	private float  termWorkforce;
 	
-	public ReportProjectWbsStatus(int categoryId, String treeCode, String catCaption, String cbsCode, String cbsCaption, String unit, float metric,
+	public ReportProjectWbsStatus(int categoryId, String treeCode, String catCaption, String customerWbsCode, String customerWbsCaption, String cbsCode, String cbsCaption, String unit, float metric,
 			float quantity, float workforce, float pupMetric, float pupQuantity, float pupWorkforce, float plannedMetric, float plannedQuantity, float plannedWorkforce, float sumMetric,
 			float sumQuantity, float sumWorkforce, float termMetric, float termQuantity, float termWorkforce) {
 		super();
 		this.categoryId = categoryId;
 		this.treeCode = treeCode;
 		this.catCaption = catCaption;
+		this.customerWbsCode = customerWbsCode;
+		this.customerWbsCaption = customerWbsCaption;
 		this.cbsCode = cbsCode;
 		this.cbsCaption = cbsCaption;
 		this.unit = unit;
@@ -85,6 +89,24 @@ public class ReportProjectWbsStatus {
 
 	public void setCatCaption(String catCaption) {
 		this.catCaption = catCaption;
+	}
+
+	@Column(name="CUSTOMER_WBS_CODE")
+	public String getCustomerWbsCode() {
+		return customerWbsCode;
+	}
+
+	public void setCustomerWbsCode(String customerWbsCode) {
+		this.customerWbsCode = customerWbsCode;
+	}
+
+	@Column(name="CUSTOMER_WBS_CAPTION")
+	public String getCustomerWbsCaption() {
+		return customerWbsCaption;
+	}
+
+	public void setCustomerWbsCaption(String customerWbsCaption) {
+		this.customerWbsCaption = customerWbsCaption;
 	}
 
 	@Column(name="CBS_CODE")

@@ -19,6 +19,7 @@ import com.nauticana.manhour.model.ProjectTeamTemplateId;
 import com.nauticana.manhour.model.ProjectWbs;
 import com.nauticana.manhour.model.ProjectWbsId;
 import com.nauticana.manhour.model.Subcontractor;
+import com.nauticana.manhour.service.ManhourJdbcService;
 import com.nauticana.manhour.service.ProjectTeamService;
 import com.nauticana.manhour.service.ProjectWbsService;
 import com.nauticana.nams.abstrct.AbstractController;
@@ -35,6 +36,9 @@ public class ProjectTeamTemplateController extends AbstractController<ProjectTea
 	
 	@Autowired
 	private ProjectTeamService projectTeamService;
+
+	@Autowired
+	private ManhourJdbcService manhourJdbcService;
 
 	public static final String[] lookuplists = null;
 	public static final String[] detailTables = null;
@@ -104,7 +108,7 @@ public class ProjectTeamTemplateController extends AbstractController<ProjectTea
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -123,7 +127,7 @@ public class ProjectTeamTemplateController extends AbstractController<ProjectTea
 		}
 		String prevpage= "projectTeam/show?id=" + projectId + "," + teamId;
 		ModelAndView model = new ModelAndView(selectView);
-		String wbshtml = namsJdbcService.findAllCategoryHtml(projectId, teamId);
+		String wbshtml = manhourJdbcService.findAllCategoryHtml(projectId, teamId, language.code);
 		model.addObject("wbshtml", wbshtml);
 		model.addObject("projectId", projectId);
 		model.addObject("teamId", teamId);
@@ -147,7 +151,7 @@ public class ProjectTeamTemplateController extends AbstractController<ProjectTea
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));

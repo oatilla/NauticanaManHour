@@ -17,6 +17,7 @@ import com.nauticana.nams.model.DomainValue;
 public class DomainNameController extends AbstractController<DomainName, String> {
 
 	public static final String[] lookuplists = null;
+	public static final String[] actionlists = new String[] {"RELOAD_VALUES"};
 	public static final String[] detailTables = new String[] {DomainValue.tableName, DomainLookup.tableName};
 	public static final String[][] detailFields = new String[][] {DomainValue.fieldNames, DomainLookup.fieldNames};
 	public static final String listView   = DomainName.rootMapping + "List";
@@ -69,7 +70,7 @@ public class DomainNameController extends AbstractController<DomainName, String>
 	}
 
 	@Override
-	protected String[] actions() {return null;}
+	protected String[] actions() {return actionlists;}
 
 	@Override
 	protected String[][] detailActions() {return null;}

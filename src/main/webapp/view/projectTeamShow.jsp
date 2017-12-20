@@ -1,24 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<script type="text/javascript">
-$(function() { 
-    // for bootstrap 3 use 'shown.bs.tab', for bootstrap 2 use 'shown' in the next line
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        // save the latest tab; use cookies if you like 'em better:
-        localStorage.setItem('lastTab', $(this).attr('href'));
-    });
 
-    // go to the latest tab, if it exists:
-    var lastTab = localStorage.getItem('lastTab');
-    if (lastTab) {
-        $('[href="' + lastTab + '"]').tab('show');
-    }
-});
-
-</script>
-${DATATABLE1}
-${DATATABLE2}
 
 <div class="box box-primary">
 	<div class="box-header with-border">
@@ -63,7 +46,7 @@ ${DATATABLE2}
 				</div>
 	
 				<div class="box-body">
-				    <table id="dataTable1" class="table table-bordered table-hover">
+				    <table id="dataTable1" class="table table-bordered table-hover thin-list">
 					<thead>
 						<tr>
 							<th> ${TEAM_LEAD} </th>
@@ -82,13 +65,12 @@ ${DATATABLE2}
 							<td> ${projectTeamPerson.worker.caption}</td>
 							<td>
 							<c:choose>
-								<c:when test="${projectTeamPerson.teamLead == 1}">
-							   		<a class="btn btn-primary" href="#" onClick="doAjaxGet('worker/selectPerson?parentKey=${record.id.projectId},${record.id.teamId}&nextpage=projectTeam/show?id=${record.id.projectId},${record.id.teamId}&supervisor=${projectTeamPerson.worker.personId}');"> Add Siblings </a> 
+								<c:when test="${projectTeamPerson.teamLead != 1}">
+								<a class="btn btn-danger" href="#" onClick="doAjaxGet('projectTeamPerson/delete?id=${projectTeamPerson.id.projectId},${projectTeamPerson.id.teamId},${projectTeamPerson.id.workerId}&nextpage=projectTeam/show?id=${projectTeamPerson.id.projectId},${projectTeamPerson.id.teamId}');"> ${DELETE} </a>
 								</c:when>
-								<c:otherwise>
-									<a class="btn btn-danger" href="#" onClick="doAjaxGet('projectTeamPerson/delete?id=${projectTeamPerson.id.projectId},${projectTeamPerson.id.teamId},${projectTeamPerson.id.workerId}&nextpage=projectTeam/show?id=${projectTeamPerson.id.projectId},${projectTeamPerson.id.teamId}');"> ${DELETE} </a>
-								</c:otherwise>
 							</c:choose>
+								<a class="btn btn-primary" href="#" onClick="doAjaxGet('worker/selectPerson?parentKey=${record.id.projectId},${record.id.teamId}&nextpage=projectTeam/show?id=${record.id.projectId},${record.id.teamId}&supervisor=${projectTeamPerson.worker.personId}');"> Add Siblings </a> 
+							
 							</td>
 														
 						</tr>
@@ -106,7 +88,7 @@ ${DATATABLE2}
 				</div>
 
 				<div class="box-body">
-			 	    <table id="dataTable2" class="table table-bordered table-hover">
+			 	    <table id="dataTable2" class="table table-bordered table-hover thin-list">
 					<thead>
 						<tr>
 							<th> ${TREE_CODE} </th>
@@ -136,3 +118,22 @@ ${DATATABLE2}
 	</div>
 	
 </div>
+<script type="text/javascript" src="/j/dataTables.style.js"> </script>
+<script type="text/javascript">
+$(function() { 
+    // for bootstrap 3 use 'shown.bs.tab', for bootstrap 2 use 'shown' in the next line
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        // save the latest tab; use cookies if you like 'em better:
+        localStorage.setItem('lastTab', $(this).attr('href'));
+        $('.table').DataTable( {retrieve: true, visible: true, api: true} ).columns.adjust();
+
+    });
+
+    // go to the latest tab, if it exists:
+    var lastTab = localStorage.getItem('lastTab');
+    if (lastTab) {
+        $('[href="' + lastTab + '"]').tab('show');
+    }
+});
+
+</script>

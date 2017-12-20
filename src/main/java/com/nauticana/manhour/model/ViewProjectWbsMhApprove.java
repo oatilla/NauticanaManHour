@@ -24,7 +24,6 @@ public class ViewProjectWbsMhApprove {
 	private String unit;
 	private float  metric;
 	private float  quantity;
-	private float  workforce;
 	private Float  approvedManhour;
 	private Float  manhourToApprove;
 	
@@ -44,10 +43,6 @@ public class ViewProjectWbsMhApprove {
 		this.unit = unit;
 		this.metric = metric;
 		this.quantity = quantity;
-		if (metric > 0)
-			this.workforce = quantity/metric;
-		else
-			this.workforce = 0;
 		this.approvedManhour = approvedManhour;
 		this.manhourToApprove = manhourToApprove;
 	}
@@ -132,11 +127,7 @@ public class ViewProjectWbsMhApprove {
 	@Transient
 	@Column(name="WORKFORCE")
 	public float getWorkforce() {
-		return workforce;
-	}
-
-	public void setWorkforce(float workforce) {
-		this.workforce = workforce;
+		return quantity * metric;
 	}
 
 	@Column(name="APPROVED_MANHOUR")

@@ -42,59 +42,27 @@
 			</tr>
 
 			<tr>
-				<th> ${SUBCONTRACTOR} </th>
-				<td>
-					<c:forEach var="project" items="${projects}">
+				<th> ${PERIOD}</th>
+				<td><input type="text" name="year" id="year" value="${year}" onChange="var d1=new Date(year.value,month.value-1,1);var d2=new Date(year.value,month.value,0);begda.value= d1.getFullYear()+'-'+(d1.getMonth() < 9 ? '0' + (d1.getMonth() + 1) : (d1.getMonth() + 1))+'-'+(d1.getDate() < 10 ? '0' + d1.getDate() : d1.getDate());endda.value= d2.getFullYear()+'-'+(d2.getMonth() < 9 ? '0' + (d2.getMonth() + 1) : (d2.getMonth() + 1))+'-'+(d2.getDate() < 10 ? '0' + d2.getDate() : d2.getDate());">
+					<select id="month" name="month" onChange="var d1=new Date(year.value,month.value-1,1);var d2=new Date(year.value,month.value,0);begda.value= d1.getFullYear()+'-'+(d1.getMonth() < 9 ? '0' + (d1.getMonth() + 1) : (d1.getMonth() + 1))+'-'+(d1.getDate() < 10 ? '0' + d1.getDate() : d1.getDate());endda.value= d2.getFullYear()+'-'+(d2.getMonth() < 9 ? '0' + (d2.getMonth() + 1) : (d2.getMonth() + 1))+'-'+(d2.getDate() < 10 ? '0' + d2.getDate() : d2.getDate());">
+					<c:forEach var="m" items="${MONTHS_LIST}">
 						<c:choose>
-							<c:when test="${project.id == projectId}">
-								<select name=subcontractorId id=subcontractorId>
-								<option value=""> - </option>
-								<c:forEach var="team" items="${project.projectTeams}">
-									<c:forEach var="person" items="${team.projectTeamPersonnel}">
-										<c:if test="${person.teamLead == 1}">
-											<c:choose>
-												<c:when test="${person.worker.subcontractor.id == subcontractorId}">
-													<option value="${person.worker.subcontractor.id}" selected> ${person.worker.subcontractor.caption} </option>
-												</c:when>
-												<c:otherwise>
-													<option value="${person.worker.subcontractor.id}"> ${person.worker.subcontractor.caption} </option>
-												</c:otherwise>
-											</c:choose>
-										</c:if>
-									</c:forEach>
-								</c:forEach>
-								</select>
+							<c:when test="${month == m.key}">
+							<option value="${m.key}" selected> ${m.value} </option>
+							<c:set var="MONTH_NAME" value="${m.value}"></c:set>
 							</c:when>
+							<c:otherwise>
+							<option value="${m.key}"> ${m.value} </option>
+							</c:otherwise>
 						</c:choose>
 					</c:forEach>
+					</select>
 				</td>
 			</tr>
 
 			<tr>
-				<th> ${PROJECT_TEAM} </th>
-				<td>
-					<c:forEach var="project" items="${projects}">
-						<c:choose>
-							<c:when test="${project.id == projectId}">
-								<select name=teamId id=teamId>
-								<c:forEach var="team" items="${project.projectTeams}">
-									<option value="${team.id.teamId}"> ${team.caption} </option>
-								</c:forEach>
-								</select>
-							</c:when>
-						</c:choose>
-					</c:forEach>
-				</td>
-			</tr>
-
-			<tr>
-				<th> ${BEGDA} </th>
-				<td> <input type="date" name="begda" id="begda" value="${begda}"> </td>
-			</tr>
-
-			<tr>
-				<th> ${ENDDA} </th>
-				<td> <input type="date" name="endda" id="endda" value="${endda}"> </td>
+				<th> ${BEGDA} ${ENDDA} </th>
+				<td> <input type="date" name="begda" id="begda" value="${begda}"> - <input type="date" name="endda" id="endda" value="${endda}"> </td>
 			</tr>
 
 			<tr>

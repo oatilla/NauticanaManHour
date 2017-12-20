@@ -2,6 +2,7 @@ package com.nauticana.manhour.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,9 @@ import com.nauticana.manhour.model.ProjectWbsQuantity;
 import com.nauticana.manhour.model.ProjectWbsQuantityId;
 import com.nauticana.manhour.model.ViewProjectWbsQtyApprove;
 import com.nauticana.manhour.model.ViewWbsTeamStatus;
+import com.nauticana.manhour.service.ManhourJdbcService;
 import com.nauticana.manhour.service.ProjectService;
+import com.nauticana.manhour.service.ProjectWbsQuantityService;
 import com.nauticana.manhour.service.ProjectWbsService;
 import com.nauticana.nams.abstrct.AbstractController;
 import com.nauticana.nams.utils.Icons;
@@ -102,12 +105,15 @@ public class ProjectWbsQuantityController extends AbstractController<ProjectWbsQ
 	@Autowired
 	private ProjectWbsService projectWbsService;
 
+	@Autowired
+	private ManhourJdbcService manhourJdbcService;
+
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
 	public ModelAndView selectGet(HttpServletRequest request) throws IOException, ParseException {
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 		
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -122,40 +128,54 @@ public class ProjectWbsQuantityController extends AbstractController<ProjectWbsQ
 		if (projects.size() == 0)
 			return errorPage(language, Labels.ERR_UNAUTHORIZED, Labels.PROJECT_TEAM + "-" + Labels.APPROVE_QUANTITY);
 		model.addObject("projects", projects);
-		int projectId;
-		String s = request.getParameter("projectId");
-		if (Utils.emptyStr(s))
-			projectId = projects.get(0).getId();
-		else
-			projectId = Integer.parseInt(s);
-		model.addObject("projectId", projectId);
+		int projectId,year,month;
+		String strProjectId = request.getParameter("projectId");
+		String strYear  = request.getParameter("year");
+		String strMonth = request.getParameter("month");
+		System.out.println("Get wbsQuantityEntry projectId " + strProjectId + " year " + strYear + " month " + strMonth);
+		Calendar c = Calendar.getInstance();
+		try {projectId = Integer.parseInt(strProjectId);} catch (Exception e) {projectId = -1;}//projects.get(0).getId();}
+		try {year = Integer.parseInt(strYear);} catch (Exception e) {year = c.get(Calendar.YEAR);}
+		try {month = Integer.parseInt(strMonth);} catch (Exception e) {month = c.get(Calendar.MONTH)+1;}
+	    c.set(year, month-1, 1, 0, 0, 0);
+	    Date begda = c.getTime();
+	    c.set(year, month-1, c.getActualMaximum(Calendar.DAY_OF_MONTH), 0, 0, 0);
+		Date endda = c.getTime();
+		
+//		s = request.getParameter("begda");
+//		if (Utils.emptyStr(s))
+//			model.addObject("begda", Labels.ymdDF.format(new Date(System.currentTimeMillis())));
+//		else
+//			model.addObject("begda", s);
+//
+//		s = request.getParameter("endda");
+//		if (Utils.emptyStr(s))
+//			model.addObject("endda", Labels.ymdDF.format(new Date(System.currentTimeMillis())));
+//		else
+//			model.addObject("endda", s);
 
-		s = request.getParameter("begda");
-		if (Utils.emptyStr(s))
-			model.addObject("begda", Labels.ymdDF.format(new Date(System.currentTimeMillis())));
-		else
-			model.addObject("begda", s);
-
-		s = request.getParameter("endda");
-		if (Utils.emptyStr(s))
-			model.addObject("endda", Labels.ymdDF.format(new Date(System.currentTimeMillis())));
-		else
-			model.addObject("endda", s);
-
-		List<ViewWbsTeamStatus> pwq = namsJdbcService.viewWbsTeamStatus(projectId);
+		List<ViewWbsTeamStatus> pwq = manhourJdbcService.viewWbsTeamStatus(projectId, language.code);
 
 		model.addObject("records", pwq);
+		model.addObject("MONTHS_LIST", getDomainValues("MONTHS", language));
+		model.addObject("projectId", projectId);
+		model.addObject("year", year);
+		model.addObject("month", month);
+		model.addObject("begda", Labels.ymdDF.format(begda));
+		model.addObject("endda", Labels.ymdDF.format(endda));
 		model.addObject(Icons.PROJECT_QUANTITY, Icons.getIcon(Icons.PROJECT_QUANTITY));
 		model.addObject(Labels.PAGETITLE, language.getText(ProjectWbsQuantity.tableName));
 		model.addObject(Labels.SAVE,      language.getIconText(Labels.SAVE));
+		model.addObject(Labels.DELETE,    language.getIcon(Labels.DELETE));
 		model.addObject(Labels.CANCEL,    language.getIconText(Labels.CANCEL));
-		model.addObject(Labels.PREVPAGE,  "projectWbsQuantity/select?projectId=" + projectId);
-		model.addObject(Labels.POSTLINK,  "projectWbsQuantity/select?projectId=" + projectId);
+		model.addObject(Labels.PREVPAGE,  "projectWbsQuantity/select?projectId=" + projectId + "&year=" + year + "&month=" + month);
+		model.addObject(Labels.POSTLINK,  "projectWbsQuantity/select");
 		model.addObject(Labels.MANHOUR,   language.getText(Labels.MANHOUR));
-		model.addObject(Labels.TENDER,  language.getText(Labels.TENDER));
-		model.addObject(Labels.TOTAL,     language.getText(Labels.TOTAL));
+		model.addObject(Labels.TENDER,    language.getText(Labels.TENDER));
+		model.addObject(Labels.REALISED,  language.getText(Labels.REALISED));
 		model.addObject(Labels.LAST,      language.getText(Labels.LAST));
 		model.addObject(Labels.NEW,       language.getText(Labels.NEW));
+		model.addObject(Labels.DATE,      language.getText(Labels.DATE));
 		model.addObject("DATATABLE1",     Labels.dataTableSetting1);
 		model.addObject(tableName(),      language.getText(tableName()));
 		for (int i = 0; i < modelService.fieldNames().length; i++) {
@@ -166,13 +186,13 @@ public class ProjectWbsQuantityController extends AbstractController<ProjectWbsQ
 		}
 		return model;
 	}
-		
+
 	@RequestMapping(value = "/select", method = RequestMethod.POST)
 	public ModelAndView selectPost(HttpServletRequest request) throws IOException, ParseException {
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 		
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -244,7 +264,7 @@ public class ProjectWbsQuantityController extends AbstractController<ProjectWbsQ
 			teamStr = request.getParameter("teamId" + ind);
 		}
 		if (Utils.emptyStr(nextpage))
-			return new ModelAndView("redirect:select");
+			return new ModelAndView("redirect:select?projectId=" + projectId);
 		else
 			return new ModelAndView("redirect:" + nextpage);
 	}
@@ -255,7 +275,7 @@ public class ProjectWbsQuantityController extends AbstractController<ProjectWbsQ
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
 		
 		// Read language of session
 		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
@@ -274,7 +294,7 @@ public class ProjectWbsQuantityController extends AbstractController<ProjectWbsQ
 		String strId = request.getParameter("projectId");
 		if (!Utils.emptyStr(strId))
 			projectId = Integer.parseInt(strId);
-		List<ViewProjectWbsQtyApprove> records = namsJdbcService.getProjectWbsQtyApprove(projectId);
+		List<ViewProjectWbsQtyApprove> records = manhourJdbcService.getProjectWbsQtyApprove(projectId, language.code);
 		ModelAndView model = new ModelAndView("projectWbsQuantityApprove");
 		model.addObject("projects", projects);
 		model.addObject("projectId", projectId);
@@ -301,7 +321,8 @@ public class ProjectWbsQuantityController extends AbstractController<ProjectWbsQ
 		// Check for user and read authorization on table
 		HttpSession session = request.getSession(true);
 		String username = (String) session.getAttribute(Labels.USERNAME);
-		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/userAccount/login");
+		if (Utils.emptyStr(username)) return new ModelAndView("redirect:/");
+		PortalLanguage language = dataCache.getLanguage((String) session.getAttribute(Labels.LANGUAGE));
 			
 		// Read POSTED request variables
 		String strProjectId  = request.getParameter("projectId");
@@ -310,24 +331,14 @@ public class ProjectWbsQuantityController extends AbstractController<ProjectWbsQ
 		String strBegda      = request.getParameter("begda");
 		System.out.println("Submitted projectId " + strProjectId + " categoryId " + strCategoryId);
 			
-		int projectId = Integer.parseInt(strProjectId);
-		int categoryId = Integer.parseInt(strCategoryId);
-		int teamId = Integer.parseInt(strTeamId);
 		Date begda;
+		try {begda = Labels.ymdDF.parse(strBegda);} catch (Exception e) {begda = null;}
 		try {
-			begda = Labels.ymdDF.parse(strBegda);
-		} catch (Exception e) {
-			begda = null;
+			((ProjectWbsQuantityService)modelService).approve(Integer.parseInt(strProjectId), Integer.parseInt(strCategoryId), Integer.parseInt(strTeamId), begda, null);
+		} catch(Exception e) {
+			return errorPage(language, Labels.ERR_DATABASE_ERROR, e.getMessage());
 		}
-		ProjectWbsId pwId = new ProjectWbsId(projectId, categoryId);
-		ProjectWbs pw = projectWbsService.findById(pwId);
-		for (ProjectWbsQuantity pwq : pw.getProjectWbsQuantities()) {
-			if(pwq.getId().getTeamId() == teamId && pwq.getStatus().equals(Labels.INITIAL) && (begda == null || pwq.getId().getBegda().getTime() == begda.getTime())) {
-				pwq.setStatus(Labels.APPROVE_QUANTITY);
-				modelService.save(pwq);
-			}
-		}
-		return new ModelAndView("redirect:/" + rootMapping() + "/approve?projectId="+projectId);
+		return new ModelAndView("redirect:/" + rootMapping() + "/approve?projectId="+strProjectId);
 	}
 
 }
